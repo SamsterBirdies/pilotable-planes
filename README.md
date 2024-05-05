@@ -5,14 +5,14 @@
 ## Copy info license junk
 You are allowed to upload your own version of Pilotable Planes to the Forts Steam Workshop or copy anything from this mod for use on the Forts Steam Workshop.
 Make sure to credit assets with CC BY licenses in the workshop description if those assets are used, not required for CC0 assets.
-Usage of assets outside of the Forts Steam workshop is prohibited, except for those with a free license (see credits section).
+Usage of assets outside of the Forts Steam workshop is prohibited, except for those with a free license ([see credits section](https://github.com/SamsterBirdies/pilotable-planes?tab=readme-ov-file#credits)).
 Changing the "sb" prefixes in the mod will also be appreciated for maximum compatibility (not required).
 
 ## FMOD sound bank info
-To get sound working in the mod, download FMOD studio version 2.2.8 and import the project folder "Dogfights/.dev/dogfights".
+To get sound working in the mod, download FMOD studio version 2.2.8 and import the project folder "[Dogfights/.dev/dogfights](Dogfights/.dev/dogfights)".
 Delete the master bank, create a new master bank, and re-assign the sound events to that bank.
-Then "Build" the bank (F7), and copy the .bank files into Dogfights/audio/
-Alternatively, if you don't want to use FMOD studio, the sound files are in Dogfights/.dev/dogfights/Assets/
+Then "Build" the bank (F7), and copy the newly created .bank files to Dogfights/audio/
+Alternatively, if you don't want to use FMOD studio, the sound files are in [Dogfights/.dev/dogfights/Assets/](Dogfights/.dev/dogfights/Assets/)
 
 ## Credits:
 
