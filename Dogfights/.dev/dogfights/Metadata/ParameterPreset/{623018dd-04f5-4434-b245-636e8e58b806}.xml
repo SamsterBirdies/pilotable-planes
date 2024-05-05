@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="ParameterPreset" id="{623018dd-04f5-4434-b245-636e8e58b806}">
+		<property name="name">
+			<value>throttle</value>
+		</property>
+		<relationship name="folder">
+			<destination>{e17bc097-402e-48cf-9781-870d0d3b3a7a}</destination>
+		</relationship>
+		<relationship name="parameter">
+			<destination>{f6f8ddf7-92ad-4771-b842-bf084c9dd422}</destination>
+		</relationship>
+	</object>
+	<object class="GameParameter" id="{f6f8ddf7-92ad-4771-b842-bf084c9dd422}">
+		<property name="minimum">
+			<value>0.59999999999999998</value>
+		</property>
+		<property name="maximum">
+			<value>1.3999999999999999</value>
+		</property>
+		<property name="initialValue">
+			<value>1</value>
+		</property>
+		<property name="seekSpeed">
+			<value>0.79999999999999993</value>
+		</property>
+	</object>
+</objects>

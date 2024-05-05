@@ -1,0 +1,17 @@
+-Create default automatic projectile config if none is provided.
+
+-support explosions mod
+
+-perhaps add plane locking for missile silos.
+
+--add radar
+
+--add new planes:
+	f6f hellcat
+	p51 mustang
+	submarine spitfire
+	mig15
+	j20
+	mig31
+	f22
+	f35
