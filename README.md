@@ -2,21 +2,21 @@
  The official repository for the mod "Pilotable Planes" for Forts on the Steam workshop.
 
 
-##Copy info license junk
+## Copy info license junk
 You are allowed to upload your own version of Pilotable Planes to the Forts Steam Workshop or copy anything from this mod for use on the Forts Steam Workshop.
 Make sure to credit assets with CC BY licenses in the workshop description if those assets are used, not required for CC0 assets.
 Usage of assets outside of the Forts Steam workshop is prohibited, except for those with a free license (see credits section).
 Changing the "sb" prefixes in the mod will also be appreciated for maximum compatibility (not required).
 
-##FMOD sound bank info
+## FMOD sound bank info
 To get sound working in the mod, download FMOD studio version 2.2.8 and import the project folder "Dogfights/.dev/dogfights".
 Delete the master bank, create a new master bank, and re-assign the sound events to that bank.
 Then "Build" the bank (F7), and copy the .bank files into Dogfights/audio/
 Alternatively, if you don't want to use FMOD studio, the sound files are in Dogfights/.dev/dogfights/Assets/
 
-##Credits:
+## Credits:
 
-###Plane outlines:
+### Plane outlines:
 **Biplane:** (from birdies ammo mod).
 
 **F-16 Fighting Falcon:** (U.S. Air Force photo/Staff Sgt. Amy Abbott), Public domain, via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Egyptian_Air_Force_F-16_Fighting_Falcon.jpg
@@ -33,7 +33,7 @@ MSgt Christopher Boitz, Public domain, via Wikimedia Commons https://commons.wik
 
 **Apache:** (from birdies ammo mod).
 
-###Sounds:
+### Sounds:
 **Gatling sounds:** A-10 Thunderbolt ("Warthog") 30mm GAU cannon 2 by nicStage -- https://freesound.org/s/127729/ -- License: Attribution 4.0
 A-10.ogg by qubodup -- https://freesound.org/s/205582/ -- License: Creative Commons 0
 
