@@ -1,5 +1,5 @@
 # pilotable-planes
- The official repository for the mod "Pilotable Planes" for Forts on the Steam workshop.
+ The official repository for the [Pilotable Planes](https://steamcommunity.com/sharedfiles/filedetails/?id=3205783103) mod for on the Forts Steam workshop.
 
 
 ## Copy info license junk
