@@ -571,7 +571,7 @@ if apache then
 	apache.SaveName = "sbpp_apache"
 	apache.Projectile = nil
 	apache.ProjectileSprite = nil
-	apache.ProjectileDrag = 2
+	apache.ProjectileDrag = 1.7
 	apache.ProjectileMass = 5
 	apache.ExplodeOnTouch = true
 	apache.sb_planes =

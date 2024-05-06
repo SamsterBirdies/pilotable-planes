@@ -124,7 +124,7 @@ table.insert(Devices, IndexOfDevice("ammo_nighthawk") + 1,
 			MetalCost = 1200,
 			EnergyCost = 24000,
 			Prerequisite = {{"munitions", "factory"}},
-			Enabled = true,
+			Enabled = false,
 			BuildTimeComplete = 120,
 			ObserverBuildEvent = false,
 		}

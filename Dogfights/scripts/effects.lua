@@ -8,6 +8,7 @@ function EffectsSync()
 	end
 end
 function PlaneAddEffects(id)
+	planes_effects[tostring(id)] = {}
 	PlaneSpawnTrail(id)
 	local helicopter = GetProjectileParamBool(GetNodeProjectileSaveName(id), NodeTeam(id), "sb_planes.helicopter", false)
 	if helicopter then
@@ -20,6 +21,7 @@ function PlaneRemoveEffects(id)
 	if helicopter then
 		PlaneRemoveSprite(id)
 	end
+	planes_effects[tostring(id)] = nil
 end
 --trail effects
 function PlaneSpawnTrail(id)
