@@ -67,6 +67,7 @@ function PlaneSpawnSprite(id)
 	planes_effects[tostring(id)].pos_previous = NodePosition(id)
 	planes_effects[tostring(id)].pos_now = NodePosition(id)
 	planes_effects[tostring(id)].angle_previous = data.planes[tostring(id)].angle
+	planes_effects[tostring(id)].angle_now = data.planes[tostring(id)].angle
 	planes_effects[tostring(id)].heading_left = PlaneHeadingLeft(id)
 end
 
@@ -97,7 +98,8 @@ function PlaneUpdateSprite()
 		if v.helicopter then
 			v.pos_previous = v.pos_now
 			v.pos_now =  NodePosition(tonumber(k))
-			v.angle_previous = data.planes[tostring(k)].angle
+			v.angle_previous = v.angle_now
+			v.angle_now = data.planes[tostring(k)].angle
 			v.heading_left = PlaneHeadingLeft(tonumber(k))
 		end
 	end

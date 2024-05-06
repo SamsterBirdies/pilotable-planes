@@ -571,15 +571,15 @@ if apache then
 	apache.SaveName = "sbpp_apache"
 	apache.Projectile = nil
 	apache.ProjectileSprite = nil
+	apache.ProjectileDrag = 2
+	apache.ProjectileMass = 5
+	apache.ExplodeOnTouch = true
 	apache.sb_planes =
 	{
-		elevator = 34000,
-		thrust = 13000,
-		throttle_min = 0.6,
-		throttle_max = 1.3,
-		lift_multiplier = 5.3,
-		lift_max_speed = 3000,
-		advanced_physics = true,
+		elevator = 2,
+		thrust = 5030,
+		throttle_min = 0.8,
+		throttle_max = 1.2,
 		helicopter = true,
 		sprite = path .. "/effects/apache",
 		trail_effect = path .. "/effects/trail_ac130",
