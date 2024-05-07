@@ -1,4 +1,5 @@
 dofile("scripts/type.lua")
+dofile(path .. "/scripts/better_log.lua")
 --temp projectile func
 function sbpp_TempProjectile(name, delay)
 	local projectile = DeepCopy(FindProjectile(name))
@@ -566,6 +567,25 @@ if howitzer105 then
 end
 
 --apache
+local heliwind = DeepCopy(FindProjectile("mortar"))
+if heliwind then
+	heliwind.SaveName = "sbpp_heliwind"
+	heliwind.CollidesWithProjectiles = false
+	heliwind.Projectile = nil
+	heliwind.Effects = nil
+	heliwind.ProjectileSprite = path .. "/blank.png"
+	heliwind.Gravity = 1
+	heliwind.MaxAge = 1
+	heliwind.ProjectileIncendiary = false
+	heliwind.ProjectileDamage = 0
+	heliwind.ProjectileSplashDamage = 0
+	heliwind.ProjectileSplashDamageMaxForce = 20000
+	heliwind.ProjectileSplashDamageMaxRadius = heliwind.ProjectileSplashDamageMaxRadius * 2.5
+	heliwind.DrawBlurredProjectile = false
+	heliwind.TrailEffect = nil
+	heliwind.ProjectileType = "bullet"
+	table.insert(Projectiles, heliwind)
+end
 local apache = DeepCopy(FindProjectile("nighthawk"))
 if apache then
 	apache.SaveName = "sbpp_apache"
@@ -574,6 +594,7 @@ if apache then
 	apache.ProjectileDrag = 1.7
 	apache.ProjectileMass = 5
 	apache.ExplodeOnTouch = true
+	apache.ProjectileAgeTrigger = false
 	apache.sb_planes =
 	{
 		elevator = 2,
@@ -582,7 +603,7 @@ if apache then
 		throttle_max = 1.2,
 		helicopter = true,
 		sprite = path .. "/effects/apache",
-		trail_effect = path .. "/effects/trail_ac130",
+		trail_effect = path .. "/effects/trail_heli",
 		RCS = 5,
 		weapon1 = 
 		{
@@ -630,6 +651,7 @@ if apache then
 			name = "105mm Howitzer",
 		},
 	}
+	--BetterLog(apache.Effects.Age)
 	table.insert(Projectiles, apache)
 end
 --temp projectiles
