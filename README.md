@@ -4,7 +4,7 @@
 
 ## Copy info license junk
 You are allowed to upload your own version of Pilotable Planes to the Forts Steam Workshop or copy anything from this mod for use on the Forts Steam Workshop.
-Make sure to credit assets with CC BY licenses in the workshop description if those assets are used, not required for CC0 assets.
+Make sure to credit assets with CC BY licenses in the workshop description if those assets are used, not required for CC0 or GDC assets.
 Usage of assets outside of the Forts Steam workshop is prohibited, except for those with a free license ([see credits section](https://github.com/SamsterBirdies/pilotable-planes?tab=readme-ov-file#credits)).
 Changing the "sb" prefixes in the mod will also be appreciated for maximum compatibility (not required).
 
@@ -19,17 +19,17 @@ Alternatively, if you don't want to use FMOD studio, the sound files are in [Dog
 ### Plane outlines:
 **Biplane:** (from birdies ammo mod).
 
-**F-16 Fighting Falcon:** (U.S. Air Force photo/Staff Sgt. Amy Abbott), Public domain, via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Egyptian_Air_Force_F-16_Fighting_Falcon.jpg
-http://www.af.mil/art/, Public domain, via Wikimedia Commons https://commons.wikimedia.org/wiki/File:General_Dynamics_F-16_Fighting_Falcon_3-view_line_drawing.svg
+**F-16 Fighting Falcon:** (U.S. Air Force photo/Staff Sgt. Amy Abbott), Public domain, via [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Egyptian_Air_Force_F-16_Fighting_Falcon.jpg)
+http://www.af.mil/art/, Public domain, via [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:General_Dynamics_F-16_Fighting_Falcon_3-view_line_drawing.svg)
 
-**F6F Hellcat:** Royal Navy official photographer, Public domain, via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Hellcats_1840_NAS_in_flight_1944.jpg
-USN, Public domain, via Wikimedia Commons https://commons.wikimedia.org/wiki/File:F6F-5N_NAS_Jax_1944-45.jpg
+**F6F Hellcat:** Royal Navy official photographer, Public domain, via [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Hellcats_1840_NAS_in_flight_1944.jpg)
+USN, Public domain, via [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:F6F-5N_NAS_Jax_1944-45.jpg)
 
-**P-51D Mustang:** Martin Čížek, CC BY-SA 4.0 <https://creativecommons.org/licenses/by-sa/4.0>, via Wikimedia Commons https://commons.wikimedia.org/wiki/File:P-51D_Urban_Drew.jpg
-Sandstein, Public domain, via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Swiss_Air_Force_P-51_Mustang_side_view.jpg
+**P-51D Mustang:** Martin Čížek, [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0), via [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:P-51D_Urban_Drew.jpg)
+Sandstein, Public domain, via [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Swiss_Air_Force_P-51_Mustang_side_view.jpg)
 
-**AC-130:** Jetijones, CC BY 3.0 <https://creativecommons.org/licenses/by/3.0>, via Wikimedia Commons https://commons.wikimedia.org/wiki/File:Lockheed_Martin_AC-130U_Line_Drawing.svg
-MSgt Christopher Boitz, Public domain, via Wikimedia Commons https://commons.wikimedia.org/wiki/File:AC-130_(5872).jpg
+**AC-130:** Jetijones, [CC BY 3.0](https://creativecommons.org/licenses/by/3.0), via [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Lockheed_Martin_AC-130U_Line_Drawing.svg)
+MSgt Christopher Boitz, Public domain, via [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:AC-130_(5872).jpg)
 
 **Apache:** (from birdies ammo mod).
 
@@ -42,6 +42,7 @@ A-10.ogg by qubodup -- https://freesound.org/s/205582/ -- License: Creative Comm
 **Propeller sounds:** Plane Cessna start stop.wav by Cheeseheadburger -- https://freesound.org/s/141519/ -- License: Attribution 4.0
 Prop Plane by Mozfoo -- https://freesound.org/s/440163/ -- License: Creative Commons 0
 Double Prop plane by Mozfoo -- https://freesound.org/s/440164/ -- License: Creative Commons 0
+Grumman F6F Hellcat & Submarine Spitfire Mk XIV by Pole Position, [GDC Bundle License](https://sonniss.com/gdc-bundle-license/), via [Sonniss GameAudioGDC](https://sonniss.com/gameaudiogdc).
 
 **Gunshot sounds:** 220816 Gunshot, stage pistol, Soulpepper, R-07 by TRP -- https://freesound.org/s/717584/ -- License: Creative Commons 0
 AR15 pistol shot by michorvath -- https://freesound.org/s/427598/ -- License: Creative Commons 0
