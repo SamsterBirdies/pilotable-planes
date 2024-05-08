@@ -1,8 +1,9 @@
 LifeSpan = 11111
+SCALE = 2
 Sprites = {}
 table.insert(Sprites,
 {
-	Name = "sbpp_ApacheRotorSpin_left",
+	Name = "sbpp_ApacheRotorSpin",
 			
 	States =
 	{
@@ -24,7 +25,7 @@ table.insert(Sprites,
 })
 table.insert(Sprites,
 {
-	Name = "sbpp_ApacheTailRotorSpin_left",
+	Name = "sbpp_ApacheTailRotorSpin",
 			
 	States =
 	{
@@ -54,11 +55,11 @@ Effects =
 		LocalVelocity = { x = 0, y = 0, z = 0 },
 		Acceleration = { x = 0, y = 0, z = 0 },
 		Drag = 0.0,
-		Sprite = path .. "/weapons/apache/apacheBase2.png",
+		Sprite = path .. "/weapons/apache/apacheBaseL.png",
 		Additive = false,
 		TimeToLive = 10000,
 		Angle = 0,
-		InitialSize = 2,
+		InitialSize = SCALE,
 		ExpansionRate = 0,
 		AngularVelocity = 0,
 		RandomAngularVelocityMagnitude = 0,
@@ -69,15 +70,15 @@ Effects =
 	{
 		Type = "sprite",
 		TimeToTrigger = 0,
-		LocalPosition = { x = 0, y = 0, z = 0 },
+		LocalPosition = { x = -19.875 * SCALE, y = 20.625 * SCALE, z = 0 },
 		LocalVelocity = { x = 0, y = 0, z = 0 },
 		Acceleration = { x = 0, y = 0, z = 0 },
 		Drag = 0.0,
-		Sprite = "sbpp_ApacheRotorSpin_left",
+		Sprite = "sbpp_ApacheRotorSpin",
 		Additive = false,
 		TimeToLive = 10000,
 		Angle = 0,
-		InitialSize = 2,
+		InitialSize = SCALE,
 		ExpansionRate = 0,
 		AngularVelocity = 0,
 		RandomAngularVelocityMagnitude = 0,
@@ -88,15 +89,15 @@ Effects =
 	{
 		Type = "sprite",
 		TimeToTrigger = 0,
-		LocalPosition = { x = 0, y = 0, z = 0 },
+		LocalPosition = { x = 83.625 * SCALE, y = 12.75 * SCALE, z = 0 },
 		LocalVelocity = { x = 0, y = 0, z = 0 },
 		Acceleration = { x = 0, y = 0, z = 0 },
 		Drag = 0.0,
-		Sprite = "sbpp_ApacheTailRotorSpin_left",
+		Sprite = "sbpp_ApacheTailRotorSpin",
 		Additive = false,
 		TimeToLive = 10000,
 		Angle = 0,
-		InitialSize = 2,
+		InitialSize = SCALE,
 		ExpansionRate = 0,
 		AngularVelocity = 0,
 		RandomAngularVelocityMagnitude = 0,

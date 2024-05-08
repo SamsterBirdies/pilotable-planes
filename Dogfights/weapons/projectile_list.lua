@@ -11,6 +11,15 @@ function sbpp_TempProjectile(name, delay)
 	}
 	table.insert(Projectiles, projectile)
 end
+--change aa
+local flak = FindProjectile('flak')
+if flak then
+	flak.MaxAge = 3
+end
+local shotgun = FindProjectile('shotgun')
+if shotgun then
+	shotgun.AntiAirDamage = shotgun.AntiAirDamage / 2
+end
 --plane changes
 local thunderbolt = FindProjectile("thunderbolt")
 if thunderbolt then
@@ -575,8 +584,11 @@ if heliwind then
 	heliwind.Effects = nil
 	heliwind.ProjectileSprite = path .. "/blank.png"
 	heliwind.Gravity = 1
-	heliwind.MaxAge = 1
+	heliwind.MaxAge = 0.75
+	heliwind.MaxAgeUnderwater = 0.04
+	heliwind.UnderwaterFadeDuration = 0.04
 	heliwind.ProjectileIncendiary = false
+	heliwind.IgnitesBackgroundMaterials = false
 	heliwind.ProjectileDamage = 0
 	heliwind.ProjectileSplashDamage = 0
 	heliwind.ProjectileSplashDamageMaxForce = 20000
@@ -607,60 +619,104 @@ if apache then
 		RCS = 5,
 		weapon1 = 
 		{
-			projectile = "sbpp_temp_sbpp_gau12",
+			projectile = "sbpp_temp_cannon20mm",
 			rotation = 0.0, 
 			distance = 25, 
-			speed = 4000,
-			count = 20, 
-			period = 0.08, 
-			timer = 9, 
+			speed = 4500,
+			count = 8, 
+			period = 0.2, 
+			timer = 15, 
 			stddev = 0.03,
-			max_aim = 0,
-			min_aim = 3.14,
-			effect = path .. "/effects/a10_fire.lua",
-			name = "25mm Equalizer",
+			effect = "mods/weapon_pack/effects/fire_20mmcannon.lua",
+			name = "Chain Gun",
 		},
 		weapon2 = 
 		{
-			projectile = "sbpp_temp_sbpp_bofors",
+			projectile = "sbpp_temp_sbpp_hydra",
 			rotation = 0.0, 
 			distance = 25,  
-			speed = 4000, 
-			count = 1, 
-			period = 0.06, 
-			timer = 0.8,
-			stddev = 0,
-			max_aim = 0,
-			min_aim = 3.14,
-			effect = "mods/weapon_pack/effects/fire_20mmcannon.lua", 
-			name = "40mm Bofors",
+			speed = 2000, 
+			count = 9, 
+			period = 0.20, 
+			timer = 20,
+			stddev = 0.04,
+			effect = path .. "/effects/apache_hydra.lua", 
+			name = "Hydra Rockets",
 		},
 		weapon3 = 
 		{
-			projectile = "sbpp_temp_sbpp_howitzer105mm",
+			projectile = "sbpp_temp_sbpp_hellfire",
 			rotation = 0.0,
 			distance = 25,
 			speed = 4000,
 			count = 1,
 			period = 0.06,
-			timer = 8,
+			aim_missile = true,
+			timer = 20,
 			stddev = 0,
-			max_aim = 0,
-			min_aim = 3.14,
-			effect = "effects/fire_cannon.lua",
-			name = "105mm Howitzer",
+			effect = path .. "/effects/apache_hellfire.lua", 
+			name = "Hellfire Missile",
 		},
 	}
 	--BetterLog(apache.Effects.Age)
 	table.insert(Projectiles, apache)
+	--hydra rocket
+	local sbApacheHydra = DeepCopy(FindProjectile("missile"))
+	if sbApacheHydra then
+		sbApacheHydra.SaveName = "sbpp_hydra"
+		sbApacheHydra.Missile.RocketThrust = 130000
+		sbApacheHydra.Missile.MaxSteerPerSecond = 30
+		sbApacheHydra.Missile.MaxSteerPerSecondErratic = 100
+		sbApacheHydra.Missile.ThrustAngleExtent = 10
+		sbApacheHydra.Missile.ErraticAngleExtentStdDev = 2.5
+		SetDamageMultiplier("sbpp_hydra", {SaveName = "bracing", Direct = 2})
+		sbApacheHydra.ProjectileIncendiary = false
+		sbApacheHydra.Gravity = 0
+		sbApacheHydra.ProjectileSplashDamage = 30
+		sbApacheHydra.AntiAirDamage = 70
+		sbApacheHydra.ProjectileSplashDamageMaxRadius = 150
+		sbApacheHydra.Projectile.Root.Sprite = path .. "/weapons/apache/hydra.png"
+		sbApacheHydra.Projectile.Root.Scale = 0.75
+		--sbApacheHydra.Effects = DeepCopy(FindProjectile("bomb").Effects)
+		table.insert(Projectiles, sbApacheHydra)
+		MakeFlamingVersion("sbpp_hydra", 1.33, 2.5, flamingSwarmTrail, 75, nil, genericFlamingExpire)
+	end
+	--hellfire missile
+	local sbApacheHellfire = DeepCopy(FindProjectile("missile2"))
+	if sbApacheHellfire then
+		sbApacheHellfire.SaveName = "sbpp_hellfire"
+		sbApacheHellfire.Missile.RocketThrust = 130000
+		sbApacheHellfire.Missile.MaxSteerPerSecond = 30
+		sbApacheHellfire.Missile.MaxSteerPerSecondErratic = 100
+		sbApacheHellfire.Missile.ThrustAngleExtent = 10
+		sbApacheHellfire.Missile.ErraticAngleExtentStdDev = 2.5
+		sbApacheHellfire.ProjectileIncendiary = true
+		sbApacheHellfire.AlwaysIncendiary = true
+		sbApacheHellfire.IncendiaryRadius = 175
+		sbApacheHellfire.IncendiaryRadiusHeated = 200
+		sbApacheHellfire.ProjectileSplashDamageMaxRadius = 240
+		sbApacheHellfire.ProjectileSplashDamage = 200
+		sbApacheHellfire.AntiAirDamage = 200
+		sbApacheHellfire.AntiAirHitpoints = 11
+		sbApacheHellfire.Projectile.Root.Sprite = path .. "/weapons/apache/hellfire.png"
+		sbApacheHellfire.Projectile.Root.ChildrenInFront[1].Pivot = {0, 0.5}
+		if FindProjectile("paveway") then
+			sbApacheHellfire.Effects = DeepCopy(FindProjectile("paveway").Effects)
+		end
+		table.insert(Projectiles, sbApacheHellfire)
+		MakeFlamingVersion("sbpp_hellfire", 1.33, 2.5, flamingTrail, 225, nil, rocketFlamingExpire)
+	end
 end
 --temp projectiles
 sbpp_TempProjectile("bomb", 300)
+sbpp_TempProjectile("cannon20mm", 80)
 sbpp_TempProjectile("sbpp_bomb250kg", 300)
 sbpp_TempProjectile("paveway", 300)
 sbpp_TempProjectile("sbpp_vulcan", 80)
 sbpp_TempProjectile("sbpp_gau8", 80)
 sbpp_TempProjectile("sbpp_gau12", 120)
+sbpp_TempProjectile("sbpp_hydra", 120)
+sbpp_TempProjectile("sbpp_hellfire", 300)
 sbpp_TempProjectile("sbpp_bofors", 120)
 sbpp_TempProjectile("sbpp_howitzer105mm", 120)
 sbpp_TempProjectile("machinegun", 80)

@@ -1,4 +1,4 @@
-ReloadTime = ReloadTime / 3
+ReloadTime = ReloadTime / 2
 RoundsEachBurst = 1
 RoundPeriod = 0
 MaxFireAngle = 80

@@ -70,7 +70,12 @@ function PlaneSpawnSprite(id)
 	planes_effects[tostring(id)].pos_now = NodePosition(id)
 	planes_effects[tostring(id)].angle_previous = data.planes[tostring(id)].angle
 	planes_effects[tostring(id)].angle_now = data.planes[tostring(id)].angle
-	planes_effects[tostring(id)].heading_left = PlaneHeadingLeft(id)
+	--set default team heading
+	if NodeVelocity(id).x < 0 then
+		planes_effects[tostring(id)].heading_left = true
+	else
+		planes_effects[tostring(id)].heading_left = false
+	end
 end
 
 function PlaneRemoveSprite(id)
@@ -87,8 +92,12 @@ function PlaneRemoveSprite(id)
 end
 
 function PlaneHeadingLeft(id)
-	--gets left or right direction of travel of projectile
-	if NodeVelocity(id).x < 0 then
+	--if not controlled, dont change the direction its facing
+	if data.planes[tostring(id)].free then
+		return planes_effects[tostring(id)].heading_left
+	end
+	--make heli face the direction that cursor is on
+	if planes_effects[tostring(id)].pos_now.x > data.planes[tostring(id)].mouse_pos.x then
 		return true
 	else
 		return false
@@ -136,4 +145,27 @@ function PlaneOnUpdateSprite()
 			SetEffectDirection(sprite_id, AddVec(Rad2Vec(v.angle_previous), rotation_divided))
 		end
 	end
+end
+local dust_effects = 
+{
+	['environment/alpine'] = 'snow',
+	['environment/polluted'] = 'grey',
+	['environment/desert'] = 'sand',
+	['../../../workshop/content/410900/2985388631/environment/Mars'] = 'mars',
+}
+function EffectsHeliDust(nodeId, saveName, pos, normal, surface_type)
+	if saveName ~= "sbpp_heliwind" then return end
+	if GetSurfaceSaveName(surface_type) == 'whitecaps' then return end
+	local angle = Vec2Rad(normal)
+	if NodeVelocity(nodeId).x > 0 then
+		angle = angle + DEG90
+	else
+		angle = angle - DEG90
+	end
+	local dust_effect = ''
+	if dust_effects[environment] then
+		dust_effect = dust_effects[environment]
+	end
+	local effectId = SpawnEffect(path .. '/effects/helidust' .. dust_effect .. '.lua', pos)
+	SetEffectDirection(effectId, Rad2Vec(angle))
 end

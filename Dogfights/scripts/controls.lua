@@ -68,6 +68,8 @@ function DropBombs(param)
 	local speed = GetProjectileParamFloat(saveName, teamId, "sb_planes.weapon" .. tostring(weapon) .. ".speed", 300)
 	local distance = GetProjectileParamFloat(saveName, teamId, "sb_planes.weapon" .. tostring(weapon) .. ".distance", 300)
 	local aimed = GetProjectileParamBool(saveName, teamId, "sb_planes.weapon" .. tostring(weapon) .. ".aimed", false)
+	local helicopter = GetProjectileParamBool(saveName, teamId, "sb_planes.helicopter", false)
+	local aim_missile = GetProjectileParamBool(saveName, teamId, "sb_planes.weapon" .. tostring(weapon) .. ".aim_missile", false)
 	--local min_aim = GetProjectileParamFloat(saveName, teamId, "sb_planes.weapon" .. tostring(weapon) .. ".min_aim", 3.14)
 	--local max_aim = GetProjectileParamFloat(saveName, teamId, "sb_planes.weapon" .. tostring(weapon) .. ".max_aim", -3.14)
 	--if aimed then get the mouse pos angle
@@ -88,6 +90,12 @@ function DropBombs(param)
 		if plane_angle < -1.5708 then
 			angle = angle + math.pi
 		end]]
+	elseif helicopter then
+		if NodePosition(id).x > data.planes[tostring(id)].mouse_pos.x then
+			angle = data.planes[tostring(id)].angle - DEG90 - rotation
+		else
+			angle = data.planes[tostring(id)].angle + DEG90 + rotation
+		end
 	else
 		--get angle
 		angle = Vec2Rad(NodeVelocity(id))
@@ -108,6 +116,12 @@ function DropBombs(param)
 	end
 	local projectile_id = dlc2_CreateProjectile(projectile, saveName, NodeTeam(id), bombpos, AddVec(NodeVelocity(id), MultiplyVec(Rad2Vec(angle), speed)), 60)
 	SetProjectileClientId(projectile_id, clientId)
+	if aim_missile then
+		SetMissileTarget(projectile_id, data.planes[tostring(id)].mouse_pos)
+	else
+		local target = AddVec(bombpos, MultiplyVec(Rad2Vec(angle), 900000))
+		SetMissileTarget(projectile_id, target)
+	end
 end
 
 function OnKeyControls(key, down)
