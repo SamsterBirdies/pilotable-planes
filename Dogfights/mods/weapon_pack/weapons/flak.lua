@@ -4,6 +4,8 @@ RoundPeriod = 0
 MaxFireAngle = 80
 EnergyFireCost = EnergyFireCost / 3
 MetalFireCost = MetalFireCost / 3
+MinFireSpeed = 15000
+MaxFireSpeed = 15001
 ReloadBank =
 {
 	Max = 3,

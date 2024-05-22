@@ -11,6 +11,7 @@ function ReleaseControl(id)
 	SetControlText("sbplanes", "gun1", "")
 	SetControlText("sbplanes", "gun2", "")
 	SetControlText("sbplanes", "gun3", "")
+	SetControlSpriteByParent("SB_PP_Root", "SB_PP_Pin", "ui/textures/Edit-A.png")
 end
 
 function LoadHUD()
@@ -29,7 +30,11 @@ function UpdateHUD(frame)
 		LockControls(true)
 		EnableCameraControls(false)
 		ShowHUD(false, true)
-		
+		if KeybindsDisplayUp then
+			ShowControl("SB_PP_Root", "SB_PP_Box", false)
+			KeybindsDisplayUp = false
+		end
+		SetControlSpriteByParent("SB_PP_Root", "SB_PP_Pin", path .. "/blank.png")
 		--camera follow
 		CancelCameraMove()
 		SetNamedScreenByZoom("pilot", NodePosition(user_control), GetCameraZoom())
@@ -59,7 +64,11 @@ function UpdateHUD(frame)
 		else
 			local timer = data.planes[tostring(user_control)].timers[1]
 			if timer < 0.04 then
-				SetControlText("sbplanes", "gun1", gun1name .. " [space]")
+				if Fire1 == " " then
+					SetControlText("sbplanes", "gun1", gun1name .. "[space]")
+				else
+					SetControlText("sbplanes", "gun1", gun1name .. "[" .. Fire1 .. "]")
+				end
 				SetControlColour("sbplanes", "gun1", White())
 			else
 				SetControlText("sbplanes", "gun1", gun1name .. " " .. tostring(math.ceil(timer)) .. "s")
@@ -72,7 +81,7 @@ function UpdateHUD(frame)
 		else
 			local timer = data.planes[tostring(user_control)].timers[2]
 			if timer < 0.04 then
-				SetControlText("sbplanes", "gun2", gun2name .. " [b]")
+				SetControlText("sbplanes", "gun2", gun2name .. "[" .. Fire2 .. "]")
 				SetControlColour("sbplanes", "gun2", White())
 			else
 				SetControlText("sbplanes", "gun2", gun2name .. " " .. tostring(math.ceil(timer)) .. "s")
@@ -85,7 +94,7 @@ function UpdateHUD(frame)
 		else
 			local timer = data.planes[tostring(user_control)].timers[3]
 			if timer < 0.04 then
-				SetControlText("sbplanes", "gun3", gun3name .. " [n]")
+				SetControlText("sbplanes", "gun3", gun3name .. "[" .. Fire3 .. "]")
 				SetControlColour("sbplanes", "gun3", White())
 			else
 				SetControlText("sbplanes", "gun3", gun3name .. " " .. tostring(math.ceil(timer)) .. "s")

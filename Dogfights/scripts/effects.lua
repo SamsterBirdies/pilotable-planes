@@ -152,6 +152,7 @@ local dust_effects =
 	['environment/polluted'] = 'grey',
 	['environment/desert'] = 'sand',
 	['../../../workshop/content/410900/2985388631/environment/Mars'] = 'mars',
+	['../../../workshop/content/410900/1308302446/environment/Mars'] = 'mars',
 }
 function EffectsHeliDust(nodeId, saveName, pos, normal, surface_type)
 	if saveName ~= "sbpp_heliwind" then return end

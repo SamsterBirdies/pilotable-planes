@@ -5,3 +5,6 @@ ShootableProjectile["sbpp_sidewinder"] = true
 ShootableProjectile["sbpp_hellcat"] = true
 ShootableProjectile["sbpp_p51"] = true
 ShootableProjectile["sbpp_ac130"] = true
+ShootableProjectile["sbpp_apache"] = true
+ShootableProjectile["sbpp_hydra"] = true
+ShootableProjectile["sbpp_hellfire"] = true

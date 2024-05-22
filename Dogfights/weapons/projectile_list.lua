@@ -11,14 +11,24 @@ function sbpp_TempProjectile(name, delay)
 	}
 	table.insert(Projectiles, projectile)
 end
+--make the thingie
+function sbpp_Firebeams(name, radius, multiplier)
+	local projectile = FindProjectile(name)
+	if not projectile then return end
+	projectile['Field' .. 'Radius'] = radius
+	projectile['Field' .. 'Type'] = FIELD_BLOCK_BEAMS
+	projectile.CollidesWithBeams = true
+	projectile.Effects.Impact.firebeam = nil
+	SetDamageMultiplier('firebeam', { SaveName = name, AntiAir = multiplier })
+end
 --change aa
 local flak = FindProjectile('flak')
 if flak then
-	flak.MaxAge = 3
+	flak.MaxAge = 2.5
 end
 local shotgun = FindProjectile('shotgun')
 if shotgun then
-	shotgun.AntiAirDamage = shotgun.AntiAirDamage / 2
+	--shotgun.AntiAirDamage = 30
 end
 --plane changes
 local thunderbolt = FindProjectile("thunderbolt")
@@ -72,6 +82,7 @@ if thunderbolt then
 			name = "GBU-39 Bombs",
 		},
 	}
+	sbpp_Firebeams('thunderbolt', 150, 400)
 end
 local nighthawk = FindProjectile("nighthawk")
 if nighthawk then
@@ -111,6 +122,7 @@ if nighthawk then
 			name = "Paveway"
 		},
 	}
+	sbpp_Firebeams('nighthawk', 150, 500)
 end
 local bomb = FindProjectile("bomb")
 if bomb then
@@ -236,6 +248,7 @@ if f16 then
 	}
 	table.insert(Projectiles, f16)
 	MakeFlamingVersion("sbpp_f16", 1.33, 10, flamingTrail, 100, nil, genericFlamingExpire)
+	sbpp_Firebeams('sbpp_f16', 150, 600)
 end
 local sidewinder = DeepCopy(FindProjectile("cannon"))
 if sidewinder then
@@ -378,6 +391,7 @@ if p51 then
 	p51.AntiAirHitpoints = p51.AntiAirHitpoints * 0.75
 	table.insert(Projectiles, p51)
 	MakeFlamingVersion("sbpp_p51", 1.33, 10, flamingTrail, 100, nil, genericFlamingExpire)
+	sbpp_Firebeams('sbpp_p51', 150, 450)
 end
 local hellcat = DeepCopy(p51)
 if hellcat then
@@ -394,6 +408,7 @@ if hellcat then
 	hellcat.sb_planes.trail_effect = path .. "/effects/trail_hellcat"
 	table.insert(Projectiles, hellcat)
 	MakeFlamingVersion("sbpp_hellcat", 1.33, 10, flamingTrail, 100, nil, genericFlamingExpire)
+	sbpp_Firebeams('sbpp_hellcat', 150, 400)
 end
 local bomb250kg = DeepCopy(FindProjectile("bomb"))
 if bomb250kg then
@@ -534,6 +549,7 @@ if ac130 then
 	}
 	table.insert(Projectiles, ac130)
 	MakeFlamingVersion("sbpp_ac130", 1.33, 10, flamingTrail, 100, nil, genericFlamingExpire)
+	sbpp_Firebeams('sbpp_ac130', 225, 400)
 end
 local gau12 = DeepCopy(FindProjectile("sbpp_gau8"))
 if gau12 then
@@ -658,8 +674,10 @@ if apache then
 			name = "Hellfire Missile",
 		},
 	}
+	apache.Effects.Impact.firebeam = nil
 	--BetterLog(apache.Effects.Age)
 	table.insert(Projectiles, apache)
+	sbpp_Firebeams('sbpp_apache', 150, 300)
 	--hydra rocket
 	local sbApacheHydra = DeepCopy(FindProjectile("missile"))
 	if sbApacheHydra then

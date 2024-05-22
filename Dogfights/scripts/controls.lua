@@ -144,7 +144,7 @@ function OnKeyControls(key, down)
 	end
 	
 	--cycle plane control
-	if key == "page up" and down then
+	if key == SelectNext and down then
 		if user_control == 0 then
 			if #user_control_available > 0 then
 				user_control = user_control_available[1]
@@ -171,7 +171,7 @@ function OnKeyControls(key, down)
 				end
 			end
 		end
-	elseif key == "page down" and down then
+	elseif key == SelectPrev and down then
 		if user_control == 0 then
 			if #user_control_available > 0 then
 				user_control = user_control_available[1]
@@ -239,10 +239,10 @@ function UpdateControls(frame, id, saveName, teamId)
 	if tostring(user_control) == tostring(id) then
 		--elevators
 		local elevator_target = 0
-		if keys_held["right"] or keys_held["d"] then
+		if keys_held["right"] or keys_held[ElevatorUp] then
 			elevator_target = 1
 		end
-		if keys_held["left"] or keys_held["a"] then
+		if keys_held["left"] or keys_held[ElevatorDown] then
 			elevator_target = -1
 		end
 		--SendScriptEvent("ElevatorsTarget", SSEParams(user_control, elevator_target), "script.lua", true)
@@ -250,10 +250,10 @@ function UpdateControls(frame, id, saveName, teamId)
 		local throttle = 1
 		local throttle_min = GetProjectileParamFloat(saveName, teamId, "sb_planes.throttle_min", 0.5)
 		local throttle_max = GetProjectileParamFloat(saveName, teamId, "sb_planes.throttle_max", 1.5)
-		if keys_held["down"] or keys_held["s"] then
+		if keys_held["down"] or keys_held[ThrottleDown] then
 			throttle = throttle_min
 		end
-		if keys_held["up"] or keys_held["w"] then
+		if keys_held["up"] or keys_held[ThrottleUp] then
 			throttle = throttle_max
 		end
 		--SendScriptEvent("Throttles", SSEParams(user_control, throttle), "script.lua", true)
@@ -264,7 +264,7 @@ function UpdateControls(frame, id, saveName, teamId)
 		
 		--weapons
 		--bombs
-		if keys_held['b'] then
+		if keys_held[Fire2] then
 			if data.planes[tostring(user_control)].timers[2] == 0 then
 				local timer = GetProjectileParamFloat(saveName, teamId, "sb_planes.weapon2.timer", 15)
 				SendScriptEvent("DropBombsSchedule", SSEParams(id, 2, GetProjectileClientId(id), timer), "script.lua", true)
@@ -272,7 +272,7 @@ function UpdateControls(frame, id, saveName, teamId)
 			end
 		end
 		--gun
-		if keys_held[' '] then
+		if keys_held[Fire1] then
 			if data.planes[tostring(user_control)].timers[1] == 0 then
 				local timer = GetProjectileParamFloat(saveName, teamId, "sb_planes.weapon1.timer", 1)
 				SendScriptEvent("DropBombsSchedule", SSEParams(id, 1, GetProjectileClientId(id), timer), "script.lua", true)
@@ -280,7 +280,7 @@ function UpdateControls(frame, id, saveName, teamId)
 			end
 		end
 		--misc
-		if keys_held['n'] then
+		if keys_held[Fire3] then
 			if data.planes[tostring(user_control)].timers[3] == 0 then
 				local timer = GetProjectileParamFloat(saveName, teamId, "sb_planes.weapon3.timer", 1)
 				SendScriptEvent("DropBombsSchedule", SSEParams(id, 3, GetProjectileClientId(id), timer), "script.lua", true)
