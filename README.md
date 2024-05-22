@@ -15,6 +15,7 @@ Then "Build" the bank (F7), and copy the newly created .bank files to Dogfights/
 Alternatively, if you don't want to use FMOD studio, the sound files are in [Dogfights/.dev/dogfights/Assets/](Dogfights/.dev/dogfights/Assets/)
 
 ## Credits:
+Flinnshadow (keybinds rebinding code)
 
 ### Plane outlines:
 **Biplane:** (from birdies ammo mod).
