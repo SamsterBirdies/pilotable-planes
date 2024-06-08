@@ -51,8 +51,10 @@ function Update(frame)
 	--display control info
 	if frame == 1 then
 		Notice("")
+		Notice("")
+		Notice("")
 		LogW(STRINGS[lang].controls)
-		Notice("[HL=00ffffff]Controls rebindable with top left button.[/HL]")
+		LogW(STRINGS[lang].controls2)
 		environment = GetEnvironmentPath()
 		--Log(environment)
 	end
