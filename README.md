@@ -16,7 +16,7 @@ Alternatively, if you don't want to use FMOD studio, the sound files are in [Dog
 
 ## Credits:
 Flinnshadow (keybinds rebinding code)
-
+SamZong (Chinese translation)
 ### Plane outlines:
 **Biplane:** (from birdies ammo mod).
 
