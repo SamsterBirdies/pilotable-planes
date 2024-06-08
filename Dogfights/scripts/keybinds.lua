@@ -49,7 +49,7 @@ function OnKeyKeybinds(key, down)
       KeyChangeStorage[CurrentKeybindBeingSet] = key
       SetControlColour("SB_PP_Root", "SB_PP_"..CurrentKeybindBeingSet.."Key", Colour(255,255,0,255))
 	  if key == " " then
-	      SetControlText("SB_PP_Root", "SB_PP_"..CurrentKeybindBeingSet.."Key", "space")
+	      SetControlTextW("SB_PP_Root", "SB_PP_"..CurrentKeybindBeingSet.."Key", STRINGS[lang].spacebar)
 	  else
           SetControlText("SB_PP_Root", "SB_PP_"..CurrentKeybindBeingSet.."Key", key) -- idealy TextW but it errors
 	  end

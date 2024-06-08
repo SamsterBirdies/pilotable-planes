@@ -211,7 +211,8 @@ function OnKeyControls(key, down)
 					user_control = v
 					SendScriptEvent("SetPlaneFree", SSEParams(user_control, false), "script.lua", true)
 				else
-					Notice("Allied plane already in use")
+					Notice("")
+					LogW(STRINGS[lang].plane_occupied)
 				end
 				break
 			end

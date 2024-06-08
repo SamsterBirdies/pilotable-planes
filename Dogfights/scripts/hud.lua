@@ -51,8 +51,8 @@ function UpdateHUD(frame)
 		elseif degrees < -90 then
 			degrees = (90 + (degrees + 90)) * -1
 		end
-		SetControlText("sbplanes", "speed", "Speed: " .. tostring(RoundFloat(speed * 1.944 / 100, 1)) .. " kn")
-		SetControlText("sbplanes", "altitude", "Altitude: " .. tostring(RoundFloat(altitude / 100, 0)) .. " m")
+		SetControlTextW("sbplanes", "speed",  STRINGS[lang].speed .. L": " .. towstring(tostring(RoundFloat(speed * 1.944 / 100, 1))) .. L" kn")
+		SetControlTextW("sbplanes", "altitude", STRINGS[lang].altitude .. L": " .. towstring(tostring(RoundFloat(altitude / 100, 0))) .. L" m")
 		SetControlText("sbplanes", "angle", tostring(degrees) .. "°")
 		--gun names
 		local gun1name = GetProjectileParamString(GetNodeProjectileSaveName(user_control), NodeTeam(user_control), "sb_planes.weapon1.name", "")
@@ -65,7 +65,7 @@ function UpdateHUD(frame)
 			local timer = data.planes[tostring(user_control)].timers[1]
 			if timer < 0.04 then
 				if Fire1 == " " then
-					SetControlText("sbplanes", "gun1", gun1name .. "[space]")
+					SetControlTextW("sbplanes", "gun1", towstring(gun1name) .. L"[".. STRINGS[lang].spacebar .. L"]")
 				else
 					SetControlText("sbplanes", "gun1", gun1name .. "[" .. Fire1 .. "]")
 				end
