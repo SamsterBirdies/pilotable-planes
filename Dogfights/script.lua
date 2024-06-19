@@ -99,19 +99,21 @@ function OnWeaponFired(teamId, saveName, weaponId, projectileNodeId, projectileN
 		if GetLocalTeamId() == teamId then
 			table.insert(user_control_available, projectileNodeId)
 		end
-		data.planes[tostring(projectileNodeId)] = 
+		data.planes[tostring(projectileNodeId)] =
 		{
-			timers = {0,0,0}, 
-			throttle = 1, 
-			elevator = 0, 
-			elevator_target = 0, 
-			free = true, 
+			timers = {0,0,0},
+			throttle = 1,
+			elevator = 0,
+			elevator_target = 0,
+			free = true,
 			mouse_pos = Vec3(0,0),
 			angle = -1.5708,
 		}
 		planes_effects[tostring(projectileNodeId)] = {}
 		PlaneAddEffects(projectileNodeId)
-	end
+   elseif saveName == "HardPointSubFlak" then
+      SetNodeProjectileAgeTrigger(projectileNodeId, GetNormalFloat(0.1, 0.22,"HPF Age Offset"))--GetRandomFloat(0.18,0.32,"HPF Age Offset"))
+   end
 end
 
 function OnProjectileDestroyed(nodeId, teamId, saveName, structureIdHit, destroyType)
@@ -134,7 +136,6 @@ function OnProjectileDestroyed(nodeId, teamId, saveName, structureIdHit, destroy
 end
 
 function OnKey(key, down)
-	--Log(tostring(key) .. ", " .. tostring(down))
 	OnKeyControls(key, down)
 	OnKeyKeybinds(key, down)
 end
