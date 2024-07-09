@@ -262,6 +262,7 @@ if thunderbolt then
 			timer = 12, 
 			stddev = 0.04, 
 			effect = path .. "/effects/a10_fire.lua",
+			reload_effect = path .. "/effects/reload_gun_large.lua",
 			name = "Avenger",
 		},
 		weapon2 = 
@@ -275,6 +276,7 @@ if thunderbolt then
 			timer = 15,
 			stddev = 0, 
 			effect = "mods/dlc2/effects/bomb_release.lua", 
+			reload_effect = path .. "/effects/reload_bomb.lua",
 			name = "GBU-39 Bombs",
 		},
 	}
@@ -315,6 +317,7 @@ if nighthawk then
 			timer = 20,
 			stddev = 0,
 			effect = "mods/dlc2/effects/bomb_release.lua",
+			reload_effect = path .. "/effects/reload_bomb.lua",
 			name = "Paveway"
 		},
 	}
@@ -426,6 +429,7 @@ if f16 then
 			timer = 9, 
 			stddev = 0.03, 
 			effect = path .. "/effects/vulcan_fire.lua",
+			reload_effect = path .. "/effects/reload_gun.lua",
 			name = "Vulcan",
 		},
 		weapon2 = 
@@ -439,6 +443,7 @@ if f16 then
 			timer = 16,
 			stddev = 0.02,
 			effect = "mods/weapon_pack/effects/rocket_launch.lua",
+			reload_effect = path .. "/effects/reload_bomb.lua",
 			name = "Sidewinders",
 		},
 	}
@@ -568,6 +573,7 @@ if p51 then
 			timer = 9, 
 			stddev = 0.03, 
 			effect = path .. "/effects/50cal_fire.lua",
+			reload_effect = path .. "/effects/reload_gun.lua",
 			name = "Machinegun",
 		},
 		weapon2 = 
@@ -581,6 +587,7 @@ if p51 then
 			timer = 17,
 			stddev = 0, 
 			effect = "mods/dlc2/effects/bomb_release.lua", 
+			reload_effect = path .. "/effects/reload_bomb.lua",
 			name = "250kg Bombs",
 		},
 	}
@@ -707,6 +714,7 @@ if ac130 then
 			max_aim = 0,
 			min_aim = 3.14,
 			effect = path .. "/effects/a10_fire.lua",
+			reload_effect = path .. "/effects/reload_gun_large.lua",
 			name = "25mm Equalizer",
 		},
 		weapon2 = 
@@ -840,6 +848,7 @@ if apache then
 			timer = 15, 
 			stddev = 0.03,
 			effect = "mods/weapon_pack/effects/fire_20mmcannon.lua",
+			reload_effect = path .. "/effects/reload_gun_large.lua",
 			name = "Chain Gun",
 		},
 		weapon2 = 
@@ -852,7 +861,8 @@ if apache then
 			period = 0.20, 
 			timer = 20,
 			stddev = 0.04,
-			effect = path .. "/effects/apache_hydra.lua", 
+			effect = path .. "/effects/apache_hydra.lua",
+			reload_effect = path .. "/effects/reload_bomb.lua",
 			name = "Hydra Rockets",
 		},
 		weapon3 = 
@@ -866,7 +876,8 @@ if apache then
 			aim_missile = true,
 			timer = 20,
 			stddev = 0,
-			effect = path .. "/effects/apache_hellfire.lua", 
+			effect = path .. "/effects/apache_hellfire.lua",
+			reload_effect = path .. "/effects/reload_missile.lua",			
 			name = "Hellfire Missile",
 		},
 	}
