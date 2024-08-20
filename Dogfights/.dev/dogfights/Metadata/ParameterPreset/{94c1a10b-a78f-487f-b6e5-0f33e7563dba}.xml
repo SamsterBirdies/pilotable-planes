@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="ParameterPreset" id="{94c1a10b-a78f-487f-b6e5-0f33e7563dba}">
+		<property name="name">
+			<value>doppler_shift</value>
+		</property>
+		<relationship name="folder">
+			<destination>{e17bc097-402e-48cf-9781-870d0d3b3a7a}</destination>
+		</relationship>
+		<relationship name="parameter">
+			<destination>{d2809a2e-d4e5-406f-ab8f-ae4f18a5ace8}</destination>
+		</relationship>
+	</object>
+	<object class="GameParameter" id="{d2809a2e-d4e5-406f-ab8f-ae4f18a5ace8}">
+		<property name="minimum">
+			<value>-10000</value>
+		</property>
+		<property name="maximum">
+			<value>10000</value>
+		</property>
+		<property name="initialValue">
+			<value>0</value>
+		</property>
+	</object>
+</objects>

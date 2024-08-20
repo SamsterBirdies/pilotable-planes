@@ -11,6 +11,7 @@ function AddVec(vector1, vector2)
 	local vector3 = Vec3(0,0)
 	vector3.x = vector1.x + vector2.x
 	vector3.y = vector1.y + vector2.y
+	vector3.z = vector1.z + vector2.z
 	return vector3
 end
 function SubtractVec(vector1, vector2)
@@ -18,6 +19,7 @@ function SubtractVec(vector1, vector2)
 	local vector3 = Vec3(0,0)
 	vector3.x = vector1.x - vector2.x
 	vector3.y = vector1.y - vector2.y
+	vector3.z = vector1.z - vector2.z
 	return vector3
 end
 function MultiplyVec(vector1, magnitude)
@@ -25,6 +27,7 @@ function MultiplyVec(vector1, magnitude)
 	local vector3 = Vec3(0,0)
 	vector3.x = vector1.x * magnitude
 	vector3.y = vector1.y * magnitude
+	vector3.z = vector1.z * magnitude
 	return vector3
 end
 function DivideVec(vector1, magnitude)
@@ -32,6 +35,7 @@ function DivideVec(vector1, magnitude)
 	local vector3 = Vec3(0,0)
 	vector3.x = vector1.x / magnitude
 	vector3.y = vector1.y / magnitude
+	vector3.z = vector1.z / magnitude
 	return vector3
 end
 function RoundFloat(number)

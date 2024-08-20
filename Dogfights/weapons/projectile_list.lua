@@ -257,7 +257,7 @@ if thunderbolt then
 			rotation = 0.12, 
 			distance = 25, 
 			speed = 3000, 
-			count = 20, 
+			count = 24, 
 			period = 0.08, 
 			timer = 12, 
 			stddev = 0.04, 

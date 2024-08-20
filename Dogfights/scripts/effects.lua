@@ -47,6 +47,7 @@ function PlaneUpdateTrail(id, throttle)
 		local effect_id = planes_effects[tostring(id)].trail
 		SetEffectPosition(effect_id, NodePosition(id))
 		SetAudioParameter(effect_id, "throttle", throttle)
+		SetAudioParameter(effect_id, "doppler_shift", DopplerCalculate(NodePosition(id), NodeVelocity(id)))
 	end
 end
 
@@ -102,6 +103,19 @@ function PlaneHeadingLeft(id)
 	else
 		return false
 	end
+end
+
+function DopplerCalculate(position, velocity)
+	--take camera velocity into account
+	local velocity2 = SubtractVec(camera_velocity, velocity)
+	--vector position relative to camera at current frame
+	local position1_relative = SubtractVec(position, camera_pos) 
+	local position1_pythag = math.sqrt(position1_relative.x^2 + position1_relative.y^2 + position1_relative.z^2) --distance from camera
+	--vector position relative to camera at next frame
+	local position2_relative = SubtractVec(AddVec(position, velocity2), camera_pos)
+	local position2_pythag = math.sqrt(position2_relative.x^2 + position2_relative.y^2 + position2_relative.z^2) --distance from camera
+	--delta distance from camera (next dist - current dist)
+	return position2_pythag - position1_pythag
 end
 
 function PlaneUpdateSprite()
