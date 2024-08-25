@@ -30,7 +30,7 @@ if flak then
 end
 local shotgun = FindProjectile('shotgun')
 if shotgun then
-	--shotgun.AntiAirDamage = 30
+	shotgun.AntiAirDamage = 30
 end
 
 HardPointFlakDetonation = { Effect = nil, Projectile = { Count = 4, Type = "HardPointSubFlak",--[[ Speed = 9000,]] StdDev = 0.24 }, --[[Offset = -120,]] Terminate = true, }
@@ -239,7 +239,7 @@ if thunderbolt then
 	thunderbolt.ProjectileSplashDamage = 110
 	thunderbolt.ExplodeOnTouch = false
 	thunderbolt.CanBeShotDown = true
-	thunderbolt.AntiAirHitpoints = thunderbolt.AntiAirHitpoints * 1.2
+	thunderbolt.AntiAirHitpoints = thunderbolt.AntiAirHitpoints * 1.2 * 1.5
 	thunderbolt.sb_planes =
 	{
 		elevator = 50000,
@@ -294,7 +294,7 @@ if nighthawk then
 	nighthawk.ProjectileSplashDamage = 110
 	nighthawk.ExplodeOnTouch = false
 	nighthawk.CanBeShotDown = true
-	nighthawk.AntiAirHitpoints = nighthawk.AntiAirHitpoints * 0.9
+	nighthawk.AntiAirHitpoints = nighthawk.AntiAirHitpoints * 0.9 * 1.5
 	nighthawk.sb_planes =
 	{
 		elevator = 50000,
@@ -328,14 +328,16 @@ if bomb then
 	bomb.MaxAge = 60
 	bomb.ProjectileDrag = 8
 	bomb.Gravity = 981 * 2
-	bomb.ProjectileSplashDamageMaxRadius = bomb.ProjectileSplashDamageMaxRadius * 1.2
+	bomb.ProjectileSplashDamageMaxRadius = bomb.ProjectileSplashDamageMaxRadius * 1.35
 	bomb.ProjectileDamage = bomb.ProjectileDamage * 2
+	bomb.AntiAirHitpoints = bomb.AntiAirHitpoints * 2
 end
 local paveway = FindProjectile("paveway")
 if paveway then
 	paveway.MaxAge = 60
 	paveway.ProjectileDrag = 8
 	paveway.Gravity = 981 * 2
+	paveway.AntiAirHitpoints = paveway.AntiAirHitpoints * 1.5
 end
 
 --new projectiles
@@ -363,6 +365,7 @@ table.insert(Projectiles,
 	ProjectileSplashDamage = 30.0, -- low splash damage
 	ProjectileSplashDamageMaxRadius = 100.0,
 	ProjectileSplashMaxForce = 10000, -- moderate shockwave
+	WeaponDamageBonus = 20,
 	AntiAirHitpoints = 20,
 	AntiAirDamage = 20,
 	SpeedIndicatorFactor = 0.25,
@@ -461,7 +464,7 @@ if sidewinder then
 	sidewinder.ProjectileSprite = nil
 	sidewinder.ProjectileSpriteMipMap = true
 	sidewinder.DrawBlurredProjectile = false
-	sidewinder.AntiAirHitpoints = 6
+	sidewinder.AntiAirHitpoints = 11
 	sidewinder.AntiAirDamage = 150
 	sidewinder.Gravity = 1
 	sidewinder.Projectile =
@@ -500,7 +503,7 @@ end
 local vulcan = DeepCopy(FindProjectile("sniper"))
 if vulcan then
 	vulcan.SaveName = "sbpp_vulcan"
-	vulcan.WeaponDamageBonus = 10
+	vulcan.WeaponDamageBonus = 20
 	vulcan.ProjectileDamage = 30
 	vulcan.AntiAirHitpoints = 6
 	vulcan.AntiAirDamage = 20
@@ -600,7 +603,7 @@ local hellcat = DeepCopy(p51)
 if hellcat then
 	hellcat.SaveName = "sbpp_hellcat"
 	hellcat.Projectile.Root.Sprite = path .. "/weapons/hellcat/hellcat.png"
-	hellcat.AntiAirHitpoints = hellcat.AntiAirHitpoints * 1.4
+	hellcat.AntiAirHitpoints = hellcat.AntiAirHitpoints * 1.4 * 1.5
 	hellcat.sb_planes.thrust = 11000
 	hellcat.sb_planes.elevator = 29000
 	hellcat.sb_planes.lift_multiplier = 6
@@ -635,6 +638,7 @@ if bomb250kg then
 		}
 	}
 	bomb250kg.ProjectileSprite = nil
+	bomb250kg.AntiAirHitpoints = bomb250kg.AntiAirHitpoints * 2.5
 	table.insert(Projectiles, bomb250kg)
 	MakeFlamingVersion("sbpp_bomb250kg", 1.33, 3, flamingTrail, 100, nil, genericFlamingExpire)
 end
@@ -678,7 +682,7 @@ if ac130 then
 			}
 		}
 	}
-	ac130.AntiAirHitpoints = ac130.AntiAirHitpoints * 2
+	ac130.AntiAirHitpoints = ac130.AntiAirHitpoints * 2 * 1.5
 	ac130.ProjectileShootDownRadius = ac130.ProjectileShootDownRadius * 1.5
 	ac130.ProjectileDamage = ac130.ProjectileDamage * 1.8
 	ac130.ProjectileSplashDamage = ac130.ProjectileSplashDamage * 1.8
@@ -758,7 +762,7 @@ end
 local gau12 = DeepCopy(FindProjectile("sbpp_gau8"))
 if gau12 then
 	gau12.SaveName = "sbpp_gau12"
-	gau12.ProjectileDamage = gau12.ProjectileDamage * 0.8
+	gau12.WeaponDamageBonus = 20
 	table.insert(Projectiles, gau12)
 	MakeFlamingVersion("sbpp_gau12", 1.33, 0.25, flamingTrail, 100, nil, genericFlamingExpire)
 end
@@ -789,7 +793,7 @@ if howitzer105 then
 	howitzer105.Projectile.Root.Sprite = path .. "/weapons/ac130/howitzer.png"
 	howitzer105.Projectile.Root.Scale = 0.75
 	howitzer105.ProjectileShootDownRadius = 15
-	howitzer105.AntiAirHitpoints = 60
+	howitzer105.AntiAirHitpoints = 60 * 1.5
 	howitzer105.TrailEffect = "effects/cannon_trail.lua"
 	table.insert(Projectiles, howitzer105)
 	MakeFlamingVersion("sbpp_howitzer105mm", 1.33, 0.5, flamingTrail, 100, nil, genericFlamingExpire)
@@ -825,6 +829,7 @@ if apache then
 	apache.ProjectileSprite = nil
 	apache.ProjectileDrag = 1.7
 	apache.ProjectileMass = 5
+	apache.AntiAirHitpoints = apache.AntiAirHitpoints * 1.5
 	apache.ExplodeOnTouch = true
 	apache.ProjectileAgeTrigger = false
 	apache.sb_planes =
@@ -897,9 +902,9 @@ if apache then
 		SetDamageMultiplier("sbpp_hydra", {SaveName = "bracing", Direct = 2})
 		sbApacheHydra.ProjectileIncendiary = false
 		sbApacheHydra.Gravity = 0
-		sbApacheHydra.ProjectileSplashDamage = 30
+		sbApacheHydra.ProjectileSplashDamage = 35
 		sbApacheHydra.AntiAirDamage = 70
-		sbApacheHydra.ProjectileSplashDamageMaxRadius = 150
+		sbApacheHydra.ProjectileSplashDamageMaxRadius = 160
 		sbApacheHydra.Projectile.Root.Sprite = path .. "/weapons/apache/hydra.png"
 		sbApacheHydra.Projectile.Root.Scale = 0.75
 		--sbApacheHydra.Effects = DeepCopy(FindProjectile("bomb").Effects)
@@ -917,12 +922,12 @@ if apache then
 		sbApacheHellfire.Missile.ErraticAngleExtentStdDev = 2.5
 		sbApacheHellfire.ProjectileIncendiary = true
 		sbApacheHellfire.AlwaysIncendiary = true
-		sbApacheHellfire.IncendiaryRadius = 175
-		sbApacheHellfire.IncendiaryRadiusHeated = 200
-		sbApacheHellfire.ProjectileSplashDamageMaxRadius = 240
+		sbApacheHellfire.IncendiaryRadius = 180
+		sbApacheHellfire.IncendiaryRadiusHeated = 220
+		sbApacheHellfire.ProjectileSplashDamageMaxRadius = 260
 		sbApacheHellfire.ProjectileSplashDamage = 200
 		sbApacheHellfire.AntiAirDamage = 200
-		sbApacheHellfire.AntiAirHitpoints = 11
+		sbApacheHellfire.AntiAirHitpoints = 16
 		sbApacheHellfire.Projectile.Root.Sprite = path .. "/weapons/apache/hellfire.png"
 		sbApacheHellfire.Projectile.Root.ChildrenInFront[1].Pivot = {0, 0.5}
 		if FindProjectile("paveway") then
@@ -931,6 +936,15 @@ if apache then
 		table.insert(Projectiles, sbApacheHellfire)
 		MakeFlamingVersion("sbpp_hellfire", 1.33, 2.5, flamingTrail, 225, nil, rocketFlamingExpire)
 	end
+end
+
+local flare = DeepCopy(FindProjectile("machinegun"))
+if flare then
+	flare.SaveName = "sbpp_flare"
+	flare.CollidesWithProjectiles = false
+	flare.CollidesWithBeams = false
+	flare.ProjectileIncendiary = true
+	table.insert(Projectiles, flare)
 end
 
 laser = FindProjectile("laser")

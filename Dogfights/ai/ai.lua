@@ -57,9 +57,9 @@ ProjectileVisibleRanges = {
 }
 
 AntiAirMaxRanges = {
-   ["machinegun"] = 12000,
-   ["flak"] = 36000,
-   ["shotgun"] = 48500,
+   ["machinegun"] = 12000 * 1.5,
+   ["flak"] = 36000 * 0.9,
+   ["shotgun"] = 48500 * 0.7,
    ["hardpointflak"] = 100000,
 }
 

@@ -1,3 +1,3 @@
 
-MinFireSpeed = 15000
-MaxFireSpeed = 15001
+MinFireSpeed = 12000
+MaxFireSpeed = 12001
