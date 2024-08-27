@@ -121,6 +121,15 @@ function DropBombs(param)
 		SetMissileTarget(projectile_id, target)
 	end
 end
+--[[
+function HoverHeli(id)
+	if data.planes[tostring(id)] then
+		data.planes[tostring(id)].angle = -DEG90
+		local mass = GetProjectileParamFloat(GetNodeProjectileSaveName(id), NodeTeam(id), "ProjectileMass", 1)
+		local thrust = GetProjectileParamFloat(GetNodeProjectileSaveName(id), NodeTeam(id), "sb_planes.thrust", 1)
+		data.planes[tostring(id)].throttle = (mass * 981) / thrust
+	end
+end]]
 
 function OnKeyControls(key, down)
 	--record held keys
@@ -231,7 +240,12 @@ function OnKeyControls(key, down)
 				RestoreScreen("pilot", 0, 0, true)
 			end
 		end
+		--suggestion to allow commander activation
+		if key == CommanderAbility and down then
+			SendScriptEvent("ActivateCommander", SSEParams(GetLocalTeamId()), "script.lua", true)
+		end
 	end
+
 end
 
 function UpdateControls(frame, id, saveName, teamId)
