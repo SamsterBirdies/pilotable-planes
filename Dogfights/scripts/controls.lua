@@ -80,18 +80,13 @@ function DropBombs(param)
 		local mouse_pos = data.planes[tostring(id)].mouse_pos
 		local plane_angle = Vec2Rad(velocity)
 		angle = RadVec2Vec(position, mouse_pos)
-		--limit angles (too confusing ill do it some other time)
-		--[[
-		Log(tostring(plane_angle))
-		Log(tostring(angle))
-		if plane_angle < -1.5708 then
-			angle = angle - math.pi
+		--perform angle compensation for plane velocity
+		angle = Trig_C_abB(Vec2Mag(velocity), speed, angle - plane_angle)
+		if angle < 100 and angle > -100 then
+			angle = (math.pi - angle) + plane_angle
+		else --if angle compensation is impossible, fallback to inputted angle 
+			angle = RadVec2Vec(position, mouse_pos)
 		end
-		angle = math.min(min_aim + plane_angle, angle)
-		angle = math.max(max_aim + plane_angle, angle)
-		if plane_angle < -1.5708 then
-			angle = angle + math.pi
-		end]]
 	elseif helicopter then
 		if position.x > data.planes[tostring(id)].mouse_pos.x then
 			angle = data.planes[tostring(id)].angle - DEG90 - rotation

@@ -47,3 +47,13 @@ function RadVec2Vec(vectorfrom, vectorto)
 	local vector = SubtractVec(vectorto, vectorfrom)
 	return Vec2Rad(vector)
 end
+function Vec2Mag(vector)
+	--get magnitude from vector
+	return math.sqrt(vector.x^2 + vector.y^2)
+end
+function Trig_C_abB(a, b, B)
+	--find angle C, given sides a b and angle B
+	local A = math.asin((a * math.sin(B)) / b)
+	local C = math.pi - B - A
+	return C
+end

@@ -239,7 +239,7 @@ if thunderbolt then
 	thunderbolt.ProjectileSplashDamage = 110
 	thunderbolt.ExplodeOnTouch = false
 	thunderbolt.CanBeShotDown = true
-	thunderbolt.AntiAirHitpoints = thunderbolt.AntiAirHitpoints * 1.2 * 1.5
+	thunderbolt.AntiAirHitpoints = thunderbolt.AntiAirHitpoints * 1.2-- * 1.5
 	thunderbolt.sb_planes =
 	{
 		elevator = 50000,
@@ -294,7 +294,7 @@ if nighthawk then
 	nighthawk.ProjectileSplashDamage = 110
 	nighthawk.ExplodeOnTouch = false
 	nighthawk.CanBeShotDown = true
-	nighthawk.AntiAirHitpoints = nighthawk.AntiAirHitpoints * 0.9 * 1.5
+	nighthawk.AntiAirHitpoints = nighthawk.AntiAirHitpoints * 0.9-- * 1.5
 	nighthawk.sb_planes =
 	{
 		elevator = 50000,
@@ -330,7 +330,7 @@ if bomb then
 	bomb.Gravity = 981 * 2
 	bomb.ProjectileSplashDamageMaxRadius = bomb.ProjectileSplashDamageMaxRadius * 1.35
 	bomb.ProjectileDamage = bomb.ProjectileDamage * 2
-	bomb.AntiAirHitpoints = bomb.AntiAirHitpoints * 2
+	--bomb.AntiAirHitpoints = bomb.AntiAirHitpoints * 2
 end
 local paveway = FindProjectile("paveway")
 if paveway then
@@ -603,7 +603,7 @@ local hellcat = DeepCopy(p51)
 if hellcat then
 	hellcat.SaveName = "sbpp_hellcat"
 	hellcat.Projectile.Root.Sprite = path .. "/weapons/hellcat/hellcat.png"
-	hellcat.AntiAirHitpoints = hellcat.AntiAirHitpoints * 1.4 * 1.5
+	hellcat.AntiAirHitpoints = hellcat.AntiAirHitpoints * 1.4-- * 1.5
 	hellcat.sb_planes.thrust = 11000
 	hellcat.sb_planes.elevator = 29000
 	hellcat.sb_planes.lift_multiplier = 6
@@ -638,7 +638,7 @@ if bomb250kg then
 		}
 	}
 	bomb250kg.ProjectileSprite = nil
-	bomb250kg.AntiAirHitpoints = bomb250kg.AntiAirHitpoints * 2.5
+	--bomb250kg.AntiAirHitpoints = bomb250kg.AntiAirHitpoints * 2.5
 	table.insert(Projectiles, bomb250kg)
 	MakeFlamingVersion("sbpp_bomb250kg", 1.33, 3, flamingTrail, 100, nil, genericFlamingExpire)
 end
@@ -682,7 +682,7 @@ if ac130 then
 			}
 		}
 	}
-	ac130.AntiAirHitpoints = ac130.AntiAirHitpoints * 2 * 1.5
+	ac130.AntiAirHitpoints = ac130.AntiAirHitpoints * 2-- * 1.5
 	ac130.ProjectileShootDownRadius = ac130.ProjectileShootDownRadius * 1.5
 	ac130.ProjectileDamage = ac130.ProjectileDamage * 1.8
 	ac130.ProjectileSplashDamage = ac130.ProjectileSplashDamage * 1.8
