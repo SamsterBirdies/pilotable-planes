@@ -30,7 +30,8 @@ if flak then
 end
 local shotgun = FindProjectile('shotgun')
 if shotgun then
-	--shotgun.AntiAirDamage = 30
+    shotgun.AntiAirDamage = 30
+   shotgun.MaxAge = 2.8
 end
 
 HardPointFlakDetonation = { Effect = nil, Projectile = { Count = 4, Type = "HardPointSubFlak",--[[ Speed = 9000,]] StdDev = 0.24 }, --[[Offset = -120,]] Terminate = true, }
@@ -314,6 +315,7 @@ if nighthawk then
 			period = 0.041,
 			timer = 20,
 			stddev = 0,
+         fire_cost_energy = 1500,
 			effect = "mods/dlc2/effects/bomb_release.lua",
 			name = "Paveway"
 		},
@@ -706,6 +708,8 @@ if ac130 then
 			aimed = true,
 			max_aim = 0,
 			min_aim = 3.14,
+         fire_cost_metal = 10,
+         fire_cost_energy = 1500,
 			effect = path .. "/effects/a10_fire.lua",
 			name = "25mm Equalizer",
 		},
@@ -722,6 +726,7 @@ if ac130 then
 			aimed = true,
 			max_aim = 0,
 			min_aim = 3.14,
+         fire_cost_energy = 100,
 			effect = "mods/weapon_pack/effects/fire_20mmcannon.lua", 
 			name = "40mm Bofors",
 		},
@@ -738,6 +743,8 @@ if ac130 then
 			aimed = true,
 			max_aim = 0,
 			min_aim = 3.14,
+         fire_cost_metal = 30,
+         fire_cost_energy = 2000,
 			effect = "effects/fire_cannon.lua",
 			reload_effect = path .. "/effects/ac130_gunready.lua",
 			name = "105mm Howitzer",

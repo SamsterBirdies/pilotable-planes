@@ -268,6 +268,9 @@ function UpdateControls(frame, id, saveName, teamId)
 		if keys_held[Fire2] then
 			if data.planes[tostring(user_control)].timers[2] == 0 then
 				local timer = GetProjectileParamFloat(saveName, teamId, "sb_planes.weapon2.timer", 15)
+            local fireCost = GetProjectileParamFloat(saveName, teamId, "sb_planes.weapon2.fire_cost_metal", 0)
+            local fireCostE = GetProjectileParamFloat(saveName, teamId, "sb_planes.weapon2.fire_cost_energy", 150)
+            SendScriptEvent("AddResources",SSEParams(teamId, Value(fireCost*-1,fireCostE*-1), false, Vec3()), "script.lua", true) -- don't want to put them into debt and don't want to prevent them from firing, only use what they have
 				SendScriptEvent("DropBombsSchedule", SSEParams(id, 2, GetProjectileClientId(id), timer), "script.lua", true)
 				data.planes[tostring(user_control)].timers[2] = timer
 			end
@@ -276,6 +279,9 @@ function UpdateControls(frame, id, saveName, teamId)
 		if keys_held[Fire1] then
 			if data.planes[tostring(user_control)].timers[1] == 0 then
 				local timer = GetProjectileParamFloat(saveName, teamId, "sb_planes.weapon1.timer", 1)
+            local fireCost = GetProjectileParamFloat(saveName, teamId, "sb_planes.weapon1.fire_cost_metal", 0)
+            local fireCostE = GetProjectileParamFloat(saveName, teamId, "sb_planes.weapon1.fire_cost_energy", 150)
+            SendScriptEvent("AddResources",SSEParams(teamId, Value(fireCost*-1,fireCostE*-1), false, Vec3()), "script.lua", true)
 				SendScriptEvent("DropBombsSchedule", SSEParams(id, 1, GetProjectileClientId(id), timer), "script.lua", true)
 				data.planes[tostring(user_control)].timers[1] = timer
 			end
@@ -284,6 +290,9 @@ function UpdateControls(frame, id, saveName, teamId)
 		if keys_held[Fire3] then
 			if data.planes[tostring(user_control)].timers[3] == 0 then
 				local timer = GetProjectileParamFloat(saveName, teamId, "sb_planes.weapon3.timer", 1)
+            local fireCost = GetProjectileParamFloat(saveName, teamId, "sb_planes.weapon3.fire_cost_metal", 0)
+            local fireCostE = GetProjectileParamFloat(saveName, teamId, "sb_planes.weapon3.fire_cost_energy", 150)
+            SendScriptEvent("AddResources",SSEParams(teamId, Value(fireCost*-1,fireCostE*-1), false, Vec3()), "script.lua", true)
 				SendScriptEvent("DropBombsSchedule", SSEParams(id, 3, GetProjectileClientId(id), timer), "script.lua", true)
 				data.planes[tostring(user_control)].timers[3] = timer
 			end
