@@ -43,8 +43,10 @@ function Load()
 	fps = GetConstant("Physics.FramesRate")
 	frametime = 1 / fps
 	LoadHUD()
-	ChangeKeybindsControlSetup()
 	GetLanguage()
+	if GetLocalTeamId() ~= -3 then --avoid adding ui for observers
+		ChangeKeybindsControlSetup()
+	end
 end
 
 function Update(frame)
@@ -163,7 +165,9 @@ function OnUpdate(fake_delta)
 	--trail effect initialization
 	if onjoin then
 		EffectsSync()
-		ScheduleCall(1, ChangeKeybindsControlSetup)
+		if GetLocalTeamId() ~= -3 then
+			ScheduleCall(1, ChangeKeybindsControlSetup)
+		end
 		onjoin = false
 	end
 	

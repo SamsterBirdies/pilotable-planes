@@ -217,9 +217,10 @@ function OnKeyControls(key, down)
 					SendScriptEvent("SetPlaneFree", SSEParams(user_control, true), "script.lua", true)
 					user_control = v
 					SendScriptEvent("SetPlaneFree", SSEParams(user_control, false), "script.lua", true)
-				else
+				else --show user if plane is already occupied
 					Notice("")
-					LogW(STRINGS[lang].plane_occupied)
+					LogW(L"[HL=FFFF40FF]" .. STRINGS[lang].plane_occupied .. L"[/HL]")
+					SpawnEffect("effects/weapon_blocked", planepos)
 				end
 				break
 			end
