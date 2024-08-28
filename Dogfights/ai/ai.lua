@@ -20,7 +20,7 @@ PlaneSaveNames = {["thunderbolt"]=-1000,["nighthawk"]=-1000,["sbpp_f16"]=-1200,[
 --default: 30000. 36000 is the limit of flak about
 ProjectileVisibleRanges = {
  --Planes
-   ["nighthawk"] =      12000,
+   ["nighthawk"] =      12500,
    ["thunderbolt"] =    30000,
 
    ["sbpp_Biplane"] =   9000,
@@ -28,7 +28,7 @@ ProjectileVisibleRanges = {
    ["sbpp_p51"] =       31000,
    ["sbpp_f16"] =       32000,
    ["sbpp_apache"] =    32000,
-   ["sbpp_ac130"] =     40000,
+   ["sbpp_ac130"] =     37500,
 
  --Missiles
    ["sbpp_sidewinder"] =18000,
@@ -42,6 +42,9 @@ ProjectileVisibleRanges = {
    ["sbpp_grenade"] =   7000,
    ["sbpp_bomb250kg"] = 10000,
    ["sbpp_howitzer105mm"]=14000,
+
+   --???
+   ["sbpp_flare"] =     35000,
 
  --Basegame projectiles
    ["mortar"] =         18000,
@@ -243,6 +246,65 @@ function findMeetingOrPassingTime(id1, id2)
    -- If no valid meeting time found, find passing time
    return findPassingTime(id1, id2)
 end]]
+
+function calculate_min_distance(P_f, V_f, P_1, V_1)
+   local Vr = {
+      x = V_f.x - V_1.x,
+      y = V_f.y - V_1.y
+   }
+
+   local P_diff = {
+      x = P_f.x - P_1.x,
+      y = P_f.y - P_1.y
+   }
+
+   local a = Vr.x * Vr.x + Vr.y * Vr.y
+   local b = 2 * (P_diff.x * Vr.x + P_diff.y * Vr.y)
+   local c = P_diff.x * P_diff.x + P_diff.y * P_diff.y
+
+   -- Find the time of closest approach
+   local t_min = -b / (2 * a)
+
+   -- Calculate the minimum distance
+   local D_min_squared = a * t_min * t_min + b * t_min + c
+   local D_min = math.sqrt(D_min_squared)
+
+   return D_min
+end
+
+function calculate_firing_velocity(P_f, P_t, v, t)
+   -- Calculate direction vector from P_f to P_t
+   local D = {
+      x = P_t.x - P_f.x,
+      y = P_t.y - P_f.y
+   }
+
+   -- Calculate the magnitude of D
+   local D_magnitude = math.sqrt(D.x * D.x + D.y * D.y)
+
+   -- Normalize the direction vector (D_u)
+   local D_u = {
+      x = D.x / D_magnitude,
+      y = D.y / D_magnitude
+   }
+
+   -- Calculate the firing velocity vector V_f
+   local V_f = {}
+   if v then
+      -- If speed is given, calculate V_f based on speed
+      V_f.x = v * D_u.x
+      V_f.y = v * D_u.y
+   elseif t then
+      -- If time is given, calculate V_f based on time to target
+      V_f.x = D.x / t
+      V_f.y = D.y / t
+   else
+      -- If neither is given, return nil
+      return nil
+   end
+
+   return V_f
+end
 
 function distance(pos1, pos2)
    return math.sqrt((pos1.x - pos2.x)^2 + (pos1.y - pos2.y)^2)
@@ -496,13 +558,25 @@ function Load(gameStart)
 		ScheduleCall(7 + offset, Repair)
 		ScheduleCall(30 + offset, DecayFrustration)
 	end
-	
+
 	GetAttackHintsFromProps(teamId%MAX_SIDES)
+
+   data.fwenlee_pwanes = {}
+
 end
 
 function OnWeaponFired(weaponTeamId, saveName, weaponId, projectileNodeId, projectileNodeIdFrom)
 	if data.gameWinner and data.gameWinner ~= teamId then return end
-   if weaponTeamId == scriptLocalTeamFlakTarget then
+   local IsPlane = false
+   for planeSaveName, _ in pairs(PlaneSaveNames) do
+      if GetNodeProjectileSaveName(projectileNodeId) == planeSaveName then
+         IsPlane = true
+         break
+      end
+   end
+   if weaponTeamId%100 == teamId%MAX_SIDES and IsPlane--[[and PlaneSaveNames[saveName] ]] then
+      table.insert(data.fwenlee_pwanes, projectileNodeId)
+   elseif weaponTeamId == scriptLocalTeamFlakTarget then
       if saveName == "flak" or saveName == "hardpointflak" then
          Target = data.flakDetonationTimings[weaponId]
          if Target then
@@ -969,7 +1043,14 @@ function TryShootDownProjectiles()
                         local defaultAirburstSetPoint = data.flakDetonationTimings[id] and data.flakDetonationTimings[id].airburstSetPoint or 0.2
                         data.flakDetonationTimings[id] = {id = v.ProjectileNodeId,timeToImpact = timeToImpact,uncertainty = uncertainty,airburstSetPoint = defaultAirburstSetPoint,justFired = true}
                      end
+                     min_distance = math.huge
+                     for key, value in pairs(data.fwenlee_pwanes) do
+                        local pspeed = GetWeaponMaxFireSpeed(teamId, type)
 
+                        local firing_velocity = calculate_firing_velocity(GetDevicePosition(id), pos, pspeed, nil)
+                        min_distance = calculate_min_distance(pos,firing_velocity, NodePosition(value), NodeVelocity(value))
+                     end
+                     if min_distance < 1400 then break end
 							local result = FireWeaponWithPower(id, pos, stdDev or 0, FIREWEAPON_STDDEVTEST_DEFAULT, FIREFLAG_EXTRACLEARANCE | FIREFLAG_DIRECTAIM, power)
 							if result == FIRE_SUCCESS then
 

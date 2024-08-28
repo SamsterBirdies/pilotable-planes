@@ -148,6 +148,31 @@ function OnProjectileDestroyed(nodeId, teamId, saveName, structureIdHit, destroy
 	end
 end
 
+LocalPortalFatigueIterator = 0
+LocalPortalFatigueOverHeat = 0
+function OnPortalUsed(nodeA, nodeB, nodeADest, nodeBDest, objectTeamId, objectId, isBeam)
+   if objectId == user_control then
+      AddSpriteControl("sbplanes", "PortalFatigue"..LocalPortalFatigueIterator, path.."/effects/media/Portal.png", 0,
+      Vec3(GetRandomIntegerLocal(1200, 1500),GetRandomIntegerLocal(750, 1300)), --size
+      Vec3(GetRandomIntegerLocal(-200, -10),GetRandomIntegerLocal(-200, -10)), --pos
+      false)
+      ScheduleCall(6,RemovePortalFatigue,LocalPortalFatigueIterator)
+      LocalPortalFatigueIterator = LocalPortalFatigueIterator + 1
+      LocalPortalFatigueOverHeat = LocalPortalFatigueOverHeat + 1
+      if LocalPortalFatigueOverHeat > GetRandomIntegerLocal(6,18) then
+         LocalPortalFatigueOverHeat = 0
+         ScheduleCall(12+GetNormalFloatLocal(LocalPortalFatigueIterator*0.03, LocalPortalFatigueIterator*0.1),RemovePortalFatigue,LocalPortalFatigueIterator)
+         if GetRandomIntegerLocal(1,8) == 8 then StartStream(path.."/effects/media/ear-ringing-sound-effect-26746.mp3",0.03+math.min(0.5,LocalPortalFatigueIterator*0.001)) end
+         StartStream(path.."/effects/media/vomit-150122.mp3",0.05+math.min(0.15,LocalPortalFatigueIterator*0.002))
+      end
+   end
+end
+
+function RemovePortalFatigue(itr)
+   DeleteControl("sbplanes", "PortalFatigue"..itr)
+   LocalPortalFatigueOverHeat = LocalPortalFatigueOverHeat - 0.2
+end
+
 function OnKey(key, down)
 	OnKeyControls(key, down)
 	OnKeyKeybinds(key, down)
