@@ -5,6 +5,7 @@ dofile(path .. "/scripts/sseparams.lua")
 dofile(path .. "/scripts/better_log.lua")
 debugging = 0 --0 = none, 1 = performance,
 DEG90 = 1.5708 --90 degrees in radians
+ZOOM_MUL = 400 --camera zoom levels to cm
 --init local user controls
 user_control = 0 --plane projectile Id to control
 user_control_available = {} --available plane projectile Id's to control
@@ -19,6 +20,8 @@ previous_time = 0 --used for the camera
 previous_game_time = 0 --used to calculate delta time
 delta = 0.016 --real delta unlike the fake one given in OnUpdate(). used for effects
 frametime_left = frametime --used for effect interpolation
+camera_pos = Vec3(0,0,0) --used for doppler
+camera_velocity = Vec3(0,0,0)
 environment = "environment/canyon"
 lang = "English"
 --init global gamestate
@@ -40,16 +43,26 @@ function Load()
 	fps = GetConstant("Physics.FramesRate")
 	frametime = 1 / fps
 	LoadHUD()
-   if GetLocalTeamId() ~= -3 then
-	   ChangeKeybindsControlSetup()
-   end
 	GetLanguage()
+	if GetLocalTeamId() ~= -3 then --avoid adding ui for observers
+		ChangeKeybindsControlSetup()
+	end
 end
 
 function Update(frame)
 	--calculate frame time
 	frametime = math.min(GetRealTime() - previous_time, 2.56) --2.56 = 0.04 * 64, slowest possible speed.
 	previous_time = GetRealTime()
+	
+	--get camera statistics
+	camera_pos = GetCameraFocus()
+	camera_pos.z = GetCameraZoom() * ZOOM_MUL
+	if user_control > 0 then
+		camera_velocity = NodeVelocity(user_control)
+	else
+		camera_velocity = Vec3(0,0,0)
+	end
+	
 	--display control info
 	if frame == 1 then
 		Notice("")
@@ -60,12 +73,11 @@ function Update(frame)
 		environment = GetEnvironmentPath()
 		--Log(environment)
 	end
+	
 	--hud
-	--PerfMark("hud")
 	UpdateHUD(frame)
-	--PerfMark("hud")
+	
 	--update planes
-	--PerfMark("planes")
 	for k, v in pairs(data.planes) do
 		local id = tonumber(k)
 		local saveName = GetNodeProjectileSaveName(id)
@@ -91,7 +103,6 @@ function Update(frame)
 		--effect trails
 		PlaneUpdateTrail(id, data.planes[tostring(id)].throttle)
 	end
-	--PerfMark("planes")
 	PlaneUpdateSprite()
 end
 
@@ -169,19 +180,23 @@ end
 function OnControlActivated(name)
 	KeybindsOnControlActivated(name)
 end
+
 function OnUpdate(fake_delta)
+	--gather time stats
 	delta = fake_delta - previous_game_time
 	previous_game_time = fake_delta
 	frametime_left = frametime_left - delta
+	
 	--trail effect initialization
 	if onjoin then
 		EffectsSync()
-      if GetLocalTeamId() ~= -3 then
-		   ScheduleCall(1, ChangeKeybindsControlSetup)
-      end
+		if GetLocalTeamId() ~= -3 then
+			ScheduleCall(1, ChangeKeybindsControlSetup)
+		end
 		onjoin = false
 	end
-	--PerfUpdate(delta)
+	
+	--update sprite interpolation
 	PlaneOnUpdateSprite()
 end
 

@@ -442,6 +442,41 @@ Root = --Text = "$ArtileryPanel.ArtileryPanel",
 										  	},
 										},
 									},
+							{
+										Type = "TextButton",
+										Name = "SB_PP_CommanderAbility",
+										Style = "ListToolTips",
+										Text =
+										{
+										  	Text = "Commander Ability", --↺
+										  	Control =
+										  	{
+												Position = { 0, 0, },
+												ScriptX = "ParentL + 10",
+												ScriptY = "ParentT + 210",
+												Anchor = 0,
+												TabStop = 0,
+												Effect = "ui/setting",
+                                    Children =
+												{
+                                       {
+                                          Type = "Text",
+                                          Name = "SB_PP_CommanderAbilityKey",
+                                          Style = "ListToolTips",
+                                          Text = "t",
+                                          --Colour = { 255, 255, 255, 255 },
+                                          --ColourLower = { 255, 255, 255, 155 },
+                                          Control =
+                                          {
+                                             Position = { 155, 0, },
+                                             Size = { 0, 0, },
+                                             Anchor = 7,
+                                          },
+                                        },
+												},
+										  	},
+										},
+									},
 								},
 							},
 						},

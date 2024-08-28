@@ -45,7 +45,19 @@ function UpdateHUD(frame)
 		local pos = NodePosition(user_control)
 		CastRay(pos, AddVec(pos, Vec3(0,999900)), RAY_STANDARD_CLEARANCE, FIELD_NONE)
 		local altitude = GetRayHitPosition().y - pos.y
-		local degrees = RoundFloat(Vec2Rad(velocity) * 180/math.pi, 0) * -1
+		local degrees = 0
+		--angle readout for helis
+		if GetProjectileParamBool(GetNodeProjectileSaveName(user_control), GetLocalTeamId(), "sb_planes.helicopter", false) == true then
+			degrees = RoundFloat(data.planes[tostring(user_control)].angle * 180/math.pi, 0) * -1
+			if planes_effects[tostring(user_control)].heading_left then
+				degrees = degrees + 90
+			else
+				degrees = degrees - 90
+			end
+		--angle readout for planes
+		else
+			degrees = RoundFloat(Vec2Rad(velocity) * 180/math.pi, 0) * -1
+		end
 		if degrees > 90 then
 			degrees = 90 - (degrees - 90)
 		elseif degrees < -90 then
@@ -72,7 +84,7 @@ function UpdateHUD(frame)
 				SetControlColour("sbplanes", "gun1", White())
 			else
 				SetControlText("sbplanes", "gun1", gun1name .. " " .. tostring(math.ceil(timer)) .. "s")
-				SetControlColour("sbplanes", "gun1", Red())
+				SetControlColour("sbplanes", "gun1", Colour(255, 64, 64, 255))
 			end
 		end
 		--gun stats 2
@@ -85,7 +97,7 @@ function UpdateHUD(frame)
 				SetControlColour("sbplanes", "gun2", White())
 			else
 				SetControlText("sbplanes", "gun2", gun2name .. " " .. tostring(math.ceil(timer)) .. "s")
-				SetControlColour("sbplanes", "gun2", Red())
+				SetControlColour("sbplanes", "gun2", Colour(255, 64, 64, 255))
 			end
 		end
 		--gun stats 3
@@ -98,7 +110,7 @@ function UpdateHUD(frame)
 				SetControlColour("sbplanes", "gun3", White())
 			else
 				SetControlText("sbplanes", "gun3", gun3name .. " " .. tostring(math.ceil(timer)) .. "s")
-				SetControlColour("sbplanes", "gun3", Red())
+				SetControlColour("sbplanes", "gun3", Colour(255, 64, 64, 255))
 			end
 		end	
 	end

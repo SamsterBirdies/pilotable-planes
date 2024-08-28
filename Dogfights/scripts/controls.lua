@@ -61,6 +61,8 @@ function DropBombs(param)
 	local playeffect = param[4]
 	local teamId = NodeTeam(id)
 	local saveName = GetNodeProjectileSaveName(id)
+	local position = NodePosition(id)
+	local velocity = NodeVelocity(id)
 	local effect = GetProjectileParamString(saveName, teamId, "sb_planes.weapon" .. tostring(weapon) .. ".effect", "mods/dlc2/effects/bomb_release.lua")
 	local rotation = GetProjectileParamFloat(saveName, teamId, "sb_planes.weapon" .. tostring(weapon) .. ".rotation", 1.5708)
 	local stddev = GetProjectileParamFloat(saveName, teamId, "sb_planes.weapon" .. tostring(weapon) .. ".stddev", 0)
@@ -76,29 +78,24 @@ function DropBombs(param)
 	local angle
 	if aimed then
 		local mouse_pos = data.planes[tostring(id)].mouse_pos
-		local plane_angle = Vec2Rad(NodeVelocity(id))
-		angle = RadVec2Vec(NodePosition(id), mouse_pos)
-		--limit angles (too confusing ill do it some other time)
-		--[[
-		Log(tostring(plane_angle))
-		Log(tostring(angle))
-		if plane_angle < -1.5708 then
-			angle = angle - math.pi
+		local plane_angle = Vec2Rad(velocity)
+		angle = RadVec2Vec(position, mouse_pos)
+		--perform angle compensation for plane velocity
+		angle = Trig_C_abB(Vec2Mag(velocity), speed, angle - plane_angle)
+		if angle < 100 and angle > -100 then
+			angle = (math.pi - angle) + plane_angle
+		else --if angle compensation is impossible, fallback to inputted angle 
+			angle = RadVec2Vec(position, mouse_pos)
 		end
-		angle = math.min(min_aim + plane_angle, angle)
-		angle = math.max(max_aim + plane_angle, angle)
-		if plane_angle < -1.5708 then
-			angle = angle + math.pi
-		end]]
 	elseif helicopter then
-		if NodePosition(id).x > data.planes[tostring(id)].mouse_pos.x then
+		if position.x > data.planes[tostring(id)].mouse_pos.x then
 			angle = data.planes[tostring(id)].angle - DEG90 - rotation
 		else
 			angle = data.planes[tostring(id)].angle + DEG90 + rotation
 		end
 	else
 		--get angle
-		angle = Vec2Rad(NodeVelocity(id))
+		angle = Vec2Rad(velocity)
 		--flip direction facing left weapon rotation
 		if angle > 1.5708 or angle < -1.5708 then
 			angle = angle - rotation 
@@ -109,12 +106,13 @@ function DropBombs(param)
 	
 	angle = GetNormalFloat(stddev, angle, "bombs") --stddev
 	--get spawn pos
-	local bombpos = AddVec(NodePosition(id), MultiplyVec(Rad2Vec(angle), distance))
+	local bombpos = AddVec(position, MultiplyVec(Rad2Vec(angle), distance))
 	--spawn
 	if playeffect == 0 then
-		SpawnEffectEx(effect, bombpos, Rad2Vec(angle))
+		local effect_id = SpawnEffectEx(effect, bombpos, Rad2Vec(angle))
+		ScheduleCall(0, SetAudioParameter, effect_id, "doppler_shift", DopplerCalculate(position, velocity))
 	end
-	local projectile_id = dlc2_CreateProjectile(projectile, saveName, NodeTeam(id), bombpos, AddVec(NodeVelocity(id), MultiplyVec(Rad2Vec(angle), speed)), 60)
+	local projectile_id = dlc2_CreateProjectile(projectile, saveName, NodeTeam(id), bombpos, AddVec(velocity, MultiplyVec(Rad2Vec(angle), speed)), 60)
 	SetProjectileClientId(projectile_id, clientId)
 	if aim_missile then
 		SetMissileTarget(projectile_id, data.planes[tostring(id)].mouse_pos)
@@ -123,6 +121,15 @@ function DropBombs(param)
 		SetMissileTarget(projectile_id, target)
 	end
 end
+--[[
+function HoverHeli(id)
+	if data.planes[tostring(id)] then
+		data.planes[tostring(id)].angle = -DEG90
+		local mass = GetProjectileParamFloat(GetNodeProjectileSaveName(id), NodeTeam(id), "ProjectileMass", 1)
+		local thrust = GetProjectileParamFloat(GetNodeProjectileSaveName(id), NodeTeam(id), "sb_planes.thrust", 1)
+		data.planes[tostring(id)].throttle = (mass * 981) / thrust
+	end
+end]]
 
 function OnKeyControls(key, down)
 	--record held keys
@@ -210,9 +217,10 @@ function OnKeyControls(key, down)
 					SendScriptEvent("SetPlaneFree", SSEParams(user_control, true), "script.lua", true)
 					user_control = v
 					SendScriptEvent("SetPlaneFree", SSEParams(user_control, false), "script.lua", true)
-				else
+				else --show user if plane is already occupied
 					Notice("")
-					LogW(STRINGS[lang].plane_occupied)
+					LogW(L"[HL=FFFF40FF]" .. STRINGS[lang].plane_occupied .. L"[/HL]")
+					SpawnEffect("effects/weapon_blocked", planepos)
 				end
 				break
 			end
@@ -233,7 +241,12 @@ function OnKeyControls(key, down)
 				RestoreScreen("pilot", 0, 0, true)
 			end
 		end
+		--suggestion to allow commander activation
+		if key == CommanderAbility and down then
+			SendScriptEvent("ActivateCommander", SSEParams(GetLocalTeamId()), "script.lua", true)
+		end
 	end
+
 end
 
 function UpdateControls(frame, id, saveName, teamId)
