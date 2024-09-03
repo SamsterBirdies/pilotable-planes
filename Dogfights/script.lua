@@ -147,7 +147,7 @@ function OnProjectileDestroyed(nodeId, teamId, saveName, structureIdHit, destroy
 		PlaneRemoveEffects(nodeId)
 	end
 end
-
+--[[
 LocalPortalFatigueIterator = 0
 LocalPortalFatigueOverHeat = 0
 function OnPortalUsed(nodeA, nodeB, nodeADest, nodeBDest, objectTeamId, objectId, isBeam)
@@ -172,7 +172,7 @@ function RemovePortalFatigue(itr)
    DeleteControl("sbplanes", "PortalFatigue"..itr)
    LocalPortalFatigueOverHeat = LocalPortalFatigueOverHeat - 0.2
 end
-
+]]
 function OnKey(key, down)
 	OnKeyControls(key, down)
 	OnKeyKeybinds(key, down)

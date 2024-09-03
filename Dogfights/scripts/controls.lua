@@ -130,6 +130,16 @@ function HoverHeli(id)
 		data.planes[tostring(id)].throttle = (mass * 981) / thrust
 	end
 end]]
+function ControlPlane(id)
+	if data.planes[tostring(id)].free then
+		SendScriptEvent("SetPlaneFree", SSEParams(user_control, true), "script.lua", true)
+		user_control = id
+		SendScriptEvent("SetPlaneFree", SSEParams(user_control, false), "script.lua", true)
+		return true
+	else
+		return false
+	end
+end
 
 function OnKeyControls(key, down)
 	--record held keys
@@ -152,56 +162,56 @@ function OnKeyControls(key, down)
 	
 	--cycle plane control
 	if key == SelectNext and down then
+		if #user_control_available < 1 then return end
+		local index = 0
 		if user_control == 0 then
-			if #user_control_available > 0 then
-				user_control = user_control_available[1]
-			end
+			index = 1
 		else
 			for k, v in pairs(user_control_available) do
 				--find controlled plane.
 				if v == user_control then
-					local index = k
-					--8 planes can be in use, cycle planes until a free plane is found
-					for i = 1, 10 do
-						index = k + 1
-						if index > #user_control_available then
-							index = 1
-						end
-						if data.planes[tostring(user_control_available[index])].free then
-							SendScriptEvent("SetPlaneFree", SSEParams(user_control, true), "script.lua", true)
-							user_control = user_control_available[index]
-							SendScriptEvent("SetPlaneFree", SSEParams(user_control, false), "script.lua", true)
-							break
-						end
-					end
+					index = k
+					break
+				end
+			end
+		end			--8 planes can be in use, cycle planes until a free plane is found
+		for i = 1, 10 do
+			if index > #user_control_available then
+				index = 1
+			end
+			if data.planes[tostring(user_control_available[index])].free then
+				SendScriptEvent("SetPlaneFree", SSEParams(user_control, true), "script.lua", true)
+				user_control = user_control_available[index]
+				SendScriptEvent("SetPlaneFree", SSEParams(user_control, false), "script.lua", true)
+				break
+			end
+			index = index + 1
+		end
+	elseif key == SelectPrev and down then
+		if #user_control_available < 1 then return end
+		local index = 0
+		if user_control == 0 then
+			index = #user_control_available
+		else
+			for k, v in pairs(user_control_available) do
+				--find controlled plane.
+				if v == user_control then
+					index = k
 					break
 				end
 			end
 		end
-	elseif key == SelectPrev and down then
-		if user_control == 0 then
-			if #user_control_available > 0 then
-				user_control = user_control_available[1]
+		for i = 1, 10 do
+			if index < 1 then
+				index = #user_control_available
 			end
-		else
-			for k, v in pairs(user_control_available) do
-				if v == user_control then
-					local index = k
-					for i = 1, 10 do
-						index = k - 1
-						if index < 1 then
-							index = #user_control_available
-						end
-						if data.planes[tostring(user_control_available[index])].free then
-							SendScriptEvent("SetPlaneFree", SSEParams(user_control, true), "script.lua", true)
-							user_control = user_control_available[index]
-							SendScriptEvent("SetPlaneFree", SSEParams(user_control, false), "script.lua", true)
-							break
-						end
-					end
-					break
-				end
+			if data.planes[tostring(user_control_available[index])].free then
+				SendScriptEvent("SetPlaneFree", SSEParams(user_control, true), "script.lua", true)
+				user_control = user_control_available[index]
+				SendScriptEvent("SetPlaneFree", SSEParams(user_control, false), "script.lua", true)
+				break
 			end
+			index = index - 1
 		end
 	end
 	

@@ -392,6 +392,7 @@ table.insert(Projectiles,
 	{
 		{ SaveName = "sandbags", Direct = 0.6, Splash = 0.6 },
 		{ SaveName = "weapon", Direct = 1.5, Splash = 2 },
+		{ SaveName = "shield", Direct = 0, Splash = 0 },
 	},
 })
 MakeFlamingVersion("sbpp_gau8", 1.33, 0.25, flamingTrail, 100, nil, genericFlamingExpire)
@@ -714,13 +715,13 @@ if ac130 then
 			speed = 4000,
 			count = 20, 
 			period = 0.08, 
-			timer = 9, 
+			timer = 10, 
 			stddev = 0.03,
 			aimed = true,
 			max_aim = 0,
 			min_aim = 3.14,
-         fire_cost_metal = 10,
-         fire_cost_energy = 1500,
+			fire_cost_metal = 10,
+			fire_cost_energy = 1200,
 			effect = path .. "/effects/a10_fire.lua",
 			reload_effect = path .. "/effects/reload_gun_large.lua",
 			name = "25mm Equalizer",
@@ -733,12 +734,13 @@ if ac130 then
 			speed = 4000, 
 			count = 1, 
 			period = 0.06, 
-			timer = 0.8,
+			timer = 1.2,
 			stddev = 0,
 			aimed = true,
 			max_aim = 0,
 			min_aim = 3.14,
-         fire_cost_energy = 100,
+			fire_cost_metal = 10,
+			fire_cost_energy = 500,
 			effect = "mods/weapon_pack/effects/fire_20mmcannon.lua", 
 			name = "40mm Bofors",
 		},
@@ -750,13 +752,13 @@ if ac130 then
 			speed = 4000,
 			count = 1,
 			period = 0.06,
-			timer = 8,
+			timer = 10,
 			stddev = 0,
 			aimed = true,
 			max_aim = 0,
 			min_aim = 3.14,
-         fire_cost_metal = 30,
-         fire_cost_energy = 2000,
+			fire_cost_metal = 50,
+			fire_cost_energy = 3000,
 			effect = "effects/fire_cannon.lua",
 			reload_effect = path .. "/effects/ac130_gunready.lua",
 			name = "105mm Howitzer",
@@ -776,12 +778,20 @@ end
 local bofors = DeepCopy(FindProjectile("cannon"))
 if bofors then
 	bofors.SaveName = "sbpp_bofors"
+	bofors.DisableShields = false
+	bofors.DeflectedByShields = true
+	bofors.DestroyShields = false
 	bofors.ProjectileDamage = 250
 	bofors.ProjectileSplashDamage = 75
 	bofors.ProjectileSplashDamageMaxRadius = 170
 	bofors.Effects.Impact =
 	{
 		default = "mods/weapon_pack/effects/rocket_structure_hit.lua",
+	}
+	bofors.DamageMultiplier =
+	{
+		{ SaveName = "shield", Direct = 0, Splash = 0 },
+		{ SaveName = "backbracing", Direct = 0, Splash = 0.75 },
 	}
 	table.insert(Projectiles, bofors)
 	MakeFlamingVersion("sbpp_bofors", 1.33, 0.4, flamingTrail, 100, nil, genericFlamingExpire)
@@ -792,10 +802,17 @@ if howitzer105 then
 	howitzer105.ProjectileDamage = 400
 	howitzer105.ProjectileSplashDamage = 250
 	howitzer105.ProjectileSplashDamageMaxRadius = 250
-	howitzer105.ProjectileSplashMaxForce = 500000
+	howitzer105.ProjectileSplashMaxForce = 300000
+	howitzer105.DisableShields = false
 	howitzer105.Effects.Impact = 
 	{
 		default = "mods/dlc2/effects/impact_paveway.lua",
+	}
+	howitzer105.DamageMultiplier =
+	{
+		{ SaveName = "shield", Direct = 0, Splash = 0.2 },
+		{ SaveName = "backbracing", Direct = 0, Splash = 0.4 },
+		{ SaveName = "sandbags", Direct = 0.5, Splash = 0.5 },
 	}
 	howitzer105.Projectile.Root.Sprite = path .. "/weapons/ac130/howitzer.png"
 	howitzer105.Projectile.Root.Scale = 0.75
