@@ -429,10 +429,10 @@ if f16 then
 			projectile = "sbpp_temp_sbpp_vulcan",
 			rotation = 0.0, 
 			distance = 25, 
-			speed = 6000,
-			count = 45, 
+			speed = 7000,
+			count = 60, 
 			period = 0.04, 
-			timer = 9, 
+			timer = 8, 
 			stddev = 0.03, 
 			effect = path .. "/effects/vulcan_fire.lua",
 			reload_effect = path .. "/effects/reload_gun.lua",
@@ -446,7 +446,7 @@ if f16 then
 			speed = 4000, 
 			count = 6, 
 			period = 0.2, 
-			timer = 16,
+			timer = 12,
 			stddev = 0.02,
 			effect = "mods/weapon_pack/effects/rocket_launch.lua",
 			reload_effect = path .. "/effects/reload_bomb.lua",
@@ -961,7 +961,23 @@ if apache then
 		MakeFlamingVersion("sbpp_hellfire", 1.33, 2.5, flamingTrail, 225, nil, rocketFlamingExpire)
 	end
 end
-
+local ah6 = DeepCopy(apache)
+if ah6 then
+	ah6.SaveName = "sbpp_littlebird"
+	ah6.AntiAirHitpoints = ah6.AntiAirHitpoints * 0.65
+	ah6.sb_planes.sprite = path .. "/effects/littlebird"
+	ah6.sb_planes.weapon1.projectile = "sbpp_temp_machinegun"
+	ah6.sb_planes.weapon1.speed = 8000
+	ah6.sb_planes.weapon1.count = 60
+	ah6.sb_planes.weapon1.period = 0.04
+	ah6.sb_planes.weapon1.perround = 2
+	ah6.ProjectileShootDownRadius = ah6.ProjectileShootDownRadius * 0.6
+	ah6.FieldRadius = ah6.FieldRadius * 0.6
+	ah6.sb_planes.weapon1.effect = path .. "/effects/m134_fire.lua"
+	ah6.sb_planes.weapon1.name = "M134 Minigun"
+	ah6.sb_planes.weapon3 = nil
+	table.insert(Projectiles, ah6)
+end
 local flare = DeepCopy(FindProjectile("machinegun"))
 if flare then
 	flare.SaveName = "sbpp_flare"

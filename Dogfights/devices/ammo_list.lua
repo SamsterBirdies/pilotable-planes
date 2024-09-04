@@ -130,3 +130,23 @@ table.insert(Devices, IndexOfDevice("ammo_nighthawk") + 1,
 		}
 	)
 )
+
+table.insert(Sprites, DetailSprite("hud-detail-sbpp_littlebird", "littlebird", path))
+table.insert(Sprites, ButtonSprite("hud-sbpp_littlebird-icon", "HUD/HUD-littlebird", nil, ButtonSpriteBottom, nil, nil, path))
+table.insert(Devices, IndexOfDevice("ammo_thunderbolt") + 1,
+	InheritType(FindDevice("ammo_nighthawk"),nil,
+		{	
+			SaveName = "ammo_sbpp_littlebird",
+			FileName = path .. "/devices/ammo_littlebird.lua",
+			dlc2_BuildQueue = "dlc2_runway",
+			Detail = "hud-detail-sbpp_littlebird",
+			Icon = "hud-sbpp_littlebird-icon",
+			MetalCost = 300,
+			EnergyCost = 6000,
+			Prerequisite = "munitions",
+			--Enabled = false,
+			BuildTimeComplete = 50,
+			ObserverBuildEvent = false,
+		}
+	)
+)

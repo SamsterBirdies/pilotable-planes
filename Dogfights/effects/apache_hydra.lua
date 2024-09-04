@@ -4,7 +4,7 @@ SoundEvent = "mods/dogfights/effects/launch"
 LaunchDelay = 0.2
 EffectVerticalOffset = 1
 EffectDepth = -100
-
+--[[
 Sprites =
 {
 	{
@@ -30,7 +30,7 @@ Sprites =
 			},
 		},
 	},
-}
+}]]
 Effects =
 {
 	{
