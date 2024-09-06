@@ -32,7 +32,11 @@ Sandstein, Public domain, via [Wikimedia Commons](https://commons.wikimedia.org/
 **AC-130:** Jetijones, [CC BY 3.0](https://creativecommons.org/licenses/by/3.0), via [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Lockheed_Martin_AC-130U_Line_Drawing.svg)
 MSgt Christopher Boitz, Public domain, via [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:AC-130_(5872).jpg)
 
+**AH-6 Little Bird:** FOX 52, [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0), via [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Boeing_MH-6_orthographical_image.svg)
+US Army, Public domain, via [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:MH-6_little-bird_arch._1994.jpg)
+
 **Apache:** (from birdies ammo mod).
+Robert D. Ward, Public domain, via [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:YAH-64_1982_01759-1_cr.jpg)
 
 ### Sounds:
 **Gatling sounds:** A-10 Thunderbolt ("Warthog") 30mm GAU cannon 2 by nicStage -- https://freesound.org/s/127729/ -- License: Attribution 4.0
@@ -44,6 +48,9 @@ A-10.ogg by qubodup -- https://freesound.org/s/205582/ -- License: Creative Comm
 Prop Plane by Mozfoo -- https://freesound.org/s/440163/ -- License: Creative Commons 0
 Double Prop plane by Mozfoo -- https://freesound.org/s/440164/ -- License: Creative Commons 0
 Grumman F6F Hellcat & Submarine Spitfire Mk XIV by Pole Position, [GDC Bundle License](https://sonniss.com/gdc-bundle-license/), via [Sonniss GameAudioGDC](https://sonniss.com/gameaudiogdc).
+LA Distant News Helicopter 01.wav by exilesound666 -- https://freesound.org/s/455879/ -- License: Creative Commons 0
+Powerful helicopter sound Bell 407 OK-ALB by bzamecnik -- https://freesound.org/s/348991/ -- License: Creative Commons 0
+Helicopter Rotor Loop.flac by qubodup -- https://freesound.org/s/187681/ -- License: Creative Commons 0
 
 **Gunshot sounds:** 220816 Gunshot, stage pistol, Soulpepper, R-07 by TRP -- https://freesound.org/s/717584/ -- License: Creative Commons 0
 AR15 pistol shot by michorvath -- https://freesound.org/s/427598/ -- License: Creative Commons 0
