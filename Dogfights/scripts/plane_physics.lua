@@ -1,19 +1,25 @@
 function ElevatorEasing(id)
 	local elevator = data.planes[tostring(id)].elevator
-	if data.planes[tostring(id)].elevator_target == 1 then
-		elevator = elevator + (6/fps)
+	local elevator_target = data.planes[tostring(id)].elevator_target
+	local easing_strength = 6
+	local uneasing_strength = 8
+	if elevator_target ~= elevator then
+		if elevator_target == 0 then
+			if elevator < 0 then elevator = elevator + (uneasing_strength/fps) end
+			if elevator > 0 then elevator = elevator - (uneasing_strength/fps) end
+			if elevator <= (uneasing_strength/fps) and elevator >= -(uneasing_strength/fps) then elevator = 0 end
+		elseif elevator_target > elevator then
+			elevator = elevator + (easing_strength/fps)
+			if elevator <= elevator_target + (easing_strength/fps) and elevator >= elevator_target - (easing_strength/fps) then elevator = elevator_target end
+		elseif elevator_target < elevator then
+			elevator = elevator - (easing_strength/fps)
+			if elevator <= elevator_target + (easing_strength/fps) and elevator >= elevator_target - (easing_strength/fps) then elevator = elevator_target end
+		end
+		
+		if elevator < -1 then elevator = -1 end
+		if elevator > 1 then elevator = 1 end
+		data.planes[tostring(id)].elevator = elevator
 	end
-	if data.planes[tostring(id)].elevator_target == -1 then
-		elevator = elevator - (6/fps)
-	end
-	if data.planes[tostring(id)].elevator_target == 0 then
-		if elevator < 0 then elevator = elevator + (8/fps) end
-		if elevator > 0 then elevator = elevator - (8/fps) end
-		if elevator < (8/fps) and elevator > -(8/fps) then elevator = 0 end
-	end
-	if elevator < -1 then elevator = -1 end
-	if elevator > 1 then elevator = 1 end
-	data.planes[tostring(id)].elevator = elevator
 end
 
 function UpdatePlanePhysics(id, saveName, teamId)

@@ -294,10 +294,18 @@ function UpdateControls(frame, id, saveName, teamId)
 		--elevators
 		local elevator_target = 0
 		if keys_held["right"] or keys_held[ElevatorUp] then
-			elevator_target = 1
+			if keys_held[PrecisionModifier] then
+				elevator_target = 0.3
+			else
+				elevator_target = 1
+			end
 		end
 		if keys_held["left"] or keys_held[ElevatorDown] then
-			elevator_target = -1
+			if keys_held[PrecisionModifier] then
+				elevator_target = -0.3
+			else
+				elevator_target = -1
+			end
 		end
 		--SendScriptEvent("ElevatorsTarget", SSEParams(user_control, elevator_target), "script.lua", true)
 		--throttle

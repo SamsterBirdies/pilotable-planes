@@ -1,5 +1,5 @@
 --written by Flinnshadow, thanks.
-PP_Keys = {"Fire1","Fire2","Fire3","ThrottleUp","ThrottleDown","ElevatorUp","ElevatorDown","SelectNext","SelectPrev", "CommanderAbility"}
+PP_Keys = {"Fire1","Fire2","Fire3","ThrottleUp","ThrottleDown","ElevatorUp","ElevatorDown","SelectNext","SelectPrev", "CommanderAbility", "PrecisionModifier"}
 Fire1 = " "
 Fire2 = "b"
 Fire3 = "n"
@@ -14,6 +14,7 @@ SelectPrev = "page down"
 Select = "mouse left"
 Deselect = "mouse right" --backspace, delete, 1-9 TODO: support for tables, mostly an issue of player input 
 CommanderAbility = "t"
+PrecisionModifier = "left shift"
 
 KeyChangeStorage = {}
 
