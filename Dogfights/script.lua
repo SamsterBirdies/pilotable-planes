@@ -124,6 +124,7 @@ function OnWeaponFired(teamId, saveName, weaponId, projectileNodeId, projectileN
 		}
 		planes_effects[tostring(projectileNodeId)] = {}
 		PlaneAddEffects(projectileNodeId)
+		HoverHeli(projectileNodeId)
    elseif saveName == "HardPointSubFlak" then
       SetNodeProjectileAgeTrigger(projectileNodeId, GetNormalFloat(0.1, 0.22,"HPF Age Offset"))--GetRandomFloat(0.18,0.32,"HPF Age Offset"))
    end

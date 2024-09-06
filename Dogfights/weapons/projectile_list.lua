@@ -966,6 +966,7 @@ if ah6 then
 	ah6.SaveName = "sbpp_littlebird"
 	ah6.AntiAirHitpoints = ah6.AntiAirHitpoints * 0.65
 	ah6.sb_planes.sprite = path .. "/effects/littlebird"
+	ah6.sb_planes.trail_effect = path .. "/effects/trail_heli_small"
 	ah6.sb_planes.weapon1.projectile = "sbpp_temp_machinegun"
 	ah6.sb_planes.weapon1.speed = 8000
 	ah6.sb_planes.weapon1.count = 60
