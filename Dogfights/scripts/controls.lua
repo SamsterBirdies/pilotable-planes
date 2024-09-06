@@ -121,15 +121,41 @@ function DropBombs(param)
 		SetMissileTarget(projectile_id, target)
 	end
 end
---[[
+
 function HoverHeli(id)
-	if data.planes[tostring(id)] then
-		data.planes[tostring(id)].angle = -DEG90
-		local mass = GetProjectileParamFloat(GetNodeProjectileSaveName(id), NodeTeam(id), "ProjectileMass", 1)
-		local thrust = GetProjectileParamFloat(GetNodeProjectileSaveName(id), NodeTeam(id), "sb_planes.thrust", 1)
-		data.planes[tostring(id)].throttle = (mass * 981) / thrust
+	--make heli stationary or maintain elevation when uncontrolled.
+	--check if craft exists and if its a helicopter
+	if data.planes[tostring(id)] and GetProjectileParamBool(GetNodeProjectileSaveName(id), NodeTeam(id), "sb_planes.helicopter", false) then
+		--turn off elevator sticking
+		ElevatorsTarget(id, 0)
+		Elevators(id, 0)
+		--snap angle to 0 if under 10 degrees
+		if data.planes[tostring(id)].angle < -DEG90 + 0.174 and data.planes[tostring(id)].angle > -DEG90 - 0.174 then
+			data.planes[tostring(id)].angle = -DEG90
+		end
+		--calculate nessecary throttle to maintain elevation
+		local savename = GetNodeProjectileSaveName(id)
+		local teamId = NodeTeam(id)
+		local mass = GetProjectileParamFloat(savename, teamId, "ProjectileMass", 1)
+		local thrust = GetProjectileParamFloat(savename, teamId, "sb_planes.thrust", 1)
+		local throttle_max = GetProjectileParamFloat(savename, teamId, "sb_planes.throttle_max", 1)
+		local throttle_min = GetProjectileParamFloat(savename, teamId, "sb_planes.throttle_min", 1)
+		--1: F = mg. 2: F/thrust = throttle. 3: throttle / sin(90 - angle) = throttle for hypotenuse. 
+		--(latter half of step 3 comes first to avoid division by zero)
+		local C_angle = math.sin(DEG90 - (data.planes[tostring(id)].angle + DEG90))
+		if C_angle <= 0 then 
+			C_angle = 0.001 
+		end
+		--keep throttle within min and max limit
+		local new_throttle = (mass * 981 / thrust) / C_angle
+		if new_throttle > throttle_max then 
+			new_throttle = throttle_max
+		elseif new_throttle < throttle_min then
+			new_throttle = throttle_min
+		end
+		data.planes[tostring(id)].throttle = new_throttle
 	end
-end]]
+end
 function ControlPlane(id)
 	if data.planes[tostring(id)].free then
 		SendScriptEvent("SetPlaneFree", SSEParams(user_control, true), "script.lua", true)
@@ -151,10 +177,12 @@ function OnKeyControls(key, down)
 	
 	--stop controlling plane
 	if key == "backspace" or key == "esc" or key == "mouse right" then
+		SendScriptEvent("HoverHeli", SSEParams(user_control), "script.lua", true)
 		ReleaseControl(user_control)
 	end
 	for i = 0, 9 do
 		if key == tostring(i) then
+			SendScriptEvent("HoverHeli", SSEParams(user_control), "script.lua", true)
 			ReleaseControl(user_control)
 			break
 		end
@@ -180,6 +208,7 @@ function OnKeyControls(key, down)
 				index = 1
 			end
 			if data.planes[tostring(user_control_available[index])].free then
+				SendScriptEvent("HoverHeli", SSEParams(user_control), "script.lua", true)
 				SendScriptEvent("SetPlaneFree", SSEParams(user_control, true), "script.lua", true)
 				user_control = user_control_available[index]
 				SendScriptEvent("SetPlaneFree", SSEParams(user_control, false), "script.lua", true)
@@ -206,6 +235,7 @@ function OnKeyControls(key, down)
 				index = #user_control_available
 			end
 			if data.planes[tostring(user_control_available[index])].free then
+				SendScriptEvent("HoverHeli", SSEParams(user_control), "script.lua", true)
 				SendScriptEvent("SetPlaneFree", SSEParams(user_control, true), "script.lua", true)
 				user_control = user_control_available[index]
 				SendScriptEvent("SetPlaneFree", SSEParams(user_control, false), "script.lua", true)

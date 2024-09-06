@@ -6,6 +6,7 @@ ShootableProjectile["sbpp_hellcat"] = true
 ShootableProjectile["sbpp_p51"] = true
 ShootableProjectile["sbpp_ac130"] = true
 ShootableProjectile["sbpp_apache"] = true
+ShootableProjectile["sbpp_littlebird"] = true
 ShootableProjectile["sbpp_hydra"] = true
 ShootableProjectile["sbpp_hellfire"] = true
 ShootableProjectile["sbpp_bomb250kg"] = true
@@ -13,7 +14,17 @@ ShootableProjectile["sbpp_howitzer105mm"] = true
 --107
 
 --key and value used.
-PlaneSaveNames = {["thunderbolt"]=-1000,["nighthawk"]=-1000,["sbpp_f16"]=-1200,["sbpp_Biplane"]=-851,["sbpp_hellcat"]=-809-100,["sbpp_p51"]=-838-100,["sbpp_ac130"]=-838-100,["sbpp_apache"]=-0-1000}
+PlaneSaveNames = {
+	["thunderbolt"]=-1000,
+	["nighthawk"]=-1000,
+	["sbpp_f16"]=-1200,
+	["sbpp_Biplane"]=-851,
+	["sbpp_hellcat"]=-809-100,
+	["sbpp_p51"]=-838-100,
+	["sbpp_ac130"]=-838-100,
+	["sbpp_apache"]=-0-1000,
+	["sbpp_littlebird"]=-0-1000,
+}
 --lift_strength = GetProjectileParamFloat(saveName, 2, "sb_planes.lift_multiplier", 4.3) elevator_strength = GetProjectileParamFloat(saveName, 2, "sb_planes.elevator", 70000)*-0.02
 --NOTE: this is fixed, therefor does not account for commander changes
 
@@ -28,6 +39,7 @@ ProjectileVisibleRanges = {
    ["sbpp_p51"] =       31000,
    ["sbpp_f16"] =       32000,
    ["sbpp_apache"] =    32000,
+   ["sbpp_littlebird"] =25000,
    ["sbpp_ac130"] =     37500,
 
  --Missiles
