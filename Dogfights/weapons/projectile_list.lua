@@ -278,7 +278,7 @@ if thunderbolt then
 			stddev = 0, 
 			effect = "mods/dlc2/effects/bomb_release.lua", 
 			reload_effect = path .. "/effects/reload_bomb.lua",
-			name = "GBU-39 Bombs",
+			name = "Mk82 Bombs",
 		},
 	}
 	sbpp_Firebeams('thunderbolt', 150, 400)

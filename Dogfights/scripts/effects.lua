@@ -139,18 +139,12 @@ function PlaneOnUpdateSprite()
 			if v.heading_left then
 				SetEffectPosition(v.sprite_right, Vec3(0, 2^30))
 				sprite_id = v.sprite_left
-				--BetterLog(sprite_id)
-				--Log('left')
 			else
 				SetEffectPosition(v.sprite_left, Vec3(0, 2^30))
 				sprite_id = v.sprite_right
-				--BetterLog(sprite_id)
-				--Log('right')
 			end
 			--interpolate sprite position
 			local vec_dist = SubtractVec(v.pos_now, v.pos_previous)
-			--BetterLog(v.pos_now)
-			--BetterLog(v.pos_previous)
 			local vec_dist_divided = SubtractVec(vec_dist, (MultiplyVec(vec_dist, frametime_left * 25)))
 			SetEffectPosition(sprite_id, AddVec(v.pos_previous, vec_dist_divided))
 			--interpolate sprite rotation

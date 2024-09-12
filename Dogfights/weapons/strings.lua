@@ -7,7 +7,7 @@ Merge(Device,
 	ammo_sbpp_f16Tip2 = L"Fires M61 Vulcan Rotary Cannon and AIM-9 Sidewinders.",
 	
 	ammo_thunderbolt = L"Thunderbolt",
-	ammo_thunderboltTip2 = L"Fires GAU-8 Avenger Autocannon and drops GBU-39 Bombs",
+	ammo_thunderboltTip2 = L"Fires GAU-8 Avenger Autocannon and drops Mk82 Bombs",
 	
 	ammo_nighthawk = L"Nighthawk",
 	
