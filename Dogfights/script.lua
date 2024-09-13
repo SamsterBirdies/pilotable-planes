@@ -127,6 +127,7 @@ function OnWeaponFired(teamId, saveName, weaponId, projectileNodeId, projectileN
 			elevator_target = 0,
 			free = true,
 			mouse_pos = Vec3(0,0),
+			mouse_direction = 0,
 			angle = -1.5708,
 		}
 		planes_effects[tostring(projectileNodeId)] = {}

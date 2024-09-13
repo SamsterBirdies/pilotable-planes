@@ -18,6 +18,7 @@ end
 function SetPlaneMouseTarget(id, value)
 	if data.planes[tostring(id)] then
 		data.planes[tostring(id)].mouse_pos = value
+		data.planes[tostring(id)].mouse_direction = value.x - NodePosition(id).x
 	end
 end
 function ScriptEventControls(id, value0, value1, value2)
@@ -88,7 +89,7 @@ function DropBombs(param)
 			angle = RadVec2Vec(position, mouse_pos)
 		end
 	elseif helicopter then
-		if position.x - (velocity.x * frametime * frames_per_tick) > data.planes[tostring(id)].mouse_pos.x then
+		if data.planes[tostring(id)].mouse_direction < 0 then
 			angle = data.planes[tostring(id)].angle - DEG90 - rotation
 		else
 			angle = data.planes[tostring(id)].angle + DEG90 + rotation
