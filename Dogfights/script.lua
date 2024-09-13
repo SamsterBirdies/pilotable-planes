@@ -17,6 +17,9 @@ onjoin = true --used for rejoining intialization
 planes_effects = {} --to keep track of effects on planes
 frametime = 1/25 --used for the camera
 previous_time = 0 --used for the camera
+camera_zoom_target = 0 --used for smoother camera zooming
+camera_zoom_min = 1
+camera_zoom_max = 25
 previous_game_time = 0 --used to calculate delta time
 delta = 0.016 --real delta unlike the fake one given in OnUpdate(). used for effects
 frametime_left = frametime --used for effect interpolation
@@ -26,6 +29,7 @@ environment = "environment/canyon"
 lang = "English"
 --init global gamestate
 fps = 25 --for correct timers and other calculations if the framerate is changed
+frames_per_tick = 4 --for SendScriptEvent timings.
 data.planes = {} -- planeid = {timers = {0,0,0}, throttle = 1, elevator = 0, free = true, mousepos = Vec3(0,0)}
 
 --mod organization
@@ -40,7 +44,10 @@ dofile(path .. "/scripts/plane_physics.lua")
 
 --events
 function Load()
+	camera_zoom_min = GetConstant("View.Limits.Zoom.Min")
+	camera_zoom_max = GetConstant("View.Limits.Zoom.Max")
 	fps = GetConstant("Physics.FramesRate")
+	frames_per_tick = GetConstant("Physics.FramesPerTick")
 	frametime = 1 / fps
 	LoadHUD()
 	GetLanguage()

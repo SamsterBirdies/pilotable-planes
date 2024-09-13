@@ -98,7 +98,7 @@ function PlaneHeadingLeft(id)
 		return planes_effects[tostring(id)].heading_left
 	end
 	--make heli face the direction that cursor is on
-	if planes_effects[tostring(id)].pos_now.x > data.planes[tostring(id)].mouse_pos.x then
+	if planes_effects[tostring(id)].pos_now.x - (NodeVelocity(id).x * frametime * frames_per_tick) > data.planes[tostring(id)].mouse_pos.x then
 		return true
 	else
 		return false

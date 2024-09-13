@@ -88,7 +88,7 @@ function DropBombs(param)
 			angle = RadVec2Vec(position, mouse_pos)
 		end
 	elseif helicopter then
-		if position.x > data.planes[tostring(id)].mouse_pos.x then
+		if position.x - (velocity.x * frametime * frames_per_tick) > data.planes[tostring(id)].mouse_pos.x then
 			angle = data.planes[tostring(id)].angle - DEG90 - rotation
 		else
 			angle = data.planes[tostring(id)].angle + DEG90 + rotation
@@ -167,6 +167,17 @@ function ControlPlane(id)
 	end
 end
 
+function PlaneWeapon(id, weapon, saveName, teamId)
+	if data.planes[tostring(id)].timers[weapon] == 0 then
+		local timer = GetProjectileParamFloat(saveName, teamId, "sb_planes.weapon"..tostring(weapon)..".timer", 10)
+		local fireCost = GetProjectileParamFloat(saveName, teamId, "sb_planes.weapon"..tostring(weapon)..".fire_cost_metal", 0)
+		local fireCostE = GetProjectileParamFloat(saveName, teamId, "sb_planes.weapon"..tostring(weapon)..".fire_cost_energy", 150)
+		SendScriptEvent("AddResources",SSEParams(teamId, Value(fireCost*-1,fireCostE*-1), false, Vec3()), "script.lua", true)
+		SendScriptEvent("DropBombsSchedule", SSEParams(id, weapon, GetProjectileClientId(id), timer), "script.lua", true)
+		data.planes[tostring(id)].timers[weapon] = timer
+	end
+end
+
 function OnKeyControls(key, down)
 	--record held keys
 	if down then
@@ -208,6 +219,7 @@ function OnKeyControls(key, down)
 				index = 1
 			end
 			if data.planes[tostring(user_control_available[index])].free then
+				camera_zoom_target = GetCameraZoom()
 				SendScriptEvent("HoverHeli", SSEParams(user_control), "script.lua", true)
 				SendScriptEvent("SetPlaneFree", SSEParams(user_control, true), "script.lua", true)
 				user_control = user_control_available[index]
@@ -235,6 +247,7 @@ function OnKeyControls(key, down)
 				index = #user_control_available
 			end
 			if data.planes[tostring(user_control_available[index])].free then
+				camera_zoom_target = GetCameraZoom()
 				SendScriptEvent("HoverHeli", SSEParams(user_control), "script.lua", true)
 				SendScriptEvent("SetPlaneFree", SSEParams(user_control, true), "script.lua", true)
 				user_control = user_control_available[index]
@@ -254,6 +267,7 @@ function OnKeyControls(key, down)
 			if math.abs(planepos.x - mousepos.x) < 200 and math.abs(planepos.y - mousepos.y) < 200 then
 				--if the plane is available then control it.
 				if data.planes[tostring(v)].free then
+					camera_zoom_target = GetCameraZoom()
 					SendScriptEvent("SetPlaneFree", SSEParams(user_control, true), "script.lua", true)
 					user_control = v
 					SendScriptEvent("SetPlaneFree", SSEParams(user_control, false), "script.lua", true)
@@ -272,13 +286,15 @@ function OnKeyControls(key, down)
 		--zoom scrolling
 		if key == "mouse wheel" then
 			if down then
-				CancelCameraMove()
-				SetNamedScreenByZoom("pilot", GetCameraFocus(), GetCameraZoom() + 1)
-				RestoreScreen("pilot", 0, 0, true)
-			else	
-				CancelCameraMove()
-				SetNamedScreenByZoom("pilot", GetCameraFocus(), GetCameraZoom() - 1)
-				RestoreScreen("pilot", 0, 0, true)
+				camera_zoom_target = camera_zoom_target + 1
+				if camera_zoom_target > camera_zoom_max then 
+					camera_zoom_target = camera_zoom_max 
+				end
+			else
+				camera_zoom_target = camera_zoom_target - 1
+				if camera_zoom_target < camera_zoom_min then 
+					camera_zoom_target = camera_zoom_min 
+				end
 			end
 		end
 		--suggestion to allow commander activation
@@ -307,7 +323,6 @@ function UpdateControls(frame, id, saveName, teamId)
 				elevator_target = -1
 			end
 		end
-		--SendScriptEvent("ElevatorsTarget", SSEParams(user_control, elevator_target), "script.lua", true)
 		--throttle
 		local throttle = 1
 		local throttle_min = GetProjectileParamFloat(saveName, teamId, "sb_planes.throttle_min", 0.5)
@@ -318,45 +333,22 @@ function UpdateControls(frame, id, saveName, teamId)
 		if keys_held["up"] or keys_held[ThrottleUp] then
 			throttle = throttle_max
 		end
-		--SendScriptEvent("Throttles", SSEParams(user_control, throttle), "script.lua", true)
 		--get mouse pos
 		local mouse_pos = ScreenToWorld(GetMousePos())
-		--SendScriptEvent("SetPlaneMouseTarget", SSEParams(user_control, mouse_pos), "script.lua", true)
 		SendScriptEvent("ScriptEventControls", SSEParams(user_control, elevator_target, throttle, mouse_pos), "script.lua", true)
 		
 		--weapons
-		--bombs
-		if keys_held[Fire2] then
-			if data.planes[tostring(user_control)].timers[2] == 0 then
-				local timer = GetProjectileParamFloat(saveName, teamId, "sb_planes.weapon2.timer", 15)
-            local fireCost = GetProjectileParamFloat(saveName, teamId, "sb_planes.weapon2.fire_cost_metal", 0)
-            local fireCostE = GetProjectileParamFloat(saveName, teamId, "sb_planes.weapon2.fire_cost_energy", 150)
-            SendScriptEvent("AddResources",SSEParams(teamId, Value(fireCost*-1,fireCostE*-1), false, Vec3()), "script.lua", true) -- don't want to put them into debt and don't want to prevent them from firing, only use what they have
-				SendScriptEvent("DropBombsSchedule", SSEParams(id, 2, GetProjectileClientId(id), timer), "script.lua", true)
-				data.planes[tostring(user_control)].timers[2] = timer
-			end
-		end
 		--gun
 		if keys_held[Fire1] then
-			if data.planes[tostring(user_control)].timers[1] == 0 then
-				local timer = GetProjectileParamFloat(saveName, teamId, "sb_planes.weapon1.timer", 1)
-            local fireCost = GetProjectileParamFloat(saveName, teamId, "sb_planes.weapon1.fire_cost_metal", 0)
-            local fireCostE = GetProjectileParamFloat(saveName, teamId, "sb_planes.weapon1.fire_cost_energy", 150)
-            SendScriptEvent("AddResources",SSEParams(teamId, Value(fireCost*-1,fireCostE*-1), false, Vec3()), "script.lua", true)
-				SendScriptEvent("DropBombsSchedule", SSEParams(id, 1, GetProjectileClientId(id), timer), "script.lua", true)
-				data.planes[tostring(user_control)].timers[1] = timer
-			end
+			PlaneWeapon(id, 1, saveName, teamId)
+		end
+		--bombs
+		if keys_held[Fire2] then
+			PlaneWeapon(id, 2, saveName, teamId)
 		end
 		--misc
 		if keys_held[Fire3] then
-			if data.planes[tostring(user_control)].timers[3] == 0 then
-				local timer = GetProjectileParamFloat(saveName, teamId, "sb_planes.weapon3.timer", 1)
-            local fireCost = GetProjectileParamFloat(saveName, teamId, "sb_planes.weapon3.fire_cost_metal", 0)
-            local fireCostE = GetProjectileParamFloat(saveName, teamId, "sb_planes.weapon3.fire_cost_energy", 150)
-            SendScriptEvent("AddResources",SSEParams(teamId, Value(fireCost*-1,fireCostE*-1), false, Vec3()), "script.lua", true)
-				SendScriptEvent("DropBombsSchedule", SSEParams(id, 3, GetProjectileClientId(id), timer), "script.lua", true)
-				data.planes[tostring(user_control)].timers[3] = timer
-			end
+			PlaneWeapon(id, 3, saveName, teamId)
 		end
 	end
 end
