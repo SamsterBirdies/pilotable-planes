@@ -20,6 +20,7 @@ previous_time = 0 --used for the camera
 camera_zoom_target = 0 --used for smoother camera zooming
 camera_zoom_min = 1
 camera_zoom_max = 25
+screen_max_y = 600 --max Y for hud and camera zooming
 previous_game_time = 0 --used to calculate delta time
 delta = 0.016 --real delta unlike the fake one given in OnUpdate(). used for effects
 frametime_left = frametime --used for effect interpolation
@@ -44,13 +45,18 @@ dofile(path .. "/scripts/plane_physics.lua")
 
 --events
 function Load()
-	camera_zoom_min = GetConstant("View.Limits.Zoom.Min")
-	camera_zoom_max = GetConstant("View.Limits.Zoom.Max")
+	--timings
 	fps = GetConstant("Physics.FramesRate")
 	frames_per_tick = GetConstant("Physics.FramesPerTick")
 	frametime = 1 / fps
+	--hud init
+	screen_max_y = GetMaxScreenY()
 	LoadHUD()
+	--max camera zoom
+	camera_zoom_max = GetCameraMaxZoom()
+	--localization
 	GetLanguage()
+	--keybind ui setup
 	if GetLocalTeamId() ~= -3 then --avoid adding ui for observers
 		ChangeKeybindsControlSetup()
 	end
@@ -70,15 +76,15 @@ function Update(frame)
 		camera_velocity = Vec3(0,0,0)
 	end
 	
-	--display control info
 	if frame == 1 then
+		--display log notice
 		Notice("")
 		Notice("")
 		Notice("")
 		LogW(STRINGS[lang].controls)
 		LogW(STRINGS[lang].controls2)
+		--get environment
 		environment = GetEnvironmentPath()
-		--Log(environment)
 	end
 	
 	--hud

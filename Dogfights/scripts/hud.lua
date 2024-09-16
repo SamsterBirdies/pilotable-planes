@@ -14,17 +14,43 @@ function ReleaseControl(id)
 	SetControlText("sbplanes_br", "gun3", "")
 	SetControlSpriteByParent("SB_PP_Root", "SB_PP_Pin", "ui/textures/Edit-A.png")
 end
+function GetMaxScreenY()
+	--Gets monitor aspect ratio. used for hud and camera stuff.
+	local screen_y_max = 600
+	for i = 1889, 150, -10 do
+		if IsPointVisible(ScreenToWorld(Vec3(1066, i)), "") then
+			screen_y_max = i
+			break
+		end
+	end
+	return screen_y_max
+end
+function GetCameraMaxZoom()
+	--max zoom set by constants
+	local constants_zoom_max = GetConstant("View.Limits.Zoom.Max")
+	--get aspect ratio
+	local screen_y_max = screen_max_y
+	--get map size
+	local world_extents = GetWorldExtents()
+	local world_width = world_extents.MaxX - world_extents.MinX
+	local world_height = world_extents.MaxY - world_extents.MinY
+	--return max zoom for map size
+	local max_zoom_width = world_width / 1066
+	local max_zoom_height = world_height / screen_y_max
+	return math.min(max_zoom_width, max_zoom_height, constants_zoom_max)
+end
 
 function LoadHUD()
 	local spacing = 20
-	AddTextControl("", "sbplanes_bl", "", ANCHOR_BOTTOM_LEFT, Vec3(10,590), false, "Normal")
+	local max_y = screen_max_y
+	AddTextControl("", "sbplanes_bl", "", ANCHOR_BOTTOM_LEFT, Vec3(10, max_y - 10), false, "Normal")
 	AddTextControl("sbplanes_bl", "speed", "", ANCHOR_BOTTOM_LEFT, Vec3(0, -0 * spacing), false, "Normal")
 	AddTextControl("sbplanes_bl", "altitude", "", ANCHOR_BOTTOM_LEFT, Vec3(0, -1 * spacing), false, "Normal")
 	AddTextControl("sbplanes_bl", "angle", "", ANCHOR_BOTTOM_LEFT, Vec3(0, -2 * spacing), false, "Normal")
 	AddSpriteControl("sbplanes_bl", "aim", path .. "/effects/media/aim_icon.dds", ANCHOR_BOTTOM_LEFT, Vec3(16,16), Vec3(35, -2 * spacing + 1.8), false)
 	SetControlColour("sbplanes_bl", "aim", Colour(255, 255, 255, 0))
 	
-	AddTextControl("", "sbplanes_br", "", ANCHOR_BOTTOM_RIGHT, Vec3(1050,590), false, "Normal")
+	AddTextControl("", "sbplanes_br", "", ANCHOR_BOTTOM_RIGHT, Vec3(1050, max_y - 10), false, "Normal")
 	AddTextControl("sbplanes_br", "gun1", "", ANCHOR_BOTTOM_RIGHT, Vec3(0, -2 * spacing), false, "Normal")
 	AddTextControl("sbplanes_br", "gun2", "", ANCHOR_BOTTOM_RIGHT, Vec3(0, -1 * spacing), false, "Normal")
 	AddTextControl("sbplanes_br", "gun3", "", ANCHOR_BOTTOM_RIGHT, Vec3(0, -0 * spacing), false, "Normal")
