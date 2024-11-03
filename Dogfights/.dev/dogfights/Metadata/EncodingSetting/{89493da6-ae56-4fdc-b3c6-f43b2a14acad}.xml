@@ -7,6 +7,9 @@
 		<property name="quality">
 			<value>37</value>
 		</property>
+		<property name="sampleRateMode">
+			<value>1</value>
+		</property>
 		<property name="loadingMode">
 			<value>2</value>
 		</property>
