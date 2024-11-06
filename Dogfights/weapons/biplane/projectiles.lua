@@ -4,7 +4,7 @@ if sbFlechetteP1 then
 	sbFlechetteP1.ExpiresOnFreeFall = false
 	sbFlechetteP1.CollidesWithProjectiles = false
 	sbFlechetteP1.ProjectileSpriteMipMap = true
-	sbFlechetteP1.ProjectileSprite = path .. "/weapons/biplane/flechette.png"
+	sbFlechetteP1.ProjectileSprite = path .. "/weapons/projectiles/flechette.png"
 	sbFlechetteP1.Effects = { Age = {t300 = { Effect = nil, Projectile = { Count = 4, Type = "sbpp_FlechetteP2", StdDev = 0.1 }, Offset = 0, Terminate = true, Splash = false} }}
 	local sbFlechetteP2 = DeepCopy(FindProjectile("machinegun"))
 	sbFlechetteP2.SaveName = "sbpp_FlechetteP2"
@@ -14,7 +14,7 @@ if sbFlechetteP1 then
 	sbFlechetteP2.ProjectileDrag = 0
 	sbFlechetteP2.WeaponDamageBonus = 0
 	sbFlechetteP2.ProjectileSpriteMipMap = true
-	sbFlechetteP2.ProjectileSprite = path .. "/weapons/biplane/flechette.png"
+	sbFlechetteP2.ProjectileSprite = path .. "/weapons/projectiles/flechette.png"
 	sbFlechetteP2.ExpiresOnFreeFall = false
 	sbFlechetteP2.ProjectileDamage = 4
 	sbFlechetteP2.AntiAirHitpoints = 1
@@ -55,7 +55,7 @@ if grenades then
 		{
 			Name = "Root",
 			Angle = 0,
-			Sprite = path .. "/weapons/biplane/grenade.png",
+			Sprite = path .. "/weapons/projectiles/grenade.png",
 		}
 	}
 	grenades.TrailEffect = "effects/swarm_trail.lua"
@@ -108,6 +108,7 @@ if sbpp_bi then
 					Name = "Propeller",
 					Angle = 0,
 					Sprite = "sbpp_BiProp",
+					Pivot = {0.465625, -0.11914},
 				},
 			},
 		}

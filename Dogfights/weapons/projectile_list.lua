@@ -476,7 +476,7 @@ if sidewinder then
 		{
 			Name = "Root",
 			Angle = 0,
-			Sprite = path .. "/weapons/f16/sidewinder.png",
+			Sprite = path .. "/weapons/projectiles/sidewinder.png",
 			PivotOffset = {0, 0},
 			Scale = 1.0,
 			ChildrenInFront =
@@ -551,7 +551,7 @@ if p51 then
 					Angle = 0,
 					Sprite = "sbpp_p51_prop",
 					PivotOffset = {0,0},
-					Pivot = {0,0},
+					Pivot = {0.43359375, 0.013020834},
 				}
 			}
 		}
@@ -606,6 +606,7 @@ local hellcat = DeepCopy(p51)
 if hellcat then
 	hellcat.SaveName = "sbpp_hellcat"
 	hellcat.Projectile.Root.Sprite = path .. "/weapons/hellcat/hellcat.png"
+	hellcat.Projectile.Root.ChildrenInFront[1].Pivot = {0.4296875, -0.02604167} 
 	hellcat.AntiAirHitpoints = hellcat.AntiAirHitpoints * 1.4-- * 1.5
 	hellcat.sb_planes.thrust = 11000
 	hellcat.sb_planes.elevator = 29000
@@ -635,7 +636,7 @@ if bomb250kg then
 		{
 			Name = "Root",
 			Angle = 0,
-			Sprite = path .. "/weapons/hellcat/bomb.png",
+			Sprite = path .. "/weapons/projectiles/bomb.png",
 			PivotOffset = {0, 0},
 			Scale = 1.5,
 		}
@@ -672,7 +673,7 @@ if ac130 then
 			Angle = -90,
 			Sprite = path .. "/weapons/ac130/ac130.png",
 			PivotOffset = {0, 0},
-			Scale = 2.0,
+			Scale = 2,
 			ChildrenInFront =
 			{	
 				{
@@ -680,7 +681,7 @@ if ac130 then
 					Angle = 0,
 					Sprite = "sbpp_ac130_prop",
 					PivotOffset = {0,0},
-					Pivot = {0,0},
+					Pivot = {0.1982421875, 0.005859375},
 				}
 			}
 		}
@@ -814,8 +815,8 @@ if howitzer105 then
 		{ SaveName = "backbracing", Direct = 0, Splash = 0.4 },
 		{ SaveName = "sandbags", Direct = 0.5, Splash = 0.5 },
 	}
-	howitzer105.Projectile.Root.Sprite = path .. "/weapons/ac130/howitzer.png"
-	howitzer105.Projectile.Root.Scale = 0.75
+	howitzer105.Projectile.Root.Sprite = path .. "/weapons/projectiles/howitzer.png"
+	howitzer105.Projectile.Root.Scale = 1.5
 	howitzer105.ProjectileShootDownRadius = 15
 	howitzer105.AntiAirHitpoints = 60 * 1.5
 	howitzer105.TrailEffect = "effects/cannon_trail.lua"
@@ -929,7 +930,7 @@ if apache then
 		sbApacheHydra.ProjectileSplashDamage = 35
 		sbApacheHydra.AntiAirDamage = 70
 		sbApacheHydra.ProjectileSplashDamageMaxRadius = 160
-		sbApacheHydra.Projectile.Root.Sprite = path .. "/weapons/apache/hydra.png"
+		sbApacheHydra.Projectile.Root.Sprite = path .. "/weapons/projectiles/hydra.png"
 		sbApacheHydra.Projectile.Root.Scale = 0.75
 		--sbApacheHydra.Effects = DeepCopy(FindProjectile("bomb").Effects)
 		table.insert(Projectiles, sbApacheHydra)
@@ -952,7 +953,7 @@ if apache then
 		sbApacheHellfire.ProjectileSplashDamage = 200
 		sbApacheHellfire.AntiAirDamage = 200
 		sbApacheHellfire.AntiAirHitpoints = 16
-		sbApacheHellfire.Projectile.Root.Sprite = path .. "/weapons/apache/hellfire.png"
+		sbApacheHellfire.Projectile.Root.Sprite = path .. "/weapons/projectiles/hellfire.png"
 		sbApacheHellfire.Projectile.Root.ChildrenInFront[1].Pivot = {0, 0.5}
 		if FindProjectile("paveway") then
 			sbApacheHellfire.Effects = DeepCopy(FindProjectile("paveway").Effects)
