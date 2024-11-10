@@ -280,6 +280,21 @@ if thunderbolt then
 			reload_effect = path .. "/effects/reload_bomb.lua",
 			name = "Mk82 Bombs",
 		},
+		weapon3 =
+		{
+			projectile = "sbpp_flare",
+			rotation = 0.0,
+			distance = 25,
+			speed = 6500,
+			count = 6,
+			period = 0.24,
+			perround = 4,
+			timer = 20,
+			stddev = 3,
+			effect = path .. "/effects/flare_launch.lua",
+			reload_effect = path .. "/effects/reload_bomb.lua",
+			name = "Flares",
+		}
 	}
 	sbpp_Firebeams('thunderbolt', 150, 400)
 end
@@ -452,6 +467,21 @@ if f16 then
 			reload_effect = path .. "/effects/reload_bomb.lua",
 			name = "Sidewinders",
 		},
+		weapon3 =
+		{
+			projectile = "sbpp_flare",
+			rotation = 0.0,
+			distance = 25,
+			speed = 6500,
+			count = 8,
+			period = 0.24,
+			perround = 3,
+			timer = 16,
+			stddev = 4,
+			effect = path .. "/effects/flare_launch.lua",
+			reload_effect = path .. "/effects/reload_bomb.lua",
+			name = "Flares",
+		}
 	}
 	table.insert(Projectiles, f16)
 	MakeFlamingVersion("sbpp_f16", 1.33, 10, flamingTrail, 100, nil, genericFlamingExpire)
@@ -469,6 +499,7 @@ if sidewinder then
 	sidewinder.DrawBlurredProjectile = false
 	sidewinder.AntiAirHitpoints = 11
 	sidewinder.AntiAirDamage = 150
+	sidewinder.ProjectileShootDownRadius = 125
 	sidewinder.Gravity = 1
 	sidewinder.Projectile =
 	{
@@ -511,6 +542,7 @@ if vulcan then
 	vulcan.AntiAirHitpoints = 6
 	vulcan.AntiAirDamage = 20
 	vulcan.TrailEffect = nil
+	vulcan.ProjectileShootDownRadius = 50
 	table.insert(Projectiles, vulcan)
 	MakeFlamingVersion("sbpp_vulcan", 1.33, 0.24, flamingTrail, 150, nil, genericFlamingExpire)
 end
@@ -977,15 +1009,71 @@ if ah6 then
 	ah6.FieldRadius = ah6.FieldRadius * 0.6
 	ah6.sb_planes.weapon1.effect = path .. "/effects/m134_fire.lua"
 	ah6.sb_planes.weapon1.name = "M134 Minigun"
-	ah6.sb_planes.weapon3 = nil
+	ah6.sb_planes.weapon3 =
+	{
+		projectile = "sbpp_flare",
+		rotation = 0.0,
+		distance = 25,
+		speed = 6000,
+		count = 4,
+		period = 0.24,
+		perround = 3,
+		timer = 20,
+		stddev = 3,
+		effect = path .. "/effects/flare_launch.lua",
+		reload_effect = path .. "/effects/reload_bomb.lua",
+		name = "Flares",
+	}
 	table.insert(Projectiles, ah6)
 end
+table.insert(Sprites,
+{
+	Name = "sbpp_bloom_flare",
+	States =
+	{
+		Normal = { Frames = 
+		{ 
+			{ texture = path .. "/effects/media/bloom1.png" , colour = { 0.85, 0.80, 0.4, 0.4 },},
+			{ texture = path .. "/effects/media/bloom1.png" , colour = { 0.9, 0.85, 0.3, 0.3 },},
+			{ texture = path .. "/effects/media/bloom1.png" , colour = { 1, 0.85, 0.2, 0.2 },},
+			{ texture = path .. "/effects/media/bloom1.png" , colour = { 0.9, 0.82, 0.35, 0.3 },},
+			duration = 0.04,
+			NextState = "Normal",
+		},},
+	},
+})
 local flare = DeepCopy(FindProjectile("machinegun"))
 if flare then
 	flare.SaveName = "sbpp_flare"
 	flare.CollidesWithProjectiles = false
 	flare.CollidesWithBeams = false
 	flare.ProjectileIncendiary = true
+	flare.ProjectileType = "mortar"
+	flare.TrailEffect = path .. "/effects/trail_flare.lua"
+	flare.ProjectileSprite = nil --path .. "/weapons/projectiles/flare"
+	flare.Projectile =
+	{
+		Root =
+		{
+			Name = "Root",
+			Angle = 0,
+			Sprite = path .. "/weapons/projectiles/flare",
+			PivotOffset = {0, 0},
+			Scale = 1.5,
+			ChildrenInFront =
+			{
+				{
+					Sprite = "sbpp_bloom_flare",
+					Additive = true,
+					Scale = 3,
+				}
+			}
+		}
+	}
+	flare.ProjectileThickness = flare.ProjectileThickness * 4
+	flare.DrawBlurredProjectile = false
+	flare.MinAge = 3
+	flare.ProjectileDrag = 0.2
 	table.insert(Projectiles, flare)
 end
 

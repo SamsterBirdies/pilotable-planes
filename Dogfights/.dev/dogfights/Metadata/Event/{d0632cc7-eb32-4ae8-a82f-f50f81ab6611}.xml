@@ -382,7 +382,7 @@
 			<value>10000</value>
 		</property>
 		<property name="value">
-			<value>-3</value>
+			<value>0</value>
 		</property>
 	</object>
 	<object class="AutomationPoint" id="{08650d02-7ffd-45e8-9f55-573b5a09aeb4}">

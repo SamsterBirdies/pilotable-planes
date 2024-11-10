@@ -11,6 +11,7 @@ ShootableProjectile["sbpp_hydra"] = true
 ShootableProjectile["sbpp_hellfire"] = true
 ShootableProjectile["sbpp_bomb250kg"] = true
 ShootableProjectile["sbpp_howitzer105mm"] = true
+ShootableProjectile["sbpp_flare"] = true
 --107
 
 --key and value used.
