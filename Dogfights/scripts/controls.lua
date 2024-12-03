@@ -47,6 +47,7 @@ function DropBombsSchedule(id, weapon, clientId, timer)
 		end
 	end
 	data.planes[tostring(id)].timers[weapon] = timer
+	data.planes[tostring(id)].timers[weapon + 6] = data.planes[tostring(id)].timers[weapon + 6] - 1
 end
 function SetPlaneFree(id, bool)
 	if type(data.planes[tostring(id)]) == "table" then
@@ -169,7 +170,7 @@ function ControlPlane(id)
 end
 
 function PlaneWeapon(id, weapon, saveName, teamId)
-	if data.planes[tostring(id)].timers[weapon] == 0 then
+	if data.planes[tostring(id)].timers[weapon] == 0 and data.planes[tostring(id)].timers[weapon + 6] > 0 then
 		local timer = GetProjectileParamFloat(saveName, teamId, "sb_planes.weapon"..tostring(weapon)..".timer", 10)
 		local fireCost = GetProjectileParamFloat(saveName, teamId, "sb_planes.weapon"..tostring(weapon)..".fire_cost_metal", 0)
 		local fireCostE = GetProjectileParamFloat(saveName, teamId, "sb_planes.weapon"..tostring(weapon)..".fire_cost_energy", 150)

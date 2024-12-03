@@ -95,6 +95,7 @@ function Update(frame)
 		local id = tonumber(k)
 		local saveName = GetNodeProjectileSaveName(id)
 		local teamId = NodeTeam(id)
+		local planetimers = data.planes[k].timers
 		--plane controls
 		UpdateControls(frame, id, saveName, teamId)
 		--update plane weapon timers
@@ -103,12 +104,28 @@ function Update(frame)
 			if vv > 0 and vv <= (1/fps) then
 				ReloadEffect(id, saveName, kk)
 			end
-			--countdown to 0
-			if vv >= (1/fps) then
-				data.planes[k].timers[kk] = vv - (1/fps)
-			else
-				data.planes[k].timers[kk] = 0
+			--countdown to 0. Do not ask me how this works, it just does.
+			if kk < 4 
+			or kk < 7 and planetimers[kk - 3] == 0 and planetimers[kk + 3] < data.planes[k].timers_max[kk + 3] 
+			or kk < 7 and planetimers[kk + 3] == 0 
+			then
+				if vv >= (1/fps) then
+					planetimers[kk] = vv - (1/fps)
+				else
+					planetimers[kk] = 0
+				end
+				if kk > 3 and kk < 7 and planetimers[kk + 3] == 0 then
+					if planetimers[kk - 3] < planetimers[kk] then
+						planetimers[kk - 3] = planetimers[kk]
+					end
+				end
 			end
+			--bank
+			if kk < 4 and planetimers[kk] == 0 and planetimers[kk + 3] == 0 and planetimers[kk + 6] < data.planes[k].timers_max[kk + 6] then
+				planetimers[kk + 6] = planetimers[kk + 6] + 1
+				planetimers[kk + 3] = data.planes[k].timers_max[kk + 3]
+			end
+				
 		end
 		--plane physics
 		UpdatePlanePhysics(id, saveName, teamId)
@@ -120,14 +137,16 @@ function Update(frame)
 end
 
 function OnWeaponFired(teamId, saveName, weaponId, projectileNodeId, projectileNodeIdFrom)
-	if saveName == "runway" or saveName == "runway2" then
+	if projectileNodeIdFrom == 0 and GetProjectileParamFloat(GetNodeProjectileSaveName(projectileNodeId), teamId, "sb_planes.elevator", 0) > 0 then
+		local planename = GetNodeProjectileSaveName(projectileNodeId)
 		--set the user control if its the first plane fired
 		if GetLocalTeamId() == teamId then
 			table.insert(user_control_available, projectileNodeId)
 		end
 		data.planes[tostring(projectileNodeId)] =
 		{
-			timers = {0,0,0},
+			timers = {0,0,0,0,0,0,0,0,0}, --reload timer 1,2,3. bank timer 4,5,6. bank count 7,8,9.
+			timers_max = {0,0,0,0,0,0,0,0,0},
 			throttle = 1,
 			elevator = 0,
 			elevator_target = 0,
@@ -136,6 +155,27 @@ function OnWeaponFired(teamId, saveName, weaponId, projectileNodeId, projectileN
 			mouse_direction = 0,
 			angle = -1.5708,
 		}
+		local projectileNodeId_str = tostring(projectileNodeId)
+		--create max table
+		data.planes[projectileNodeId_str].timers_max[1] = GetProjectileParamFloat(planename, teamId, "sb_planes.weapon1.timer", 10)
+		data.planes[projectileNodeId_str].timers_max[2] = GetProjectileParamFloat(planename, teamId, "sb_planes.weapon2.timer", 10)
+		data.planes[projectileNodeId_str].timers_max[3] = GetProjectileParamFloat(planename, teamId, "sb_planes.weapon3.timer", 10)
+		data.planes[projectileNodeId_str].timers_max[4] = GetProjectileParamFloat(planename, teamId, "sb_planes.weapon1.bank_timer", -1)
+		data.planes[projectileNodeId_str].timers_max[5] = GetProjectileParamFloat(planename, teamId, "sb_planes.weapon2.bank_timer", -1)
+		data.planes[projectileNodeId_str].timers_max[6] = GetProjectileParamFloat(planename, teamId, "sb_planes.weapon3.bank_timer", -1)
+		if data.planes[projectileNodeId_str].timers_max[4] == -1 then data.planes[projectileNodeId_str].timers_max[4] = data.planes[projectileNodeId_str].timers_max[1] end
+		if data.planes[projectileNodeId_str].timers_max[5] == -1 then data.planes[projectileNodeId_str].timers_max[5] = data.planes[projectileNodeId_str].timers_max[2] end
+		if data.planes[projectileNodeId_str].timers_max[6] == -1 then data.planes[projectileNodeId_str].timers_max[6] = data.planes[projectileNodeId_str].timers_max[3] end
+		data.planes[projectileNodeId_str].timers_max[7] = GetProjectileParamFloat(planename, teamId, "sb_planes.weapon1.bank_max", 1)
+		data.planes[projectileNodeId_str].timers_max[8] = GetProjectileParamFloat(planename, teamId, "sb_planes.weapon2.bank_max", 1)
+		data.planes[projectileNodeId_str].timers_max[9] = GetProjectileParamFloat(planename, teamId, "sb_planes.weapon3.bank_max", 1)
+		--set initial timers
+		data.planes[projectileNodeId_str].timers[4] = data.planes[projectileNodeId_str].timers_max[4]
+		data.planes[projectileNodeId_str].timers[5] = data.planes[projectileNodeId_str].timers_max[5]
+		data.planes[projectileNodeId_str].timers[6] = data.planes[projectileNodeId_str].timers_max[6]
+		data.planes[projectileNodeId_str].timers[7] = GetProjectileParamFloat(planename, teamId, "sb_planes.weapon1.bank_start", 1)
+		data.planes[projectileNodeId_str].timers[8] = GetProjectileParamFloat(planename, teamId, "sb_planes.weapon2.bank_start", 1)
+		data.planes[projectileNodeId_str].timers[9] = GetProjectileParamFloat(planename, teamId, "sb_planes.weapon3.bank_start", 1)
 		planes_effects[tostring(projectileNodeId)] = {}
 		PlaneAddEffects(projectileNodeId)
 		HoverHeli(projectileNodeId)
