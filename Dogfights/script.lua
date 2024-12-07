@@ -28,6 +28,7 @@ camera_pos = Vec3(0,0,0) --used for doppler
 camera_velocity = Vec3(0,0,0)
 environment = "environment/canyon"
 lang = "English"
+hud_open = false --saves some performance by only setting up the hud once upon opening.
 --init global gamestate
 fps = 25 --for correct timers and other calculations if the framerate is changed
 frames_per_tick = 4 --for SendScriptEvent timings.
