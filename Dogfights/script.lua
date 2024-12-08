@@ -29,6 +29,7 @@ camera_velocity = Vec3(0,0,0)
 environment = "environment/canyon"
 lang = "English"
 hud_open = false --saves some performance by only setting up the hud once upon opening.
+heli_effect = true --turns off heli wind effect when too many helis to save performance. fun for long burst.
 --init global gamestate
 fps = 25 --for correct timers and other calculations if the framerate is changed
 frames_per_tick = 4 --for SendScriptEvent timings.
@@ -63,7 +64,18 @@ function Load()
 	end
 end
 
+function OnRestart()
+	ReleaseControl(user_control)
+	hud_open = false
+	planes_effects = {}
+	data.planes = {}
+	user_control = 0
+	user_control_available = {}
+	keys_held = {}
+end
+
 function Update(frame)
+	
 	--calculate frame time
 	frametime = math.min(GetRealTime() - previous_time, 2.56) --2.56 = 0.04 * 64, slowest possible speed.
 	previous_time = GetRealTime()
@@ -92,7 +104,9 @@ function Update(frame)
 	UpdateHUD(frame)
 	
 	--update planes
+	local plane_count = 0
 	for k, v in pairs(data.planes) do
+		plane_count = plane_count + 1
 		local id = tonumber(k)
 		local saveName = GetNodeProjectileSaveName(id)
 		local teamId = NodeTeam(id)
@@ -133,6 +147,12 @@ function Update(frame)
 		UpdateHeliPhysics(id, saveName, teamId)
 		--effect trails
 		PlaneUpdateTrail(id, data.planes[tostring(id)].throttle)
+	end
+	--turn off heli wind effect when many planes to save performance
+	if plane_count > 24 then
+		heli_effect = false
+	else
+		heli_effect = true
 	end
 	PlaneUpdateSprite()
 end

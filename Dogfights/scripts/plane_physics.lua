@@ -87,11 +87,8 @@ function UpdateHeliPhysics(id, saveName, teamId)
 	local thrust_vector = MultiplyVec(Rad2Vec(angle), thrust_value * throttle)
 	dlc2_ApplyForce(id, thrust_vector)
 	--do wind
-	--first test if near structure, otherwise no point in making wind
-	--local position = NodePosition(id)
-	--local vec_diff = SubtractVec(NodePosition(FindNodeOnStructure(position, 0, false)), position)
-	--if math.abs(vec_diff.x) > 3000 or math.abs(vec_diff.y) > 5000 then return end
-	--spawn wind if near structure
-	local wind_angle = GetNormalFloat(0.35, angle, 'wind')
-	dlc2_CreateProjectile("sbpp_heliwind", "helicopter", teamId, NodePosition(id), MultiplyVec(Rad2Vec(wind_angle), -3000), 0.75)
+	if heli_effect then
+		local wind_angle = GetNormalFloat(0.35, angle, 'wind')
+		dlc2_CreateProjectile("sbpp_heliwind", "helicopter", teamId, NodePosition(id), MultiplyVec(Rad2Vec(wind_angle), -3000), 0.75)
+	end
 end
