@@ -241,6 +241,8 @@ if thunderbolt then
 	thunderbolt.ExplodeOnTouch = false
 	thunderbolt.CanBeShotDown = true
 	thunderbolt.AntiAirHitpoints = thunderbolt.AntiAirHitpoints * 1.2-- * 1.5
+	--thunderbolt.MaxAgeUnderwater = 999
+	--thunderbolt.UnderwaterFadeDuration = 999
 	thunderbolt.sb_planes =
 	{
 		elevator = 50000,
@@ -250,6 +252,7 @@ if thunderbolt then
 		lift_multiplier = 4.3,
 		lift_max_speed = 3700,
 		advanced_physics = true,
+		--submarine = true,
 		trail_effect = path .. "/effects/trail_jet",
 		RCS = 10,
 		weapon1 = 
@@ -909,6 +912,8 @@ if apache then
 	apache.AntiAirHitpoints = apache.AntiAirHitpoints * 1.5
 	apache.ExplodeOnTouch = true
 	apache.ProjectileAgeTrigger = false
+	--apache.MaxAgeUnderwater = 999
+	--apache.UnderwaterFadeDuration = 999
 	apache.sb_planes =
 	{
 		elevator = 2,
@@ -916,6 +921,7 @@ if apache then
 		throttle_min = 0.8,
 		throttle_max = 1.2,
 		helicopter = true,
+		--submarine = true,
 		sprite = path .. "/effects/apache",
 		trail_effect = path .. "/effects/trail_heli",
 		RCS = 5,

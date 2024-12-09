@@ -25,6 +25,8 @@ end
 function UpdatePlanePhysics(id, saveName, teamId)
 	--test if helicopter and end
 	if GetProjectileParamBool(saveName, teamId, "sb_planes.helicopter", false) then return end
+	--test if submarine and if under depth
+	if GetProjectileParamBool(saveName, teamId, "sb_planes.submarine", false) and GetWaterDepthAt(NodePosition(id)) < 50 then return end
 	--velocity
 	local velocity = NodeVelocity(id)
 	local speed = math.sqrt(velocity.x ^ 2 + velocity.y ^ 2)
@@ -74,6 +76,8 @@ end
 function UpdateHeliPhysics(id, saveName, teamId)
 	--test if not helicopter and end
 	if not GetProjectileParamBool(saveName, teamId, "sb_planes.helicopter", false) then return end
+	--test if submarine and if under depth
+	if GetProjectileParamBool(saveName, teamId, "sb_planes.submarine", false) and GetWaterDepthAt(NodePosition(id)) < 50 then return end
 	--gather values
 	local thrust_value = GetProjectileParamFloat(saveName, teamId, "sb_planes.thrust", 50000)
 	local throttle = data.planes[tostring(id)].throttle
