@@ -13,7 +13,6 @@ keys_held = {} --"key" = true
 
 --init local effects
 onjoin = true --used for rejoining intialization
---planes_trails = {} --to display trails, deprecated
 planes_effects = {} --to keep track of effects on planes
 frametime = 1/25 --used for the camera
 previous_time = 0 --used for the camera
@@ -29,11 +28,12 @@ camera_velocity = Vec3(0,0,0)
 environment = "environment/canyon"
 lang = "English"
 hud_open = false --saves some performance by only setting up the hud once upon opening.
-heli_effect = true --turns off heli wind effect when too many helis to save performance. fun for long burst.
+
 --init global gamestate
 fps = 25 --for correct timers and other calculations if the framerate is changed
 frames_per_tick = 4 --for SendScriptEvent timings.
 data.planes = {} -- planeid = {timers = {0,0,0}, throttle = 1, elevator = 0, free = true, mousepos = Vec3(0,0)}
+heli_effect = true --turns off heli wind effect when too many helis to save performance. fun for long burst.
 
 --mod organization
 dofile(path .. "/scripts/math.lua")
@@ -65,6 +65,7 @@ function Load()
 end
 
 function OnRestart()
+	--reset values
 	ReleaseControl(user_control)
 	hud_open = false
 	planes_effects = {}
@@ -197,12 +198,14 @@ function OnWeaponFired(teamId, saveName, weaponId, projectileNodeId, projectileN
 		data.planes[projectileNodeId_str].timers[7] = GetProjectileParamFloat(planename, teamId, "sb_planes.weapon1.bank_start", 1)
 		data.planes[projectileNodeId_str].timers[8] = GetProjectileParamFloat(planename, teamId, "sb_planes.weapon2.bank_start", 1)
 		data.planes[projectileNodeId_str].timers[9] = GetProjectileParamFloat(planename, teamId, "sb_planes.weapon3.bank_start", 1)
+		--etc init
 		planes_effects[tostring(projectileNodeId)] = {}
 		PlaneAddEffects(projectileNodeId)
 		HoverHeli(projectileNodeId)
-   elseif saveName == "HardPointSubFlak" then
-      SetNodeProjectileAgeTrigger(projectileNodeId, GetNormalFloat(0.1, 0.22,"HPF Age Offset"))--GetRandomFloat(0.18,0.32,"HPF Age Offset"))
-   end
+	end
+	if saveName == "HardPointSubFlak" then
+		SetNodeProjectileAgeTrigger(projectileNodeId, GetNormalFloat(0.1, 0.22,"HPF Age Offset"))--GetRandomFloat(0.18,0.32,"HPF Age Offset"))
+	end
 end
 
 function OnProjectileDestroyed(nodeId, teamId, saveName, structureIdHit, destroyType)
@@ -223,32 +226,7 @@ function OnProjectileDestroyed(nodeId, teamId, saveName, structureIdHit, destroy
 		PlaneRemoveEffects(nodeId)
 	end
 end
---[[
-LocalPortalFatigueIterator = 0
-LocalPortalFatigueOverHeat = 0
-function OnPortalUsed(nodeA, nodeB, nodeADest, nodeBDest, objectTeamId, objectId, isBeam)
-   if objectId == user_control then
-      AddSpriteControl("sbplanes", "PortalFatigue"..LocalPortalFatigueIterator, path.."/effects/media/Portal.png", 0,
-      Vec3(GetRandomIntegerLocal(1200, 1500),GetRandomIntegerLocal(750, 1300)), --size
-      Vec3(GetRandomIntegerLocal(-200, -10),GetRandomIntegerLocal(-200, -10)), --pos
-      false)
-      ScheduleCall(6,RemovePortalFatigue,LocalPortalFatigueIterator)
-      LocalPortalFatigueIterator = LocalPortalFatigueIterator + 1
-      LocalPortalFatigueOverHeat = LocalPortalFatigueOverHeat + 1
-      if LocalPortalFatigueOverHeat > GetRandomIntegerLocal(6,18) then
-         LocalPortalFatigueOverHeat = 0
-         ScheduleCall(12+GetNormalFloatLocal(LocalPortalFatigueIterator*0.03, LocalPortalFatigueIterator*0.1),RemovePortalFatigue,LocalPortalFatigueIterator)
-         if GetRandomIntegerLocal(1,8) == 8 then StartStream(path.."/effects/media/ear-ringing-sound-effect-26746.mp3",0.03+math.min(0.5,LocalPortalFatigueIterator*0.001)) end
-         StartStream(path.."/effects/media/vomit-150122.mp3",0.05+math.min(0.15,LocalPortalFatigueIterator*0.002))
-      end
-   end
-end
 
-function RemovePortalFatigue(itr)
-   DeleteControl("sbplanes", "PortalFatigue"..itr)
-   LocalPortalFatigueOverHeat = LocalPortalFatigueOverHeat - 0.2
-end
-]]
 function OnKey(key, down)
 	OnKeyControls(key, down)
 	OnKeyKeybinds(key, down)
@@ -293,3 +271,30 @@ function OnLinkHit(nodeIdA, nodeIdB, objectId, objectTeamId, objectSaveName, dam
 end
 
 dofile(path .. "/scripts/debugMagic.lua")
+
+--[[
+LocalPortalFatigueIterator = 0
+LocalPortalFatigueOverHeat = 0
+function OnPortalUsed(nodeA, nodeB, nodeADest, nodeBDest, objectTeamId, objectId, isBeam)
+   if objectId == user_control then
+      AddSpriteControl("sbplanes", "PortalFatigue"..LocalPortalFatigueIterator, path.."/effects/media/Portal.png", 0,
+      Vec3(GetRandomIntegerLocal(1200, 1500),GetRandomIntegerLocal(750, 1300)), --size
+      Vec3(GetRandomIntegerLocal(-200, -10),GetRandomIntegerLocal(-200, -10)), --pos
+      false)
+      ScheduleCall(6,RemovePortalFatigue,LocalPortalFatigueIterator)
+      LocalPortalFatigueIterator = LocalPortalFatigueIterator + 1
+      LocalPortalFatigueOverHeat = LocalPortalFatigueOverHeat + 1
+      if LocalPortalFatigueOverHeat > GetRandomIntegerLocal(6,18) then
+         LocalPortalFatigueOverHeat = 0
+         ScheduleCall(12+GetNormalFloatLocal(LocalPortalFatigueIterator*0.03, LocalPortalFatigueIterator*0.1),RemovePortalFatigue,LocalPortalFatigueIterator)
+         if GetRandomIntegerLocal(1,8) == 8 then StartStream(path.."/effects/media/ear-ringing-sound-effect-26746.mp3",0.03+math.min(0.5,LocalPortalFatigueIterator*0.001)) end
+         StartStream(path.."/effects/media/vomit-150122.mp3",0.05+math.min(0.15,LocalPortalFatigueIterator*0.002))
+      end
+   end
+end
+
+function RemovePortalFatigue(itr)
+   DeleteControl("sbplanes", "PortalFatigue"..itr)
+   LocalPortalFatigueOverHeat = LocalPortalFatigueOverHeat - 0.2
+end
+]]

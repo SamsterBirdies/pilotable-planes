@@ -64,13 +64,14 @@ function PlaneSpawnSprite(id)
 	local effect = GetProjectileParamString(GetNodeProjectileSaveName(id), NodeTeam(id), "sb_planes.sprite", "")
 	local effect_left_id = SpawnEffect(effect .. "left.lua", NodePosition(id))
 	local effect_right_id = SpawnEffect(effect .. "right.lua", NodePosition(id))
-	planes_effects[tostring(id)].helicopter = true
-	planes_effects[tostring(id)].sprite_left = effect_left_id
-	planes_effects[tostring(id)].sprite_right = effect_right_id
-	planes_effects[tostring(id)].pos_previous = NodePosition(id)
-	planes_effects[tostring(id)].pos_now = NodePosition(id)
-	planes_effects[tostring(id)].angle_previous = data.planes[tostring(id)].angle
-	planes_effects[tostring(id)].angle_now = data.planes[tostring(id)].angle
+	local id_string = tostring(id)
+	planes_effects[id_string].helicopter = true
+	planes_effects[id_string].sprite_left = effect_left_id
+	planes_effects[id_string].sprite_right = effect_right_id
+	planes_effects[id_string].pos_previous = NodePosition(id)
+	planes_effects[id_string].pos_now = NodePosition(id)
+	planes_effects[id_string].angle_previous = data.planes[id_string].angle
+	planes_effects[id_string].angle_now = data.planes[id_string].angle
 	--set default team heading
 	if NodeVelocity(id).x < 0 then
 		planes_effects[tostring(id)].heading_left = true
@@ -80,25 +81,27 @@ function PlaneSpawnSprite(id)
 end
 
 function PlaneRemoveSprite(id)
-	if planes_effects[tostring(id)] and planes_effects[tostring(id)].sprite_left then
-		CancelEffect(planes_effects[tostring(id)].sprite_left)
-		CancelEffect(planes_effects[tostring(id)].sprite_right)
+	local id_string = tostring(id)
+	if planes_effects[id_string] and planes_effects[id_string].sprite_left then
+		CancelEffect(planes_effects[id_string].sprite_left)
+		CancelEffect(planes_effects[id_string].sprite_right)
 	end
-	planes_effects[tostring(id)].helicopter = false
-	planes_effects[tostring(id)].sprite_left = nil
-	planes_effects[tostring(id)].sprite_right = nil
-	planes_effects[tostring(id)].pos_previous = nil
-	planes_effects[tostring(id)].pos_now = nil
-	planes_effects[tostring(id)].angle_previous = nil
+	planes_effects[id_string].helicopter = false
+	planes_effects[id_string].sprite_left = nil
+	planes_effects[id_string].sprite_right = nil
+	planes_effects[id_string].pos_previous = nil
+	planes_effects[id_string].pos_now = nil
+	planes_effects[id_string].angle_previous = nil
 end
 
 function PlaneHeadingLeft(id)
 	--if not controlled, dont change the direction its facing
-	if data.planes[tostring(id)].free then
-		return planes_effects[tostring(id)].heading_left
+	local id_string = tostring(id)
+	if data.planes[id_string].free then
+		return planes_effects[id_string].heading_left
 	end
 	--make heli face the direction that cursor is on
-	if data.planes[tostring(id)].mouse_direction < 0 then
+	if data.planes[id_string].mouse_direction < 0 then
 		return true
 	else
 		return false
@@ -110,10 +113,10 @@ function DopplerCalculate(position, velocity)
 	local velocity2 = SubtractVec(camera_velocity, velocity)
 	--vector position relative to camera at current frame
 	local position1_relative = SubtractVec(position, camera_pos) 
-	local position1_pythag = math.sqrt(position1_relative.x^2 + position1_relative.y^2 + position1_relative.z^2) --distance from camera
+	local position1_pythag = (position1_relative.x^2 + position1_relative.y^2 + position1_relative.z^2) ^ 0.5 --distance from camera
 	--vector position relative to camera at next frame
 	local position2_relative = SubtractVec(AddVec(position, velocity2), camera_pos)
-	local position2_pythag = math.sqrt(position2_relative.x^2 + position2_relative.y^2 + position2_relative.z^2) --distance from camera
+	local position2_pythag = (position2_relative.x^2 + position2_relative.y^2 + position2_relative.z^2) ^ 0.5 --distance from camera
 	--delta distance from camera (next dist - current dist)
 	return position2_pythag - position1_pythag
 end
@@ -154,6 +157,7 @@ function PlaneOnUpdateSprite()
 		end
 	end
 end
+
 local dust_effects = 
 {
 	['environment/alpine'] = 'snow',

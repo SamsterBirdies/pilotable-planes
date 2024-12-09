@@ -28,6 +28,7 @@ function ScriptEventControls(id, value0, value1, value2)
 end
 
 function DropBombsSchedule(id, weapon, clientId, timer)
+	--schedules volley of projectiles
 	if not NodeExists(id) then return end
 	
 	local saveName = GetNodeProjectileSaveName(id)
@@ -56,6 +57,7 @@ function SetPlaneFree(id, bool)
 end
 
 function DropBombs(param)
+	--fires a single projectile
 	local id = param[1]
 	if not NodeExists(id) then return end
 	local weapon = param[2]
@@ -109,11 +111,12 @@ function DropBombs(param)
 	angle = GetNormalFloat(stddev, angle, "bombs") --stddev
 	--get spawn pos
 	local bombpos = AddVec(position, MultiplyVec(Rad2Vec(angle), distance))
-	--spawn
+	--spawn effect
 	if playeffect == 0 then
 		local effect_id = SpawnEffectEx(effect, bombpos, Rad2Vec(angle))
 		ScheduleCall(0, SetAudioParameter, effect_id, "doppler_shift", DopplerCalculate(position, velocity))
 	end
+	--spawn projectile
 	local projectile_id = dlc2_CreateProjectile(projectile, saveName, NodeTeam(id), bombpos, AddVec(velocity, MultiplyVec(Rad2Vec(angle), speed)), 60)
 	SetProjectileClientId(projectile_id, clientId)
 	if aim_missile then
@@ -148,16 +151,18 @@ function HoverHeli(id)
 		if C_angle <= 0 then 
 			C_angle = 0.001 
 		end
-		--keep throttle within min and max limit
 		local new_throttle = (mass * 981 / thrust) / C_angle
+		--keep throttle within min and max limit
 		if new_throttle > throttle_max then 
 			new_throttle = throttle_max
 		elseif new_throttle < throttle_min then
 			new_throttle = throttle_min
 		end
+		--set throttle
 		data.planes[tostring(id)].throttle = new_throttle
 	end
 end
+
 function ControlPlane(id)
 	if data.planes[tostring(id)].free then
 		SendScriptEvent("SetPlaneFree", SSEParams(user_control, true), "script.lua", true)
@@ -270,6 +275,7 @@ function OnKeyControls(key, down)
 				--if the plane is available then control it.
 				if data.planes[tostring(v)].free then
 					camera_zoom_target = GetCameraZoom()
+					SendScriptEvent("HoverHeli", SSEParams(user_control), "script.lua", true)
 					SendScriptEvent("SetPlaneFree", SSEParams(user_control, true), "script.lua", true)
 					user_control = v
 					SendScriptEvent("SetPlaneFree", SSEParams(user_control, false), "script.lua", true)
