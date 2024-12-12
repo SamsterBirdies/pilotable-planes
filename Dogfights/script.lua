@@ -155,11 +155,14 @@ function Update(frame)
 	else
 		heli_effect = true
 	end
+	
+	--update sprites
 	PlaneUpdateSprite()
 end
 
 function OnWeaponFired(teamId, saveName, weaponId, projectileNodeId, projectileNodeIdFrom)
-	if projectileNodeIdFrom == 0 and GetProjectileParamFloat(GetNodeProjectileSaveName(projectileNodeId), teamId, "sb_planes.elevator", 0) > 0 then
+	--register plane to data
+	if GetProjectileParamFloat(GetNodeProjectileSaveName(projectileNodeId), teamId, "sb_planes.elevator", 0) > 0 then
 		local planename = GetNodeProjectileSaveName(projectileNodeId)
 		--set the user control if its the first plane fired
 		if GetLocalTeamId() == teamId then
@@ -202,6 +205,21 @@ function OnWeaponFired(teamId, saveName, weaponId, projectileNodeId, projectileN
 		planes_effects[tostring(projectileNodeId)] = {}
 		PlaneAddEffects(projectileNodeId)
 		HoverHeli(projectileNodeId)
+		
+		--transfer control if parent projectile is controlled and if projectile properties allow so.
+		if projectileNodeIdFrom == user_control and GetProjectileParamBool(planename, teamId, "sb_planes.transfer_control", false) then
+			if data.planes[tostring(projectileNodeId)].free then
+				camera_zoom_target = GetCameraZoom()
+				SendScriptEvent("HoverHeli", SSEParams(user_control), "script.lua", true)
+				SendScriptEvent("SetPlaneFree", SSEParams(user_control, true), "script.lua", true)
+				user_control = projectileNodeId
+				SendScriptEvent("SetPlaneFree", SSEParams(user_control, false), "script.lua", true)
+			else --show user if plane is already occupied
+				Notice("")
+				LogW(L"[HL=FFFF40FF]" .. STRINGS[lang].plane_occupied .. L"[/HL]")
+				SpawnEffect("effects/weapon_blocked", planepos)
+			end
+		end
 	end
 	if saveName == "HardPointSubFlak" then
 		SetNodeProjectileAgeTrigger(projectileNodeId, GetNormalFloat(0.1, 0.22,"HPF Age Offset"))--GetRandomFloat(0.18,0.32,"HPF Age Offset"))
