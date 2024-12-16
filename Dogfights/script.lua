@@ -6,6 +6,7 @@ dofile(path .. "/scripts/better_log.lua")
 debugging = 0 --0 = none, 1 = performance,
 DEG90 = 1.5708 --90 degrees in radians
 ZOOM_MUL = 400 --camera zoom levels to cm
+
 --init local user controls
 user_control = 0 --plane projectile Id to control
 user_control_available = {} --available plane projectile Id's to control
@@ -34,6 +35,7 @@ fps = 25 --for correct timers and other calculations if the framerate is changed
 frames_per_tick = 4 --for SendScriptEvent timings.
 data.planes = {} -- planeid = {timers = {0,0,0}, throttle = 1, elevator = 0, free = true, mousepos = Vec3(0,0)}
 heli_effect = true --turns off heli wind effect when too many helis to save performance. fun for long burst.
+do_heli_effect = true --togglable by other mods
 
 --mod organization
 dofile(path .. "/scripts/math.lua")
@@ -150,7 +152,7 @@ function Update(frame)
 		PlaneUpdateTrail(id, data.planes[tostring(id)].throttle)
 	end
 	--turn off heli wind effect when many planes to save performance
-	if plane_count > 24 then
+	if plane_count > 16 then
 		heli_effect = false
 	else
 		heli_effect = true

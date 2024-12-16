@@ -838,6 +838,7 @@ if ah6 then
 	ah6.sb_planes.weapon1.perround = 2
 	ah6.sb_planes.weapon1.timer = 6
 	--ah6.sb_planes.weapon1.recoil = 10000
+	--ah6.sb_planes.heli_effect = false
 	ah6.sb_planes.weapon1.bank_timer = 18
 	ah6.sb_planes.weapon1.bank_max = 2
 	ah6.sb_planes.weapon1.bank_start = 1

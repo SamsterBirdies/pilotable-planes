@@ -91,7 +91,7 @@ function UpdateHeliPhysics(id, saveName, teamId)
 	local thrust_vector = MultiplyVec(Rad2Vec(angle), thrust_value * throttle)
 	dlc2_ApplyForce(id, thrust_vector)
 	--do wind
-	if heli_effect then
+	if heli_effect and do_heli_effect and GetProjectileParamBool(saveName, teamId, "sb_planes.heli_effect", true) then
 		local wind_angle = GetNormalFloat(0.35, angle, 'wind')
 		dlc2_CreateProjectile("sbpp_heliwind", "helicopter", teamId, NodePosition(id), MultiplyVec(Rad2Vec(wind_angle), -3000), 0.75)
 	end
