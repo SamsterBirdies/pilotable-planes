@@ -207,7 +207,7 @@ function OnWeaponFired(teamId, saveName, weaponId, projectileNodeId, projectileN
 		HoverHeli(projectileNodeId)
 		
 		--transfer control if parent projectile is controlled and if projectile properties allow so.
-		if projectileNodeIdFrom == user_control and GetProjectileParamBool(GetNodeProjectileSaveName(projectileNodeIdFrom), teamId, "sb_planes.transfer_control", false) 
+		if user_control > 0 and projectileNodeIdFrom == user_control and GetProjectileParamBool(GetNodeProjectileSaveName(projectileNodeIdFrom), teamId, "sb_planes.transfer_control", false) 
 		then
 			if data.planes[tostring(projectileNodeId)].free then
 				camera_zoom_target = GetCameraZoom()
