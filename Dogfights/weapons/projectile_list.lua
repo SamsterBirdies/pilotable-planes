@@ -543,7 +543,7 @@ if ac130 then
 	ac130.ProjectileSplashDamage = ac130.ProjectileSplashDamage * 1.8
 	ac130.ProjectileSplashDamageMaxRadius = ac130.ProjectileSplashDamageMaxRadius * 1.9
 	ac130.ProjectileSplashMaxForce = 650000
-	ac130.IncendiaryRadius = 300
+	ac130.IncendiaryRadius = 200
 	ac130.Effects.Impact =
 	{
 		default = path .. "/effects/HUGE_EXPLOSION.lua",
@@ -564,12 +564,12 @@ if ac130 then
 			projectile = "sbpp_temp_sbpp_gau12",
 			rotation = 0.0, 
 			distance = 25, 
-			speed = 4000,
+			speed = 5000,
 			count = 20, 
 			period = 0.08, 
 			timer = 6,
-			bank_timer = 20,
-			bank_max = 2,
+			bank_timer = 16,
+			bank_max = 3,
 			bank_start = 1,
 			stddev = 0.03,
 			aimed = true,
@@ -586,12 +586,12 @@ if ac130 then
 			projectile = "sbpp_temp_sbpp_bofors",
 			rotation = 0.0, 
 			distance = 25,  
-			speed = 4000, 
+			speed = 5000, 
 			count = 1, 
 			period = 0.06, 
 			timer = 0.8,
 			bank_timer = 4,
-			bank_max = 4,
+			bank_max = 5,
 			bank_start = 2,
 			stddev = 0,
 			aimed = true,
@@ -610,8 +610,8 @@ if ac130 then
 			speed = 4000,
 			count = 1,
 			period = 0.06,
-			timer = 10,
-			bank_timer = 24,
+			timer = 9,
+			bank_timer = 16,
 			bank_max = 2,
 			bank_start = 1,
 			stddev = 0,
