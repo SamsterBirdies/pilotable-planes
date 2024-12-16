@@ -60,28 +60,31 @@ function DropBombs(param)
 	--fires a single projectile
 	local id = param[1]
 	if not NodeExists(id) then return end
+	local id_str = tostring(id)
 	local weapon = param[2]
 	local clientId = param[3]
 	local playeffect = param[4]
+	local weapon_str = tostring(weapon)
 	local teamId = NodeTeam(id)
 	local saveName = GetNodeProjectileSaveName(id)
 	local position = NodePosition(id)
 	local velocity = NodeVelocity(id)
-	local effect = GetProjectileParamString(saveName, teamId, "sb_planes.weapon" .. tostring(weapon) .. ".effect", "mods/dlc2/effects/bomb_release.lua")
-	local rotation = GetProjectileParamFloat(saveName, teamId, "sb_planes.weapon" .. tostring(weapon) .. ".rotation", 1.5708)
-	local stddev = GetProjectileParamFloat(saveName, teamId, "sb_planes.weapon" .. tostring(weapon) .. ".stddev", 0)
-	local projectile = GetProjectileParamString(saveName, teamId, "sb_planes.weapon" .. tostring(weapon) .. ".projectile", "")
-	local speed = GetProjectileParamFloat(saveName, teamId, "sb_planes.weapon" .. tostring(weapon) .. ".speed", 300)
-	local distance = GetProjectileParamFloat(saveName, teamId, "sb_planes.weapon" .. tostring(weapon) .. ".distance", 300)
-	local aimed = GetProjectileParamBool(saveName, teamId, "sb_planes.weapon" .. tostring(weapon) .. ".aimed", false)
+	local effect = GetProjectileParamString(saveName, teamId, "sb_planes.weapon" .. weapon_str .. ".effect", "mods/dlc2/effects/bomb_release.lua")
+	local rotation = GetProjectileParamFloat(saveName, teamId, "sb_planes.weapon" .. weapon_str .. ".rotation", 1.5708)
+	local stddev = GetProjectileParamFloat(saveName, teamId, "sb_planes.weapon" .. weapon_str .. ".stddev", 0)
+	local projectile = GetProjectileParamString(saveName, teamId, "sb_planes.weapon" .. weapon_str .. ".projectile", "")
+	local speed = GetProjectileParamFloat(saveName, teamId, "sb_planes.weapon" .. weapon_str .. ".speed", 300)
+	local distance = GetProjectileParamFloat(saveName, teamId, "sb_planes.weapon" .. weapon_str .. ".distance", 300)
+	local aimed = GetProjectileParamBool(saveName, teamId, "sb_planes.weapon" .. weapon_str .. ".aimed", false)
 	local helicopter = GetProjectileParamBool(saveName, teamId, "sb_planes.helicopter", false)
-	local aim_missile = GetProjectileParamBool(saveName, teamId, "sb_planes.weapon" .. tostring(weapon) .. ".aim_missile", false)
+	local aim_missile = GetProjectileParamBool(saveName, teamId, "sb_planes.weapon" .. weapon_str .. ".aim_missile", false)
+	local recoil = GetProjectileParamFloat(saveName, teamId, "sb_planes.weapon" .. weapon_str .. ".recoil", 0)
 	--local min_aim = GetProjectileParamFloat(saveName, teamId, "sb_planes.weapon" .. tostring(weapon) .. ".min_aim", 3.14)
 	--local max_aim = GetProjectileParamFloat(saveName, teamId, "sb_planes.weapon" .. tostring(weapon) .. ".max_aim", -3.14)
 	--if aimed then get the mouse pos angle
 	local angle
 	if aimed then
-		local mouse_pos = data.planes[tostring(id)].mouse_pos
+		local mouse_pos = data.planes[id_str].mouse_pos
 		local plane_angle = Vec2Rad(velocity)
 		angle = RadVec2Vec(position, mouse_pos)
 		--perform angle compensation for plane velocity
@@ -92,10 +95,10 @@ function DropBombs(param)
 			angle = RadVec2Vec(position, mouse_pos)
 		end
 	elseif helicopter then
-		if data.planes[tostring(id)].mouse_direction < 0 then
-			angle = data.planes[tostring(id)].angle - DEG90 - rotation
+		if data.planes[id_str].mouse_direction < 0 then
+			angle = data.planes[id_str].angle - DEG90 - rotation
 		else
-			angle = data.planes[tostring(id)].angle + DEG90 + rotation
+			angle = data.planes[id_str].angle + DEG90 + rotation
 		end
 	else
 		--get angle
@@ -124,6 +127,10 @@ function DropBombs(param)
 	else
 		local target = AddVec(bombpos, MultiplyVec(Rad2Vec(angle), 900000))
 		SetMissileTarget(projectile_id, target)
+	end
+	--apply recoil if existent
+	if recoil ~= 0 then 
+		dlc2_ApplyForce(id, MultiplyVec(Rad2Vec(angle), -recoil))
 	end
 end
 
