@@ -34,8 +34,8 @@ hud_open = false --saves some performance by only setting up the hud once upon o
 fps = 25 --for correct timers and other calculations if the framerate is changed
 frames_per_tick = 4 --for SendScriptEvent timings.
 data.planes = {} -- planeid = {timers = {0,0,0}, throttle = 1, elevator = 0, free = true, mousepos = Vec3(0,0)}
-heli_effect = true --turns off heli wind effect when too many helis to save performance. fun for long burst.
-do_heli_effect = true --togglable by other mods
+data.heli_effect = true --turns off heli wind effect when too many helis to save performance. fun for long burst.
+data.do_heli_effect = true --togglable by other mods
 
 --mod organization
 dofile(path .. "/scripts/math.lua")
