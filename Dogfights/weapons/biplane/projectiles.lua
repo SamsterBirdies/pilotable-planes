@@ -146,7 +146,7 @@ if sbpp_bi then
 			timer = 3.2, 
 			stddev = 0.045, 
 			effect = path .. "/effects/m1911_fire.lua",
-			name = "m1911",
+			name = "$Weapon.sbpp_m1911",
 		},
 		weapon2 = 
 		{
@@ -158,7 +158,7 @@ if sbpp_bi then
 			period = 0.04, 
 			timer = 12, 
 			stddev = 0,
-			name = "Flechettes",
+			name = "$Weapon.sbpp_flechettes",
 		},
 		weapon3 = 
 		{
@@ -170,7 +170,7 @@ if sbpp_bi then
 			period = 0.08, 
 			timer = 9, 
 			stddev = 0,
-			name = "Grenades",
+			name = "$Weapon.sbpp_grenades",
 		},
 	}
 	table.insert(Projectiles, sbpp_bi)

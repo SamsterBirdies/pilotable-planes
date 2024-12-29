@@ -28,5 +28,28 @@ Merge(Device,
 	
 	ammo_sbpp_littlebird = L"Little Bird",
 	ammo_sbpp_littlebirdTip2 = L"Fires M134 Minigun, Hydra rockets.",
+	
+})
+
+Merge(Weapon,
+{
+	--plane weaponry
+	sbpp_m1911 = L"M1911",
+	sbpp_flechettes = L"Flechettes",
+	sbpp_grenades = L"Grenades",
+	sbpp_gau8 = L"Avenger",
+	sbpp_bombs = L"Mk82 Bombs",
+	sbpp_flares = L"Flares",
+	sbpp_paveway = L"Paveway",
+	sbpp_vulcan = L"Vulcan",
+	sbpp_sidewinders = L"Sidewinders",
+	sbpp_bomb250kg = L"250kg Bombs",
+	sbpp_gau12 = L"25mm Equalizer",
+	sbpp_bofors = L"40mm Bofors",
+	sbpp_howitzer105mm = L"105mm Howitzer",
+	sbpp_chaingun = L"Chain Gun",
+	sbpp_hydra = L"Hydra Rockets",
+	sbpp_hellfire = L"Hellfire Missile",
+	sbpp_m134 = L"M134 Minigun",
 })
 Device.ammo_thunderboltTip3 = nil
