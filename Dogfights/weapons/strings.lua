@@ -2,6 +2,7 @@ Merge(Device,
 {
 	ammo_sbpp_Biplane = L"Biplane",
 	ammo_sbpp_BiplaneTip2 = L"Fires M1911 and drops Flechettes and Grenades.",
+	ammo_sbpp_BiplaneTip3 = L"M1911 can be aimed.",
 	
 	ammo_sbpp_f16 = L"F-16 Fighting Falcon",
 	ammo_sbpp_f16Tip2 = L"Fires M61 Vulcan Rotary Cannon, AIM-9 Sidewinders, and can deploy flares.",
