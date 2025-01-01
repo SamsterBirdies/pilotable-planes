@@ -550,11 +550,11 @@ if ac130 then
 	}
 	ac130.sb_planes =
 	{
-		elevator = 34000,
-		thrust = 13000,
+		elevator = 20000,
+		thrust = 12000,
 		throttle_min = 0.6,
-		throttle_max = 1.3,
-		lift_multiplier = 5.3,
+		throttle_max = 1.2,
+		lift_multiplier = 5.4,
 		lift_max_speed = 3000,
 		advanced_physics = true,
 		trail_effect = path .. "/effects/trail_ac130",
