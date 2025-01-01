@@ -36,6 +36,7 @@ frames_per_tick = 4 --for SendScriptEvent timings.
 data.planes = {} -- planeid = {timers = {0,0,0}, throttle = 1, elevator = 0, free = true, mousepos = Vec3(0,0)}
 data.heli_effect = true --turns off heli wind effect when too many helis to save performance. fun for long burst.
 data.do_heli_effect = true --togglable by other mods
+max_height = -11000
 
 --mod organization
 dofile(path .. "/scripts/math.lua")
@@ -53,6 +54,8 @@ function Load()
 	fps = GetConstant("Physics.FramesRate")
 	frames_per_tick = GetConstant("Physics.FramesPerTick")
 	frametime = 1 / fps
+	--max world height
+	max_height = GetWorldExtents().MinY
 	--hud init
 	screen_max_y = GetMaxScreenY()
 	LoadHUD()
