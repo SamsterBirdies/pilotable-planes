@@ -41,7 +41,7 @@ dlc2_Ammunition =
 		AmmoSprites = { { Node = "Head", Sprite = "sbpp_RunwayBiplane", }, },
 		Sprite = "hud-ammo-sbpp_BiplaneFlechette",
 		Devices = { {Name = "ammo_sbpp_Biplane", Consume = true}, },
-		Weapons = { "runway", "runway2" },
+		Weapons = { "runway", "runway2", "sbpp_runway3" },
 		MinFireSpeed = 2000,
 		MaxFireSpeed = 2000.1,
 		Projectile = "sbpp_Biplane",

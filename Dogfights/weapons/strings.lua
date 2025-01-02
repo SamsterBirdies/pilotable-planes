@@ -6,11 +6,14 @@ Merge(Device,
 	
 	ammo_sbpp_f16 = L"F-16 Fighting Falcon",
 	ammo_sbpp_f16Tip2 = L"Fires M61 Vulcan Rotary Cannon, AIM-9 Sidewinders, and can deploy flares.",
+	ammo_sbpp_f16Tip3 = L"Ammo for: Runway MK II",
 	
 	ammo_thunderbolt = L"A-10 Thunderbolt II",
 	ammo_thunderboltTip2 = L"Fires GAU-8 Avenger Autocannon, drops Mk82 Bombs, and can deploy flares.",
+	ammo_thunderboltTip3 = L"Ammo for: Runway MK II",
 	
 	ammo_nighthawk = L"F-117 Nighthawk",
+	ammo_nighthawkTip3 = L"Ammo for: Runway MK II",
 	
 	ammo_sbpp_p51 = L"P-51 Mustang",
 	ammo_sbpp_p51Tip2 = L"Fires 6 machineguns and drops 250kg bombs.",
@@ -21,19 +24,29 @@ Merge(Device,
 	ammo_sbpp_ac130 = L"AC-130 Gunship",
 	ammo_sbpp_ac130Tip2 = L"Fires 25mm GAU-12 Equalizer, 40mm Bofors, and 105mm Howitzer.",
 	ammo_sbpp_ac130Tip3 = L"Weapons are aimed with mouse",
-	ammo_sbpp_ac130Tip4 = L"Ammo for Runway MK II.",
+	ammo_sbpp_ac130Tip4 = L"Ammo for: Runway MK III",
 	
 	ammo_sbpp_apache = L"AH-64 Apache",
 	ammo_sbpp_apacheTip2 = L"Fires 30mm Chain gun, Hydra rockets, Hellfire missile.",
 	ammo_sbpp_apacheTip3 = L"Hellfire missile sets the mouse position as its target.",
+	ammo_sbpp_apacheTip4 = L"Ammo for: Runway MK II",
 	
 	ammo_sbpp_littlebird = L"AH-6 Little Bird",
 	ammo_sbpp_littlebirdTip2 = L"Fires M134 Minigun, Hydra rockets, and can deploy flares.",
+	ammo_sbpp_littlebirdTip3 = L"Ammo for: Runway MK II",
 	
 })
 
 Merge(Weapon,
 {
+	sbpp_runway3 = L"Runway MK III",
+	sbpp_runway3Tip2 = L"Use: Launches MKIII, MKII, and MKI planes.",
+	sbpp_runway3Tip3 = L"Allows simultaneous construction of 3 MKI planes, 2 MKII planes, and 1 MKIII planes.",
+	runway2Tip3 = L"Allows simultaneous construction of 2 MKI planes and 1 MKII planes.",
+	runway2Tip2 = L"Use: Launches MKII and MKI planes.",
+	runwayTip3 = L"Allows simultaneous construction of 1 MKI planes.",
+	runwayTip2 = L"Use: Launches MKI planes.",
+	
 	--plane weaponry
 	sbpp_m1911 = L"M1911",
 	sbpp_flechettes = L"Flechettes",
@@ -53,4 +66,3 @@ Merge(Weapon,
 	sbpp_hellfire = L"Hellfire Missile",
 	sbpp_m134 = L"M134 Minigun",
 })
-Device.ammo_thunderboltTip3 = nil

@@ -1,3 +1,45 @@
+dofile("scripts/type.lua")
+local r1 = FindWeapon("runway")
+if r1 then
+	r1.Upgrades[1].EnergyCost = 5000
+end
+local r2 = FindWeapon("runway2")
+if r2 then
+	r2.EnergyCost = 9000
+	if not r2.Upgrades then r2.Upgrades = {} end
+	r2.Upgrades =
+	{
+		{
+			Enabled = true,
+			SaveName = "sbpp_runway3",
+			MetalCost = 1000,
+			EnergyCost = 9000,
+			
+		}
+	}
+	table.insert(Weapons, IndexOfWeapon("runway2") + 1,
+		InheritType(FindWeapon("runway2"),nil,
+			{	
+				SaveName = "sbpp_runway3",
+				FileName = path .. "/weapons/runway3.lua",
+				MetalCost = 2000,
+				EnergyCost = 18000,
+				BuildTimeComplete = 0.0,
+				Prerequisite = "upgrade",
+				Enabled = false,
+				Upgrades = {},
+				BuildQueueModifier = 
+				{ 
+					["dlc2_runway"] = 2, 
+					["dlc2_runway2"] = 1,
+				},
+			}
+		)
+	)
+end
+
+
+
 --[=[hardpoint = FindWeapon("hardpoint")
 if hardpoint then
    table.insert(hardpoint.Upgrades,

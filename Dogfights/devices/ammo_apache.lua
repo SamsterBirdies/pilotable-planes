@@ -40,7 +40,7 @@ dlc2_Ammunition =
 		AmmoSprites = { { Node = "Head", Sprite = "sbpp_apache_runway", }, },
 		Sprite = "hud-ammo-sbpp_apache",
 		Devices = { {Name = "ammo_sbpp_apache", Consume = true}, },
-		Weapons = { "runway", "runway2" },
+		Weapons = { "runway2", "sbpp_runway3" },
 		MinFireSpeed = 3000,
 		MaxFireSpeed = 3000.1,
 		Projectile = "sbpp_apache",

@@ -1,16 +1,24 @@
 dofile("scripts/type.lua")
-
+BuildQueueConcurrent["dlc2_runway"] = { Default = 1, Min = 1, Max = 3 }
+BuildQueueConcurrent["dlc2_runway2"] = { Default = 1, Min = 1, Max = 2 }
+BuildQueueConcurrent["dlc2_runway3"] = { Default = 1, Min = 1, Max = 1 }
+table.insert(Sprites, ButtonSprite("hud-sbpp_a10-icon", "HUD/HUD-a10", nil, ButtonSpriteBottom, nil, nil, path))
+table.insert(Sprites, ButtonSprite("hud-sbpp_nighthawk-icon", "HUD/HUD-nighthawk", nil, ButtonSpriteBottom, nil, nil, path))
 local thunderbolt = FindDevice("ammo_thunderbolt")
 if thunderbolt then
 	thunderbolt.MetalCost = 400
 	thunderbolt.EnergyCost = 8000
 	thunderbolt.BuildTimeComplete = 50
+	thunderbolt.Icon = "hud-sbpp_a10-icon"
+	thunderbolt.dlc2_BuildQueue = "dlc2_runway2"
 end
 local nighthawk = FindDevice("ammo_nighthawk")
 if nighthawk then
 	nighthawk.MetalCost = 200
 	nighthawk.EnergyCost = 6000
+	nighthawk.Icon = "hud-sbpp_nighthawk-icon"
 	nighthawk.BuildTimeComplete = 45
+	nighthawk.dlc2_BuildQueue = "dlc2_runway2"
 end
 
 table.insert(Sprites, DetailSprite("hud-detail-sbpp_BiplaneFlechette", "biplane", path))
@@ -40,7 +48,7 @@ table.insert(Devices, IndexOfDevice("ammo_thunderbolt"),
 		{	
 			SaveName = "ammo_sbpp_f16",
 			FileName = path .. "/devices/ammo_f16.lua",
-			dlc2_BuildQueue = "dlc2_runway",
+			dlc2_BuildQueue = "dlc2_runway2",
 			Detail = "hud-detail-sbpp_f16",
 			Icon = "hud-sbpp_f16-icon",
 			MetalCost = 300,
@@ -55,7 +63,7 @@ table.insert(Devices, IndexOfDevice("ammo_thunderbolt"),
 
 table.insert(Sprites, DetailSprite("hud-detail-sbpp_p51", "p51", path))
 table.insert(Sprites, ButtonSprite("hud-sbpp_p51-icon", "HUD/HUD-p51", nil, ButtonSpriteBottom, nil, nil, path))
-table.insert(Devices, IndexOfDevice("ammo_nighthawk"),
+table.insert(Devices, IndexOfDevice("ammo_sbpp_f16"),
 	InheritType(FindDevice("ammo_nighthawk"),nil,
 		{	
 			SaveName = "ammo_sbpp_p51",
@@ -74,7 +82,7 @@ table.insert(Devices, IndexOfDevice("ammo_nighthawk"),
 )
 table.insert(Sprites, DetailSprite("hud-detail-sbpp_hellcat", "hellcat", path))
 table.insert(Sprites, ButtonSprite("hud-sbpp_hellcat-icon", "HUD/HUD-hellcat", nil, ButtonSpriteBottom, nil, nil, path))
-table.insert(Devices, IndexOfDevice("ammo_thunderbolt"),
+table.insert(Devices, IndexOfDevice("ammo_sbpp_p51"),
 	InheritType(FindDevice("ammo_nighthawk"),nil,
 		{	
 			SaveName = "ammo_sbpp_hellcat",
@@ -98,12 +106,12 @@ table.insert(Devices, IndexOfDevice("ammo_nighthawk") + 1,
 		{	
 			SaveName = "ammo_sbpp_ac130",
 			FileName = path .. "/devices/ammo_ac130.lua",
-			dlc2_BuildQueue = "dlc2_runway",
+			dlc2_BuildQueue = "dlc2_runway3",
 			Detail = "hud-detail-sbpp_ac130",
 			Icon = "hud-sbpp_ac130-icon",
 			MetalCost = 1200,
-			EnergyCost = 24000,
-			Prerequisite = {{"munitions", "factory"}},
+			EnergyCost = 18000,
+			Prerequisite = "factory",
 			Enabled = true,
 			BuildTimeComplete = 120,
 			ObserverBuildEvent = true,
@@ -118,7 +126,7 @@ table.insert(Devices, IndexOfDevice("ammo_nighthawk") + 1,
 		{	
 			SaveName = "ammo_sbpp_apache",
 			FileName = path .. "/devices/ammo_apache.lua",
-			dlc2_BuildQueue = "dlc2_runway",
+			dlc2_BuildQueue = "dlc2_runway2",
 			Detail = "hud-detail-sbpp_apache",
 			Icon = "hud-sbpp_apache-icon",
 			MetalCost = 500,
@@ -138,7 +146,7 @@ table.insert(Devices, IndexOfDevice("ammo_thunderbolt") + 1,
 		{	
 			SaveName = "ammo_sbpp_littlebird",
 			FileName = path .. "/devices/ammo_littlebird.lua",
-			dlc2_BuildQueue = "dlc2_runway",
+			dlc2_BuildQueue = "dlc2_runway2",
 			Detail = "hud-detail-sbpp_littlebird",
 			Icon = "hud-sbpp_littlebird-icon",
 			MetalCost = 300,
