@@ -7,6 +7,9 @@ ShootableProjectile["sbpp_p51"] = true
 ShootableProjectile["sbpp_ac130"] = true
 ShootableProjectile["sbpp_apache"] = true
 ShootableProjectile["sbpp_littlebird"] = true
+ShootableProjectile["sbpp_mig15"] = true
+ShootableProjectile["sbpp_spitfire"] = true
+ShootableProjectile["sbpp_b52"] = true
 ShootableProjectile["sbpp_hydra"] = true
 ShootableProjectile["sbpp_hellfire"] = true
 ShootableProjectile["sbpp_bomb250kg"] = true
@@ -25,58 +28,64 @@ PlaneSaveNames = {
 	["sbpp_ac130"]=-838-100,
 	["sbpp_apache"]=-0-1000,
 	["sbpp_littlebird"]=-0-1000,
+	["sbpp_mig15"]=-0-1000,
+	["sbpp_spitfire"]=-0-1000,
+	["sbpp_b52"]=-0-1000,
 }
 --lift_strength = GetProjectileParamFloat(saveName, 2, "sb_planes.lift_multiplier", 4.3) elevator_strength = GetProjectileParamFloat(saveName, 2, "sb_planes.elevator", 70000)*-0.02
 --NOTE: this is fixed, therefor does not account for commander changes
 
 --default: 30000. 36000 is the limit of flak about
 ProjectileVisibleRanges = {
- --Planes
-   ["nighthawk"] =      12500,
-   ["thunderbolt"] =    30000,
-
-   ["sbpp_Biplane"] =   9000,
-   ["sbpp_hellcat"] =   31000,
-   ["sbpp_p51"] =       31000,
-   ["sbpp_f16"] =       32000,
-   ["sbpp_apache"] =    32000,
-   ["sbpp_littlebird"] =25000,
-   ["sbpp_ac130"] =     37500,
-
- --Missiles
-   ["sbpp_sidewinder"] =18000,
-   ["sbpp_hydra"] =     18000,
-   ["sbpp_hellfire"] =  29000,
-
- --Bombs
-   ["bomb"] =           10000,
-   ["paveway"] =        11500,
-
-   ["sbpp_grenade"] =   7000,
-   ["sbpp_bomb250kg"] = 10000,
-   ["sbpp_howitzer105mm"]=14000,
-
-   --???
-   ["sbpp_flare"] =     35000,
-
- --Basegame projectiles
-   ["mortar"] =         18000,
-   ["missile"] =        19000,
-	["rocketemp"] =      20500,
-   ["rocket"] =         21000,
-	["mortar2"] =        23000,
-   ["ol_marker_sweep"]= 27500,
-   ["ol_marker_focus"]= 27500,
-   ["turret"] =         29500,
-	["missile2"] =       33500,
-	["howitzer"] =       36400,
+	--Planes
+	["nighthawk"] =		12500,
+	["thunderbolt"] =	30000,
+	
+	["sbpp_Biplane"] =	9000,
+	["sbpp_hellcat"] =	25000,
+	["sbpp_p51"] =		25000,
+	["sbpp_f16"] =		30000,
+	["sbpp_apache"] =	25000,
+	["sbpp_littlebird"] =24000,
+	["sbpp_ac130"] =		30000,
+	["sbpp_mig15"] =		25000,
+	["sbpp_spitfire"] =	25000,
+	["sbpp_b52"] =		20000,
+	
+	--Missiles
+	["sbpp_sidewinder"] =18000,
+	["sbpp_hydra"] =		18000,
+	["sbpp_hellfire"] =	20000,
+	
+	--Bombs
+	["bomb"] =			10000,
+	["paveway"] =		11500,
+	
+	["sbpp_grenade"] =	7000,
+	["sbpp_bomb250kg"] =	10000,
+	["sbpp_howitzer105mm"]=14000,
+	
+	--???
+	["sbpp_flare"] =		35000,
+	
+	--Basegame projectiles
+	["mortar"] =			9000,
+	["missile"] =		20000,
+	["rocketemp"] =		20500,
+	["rocket"] =			20000,
+	["mortar2"] =		10000,
+	["ol_marker_sweep"]=	20500,
+	["ol_marker_focus"]=	20500,
+	["turret"] =			20500,
+	["missile2"] =		20500,
+	["howitzer"] =		20400,
 }
 
 AntiAirMaxRanges = {
-   ["machinegun"] = 12000,
-   ["flak"] = 36000,
-   ["shotgun"] = 48500,
-   ["hardpointflak"] = 100000,
+	["machinegun"] =		12000,
+	["flak"] =			36000,
+	["shotgun"] =		48500,
+	["hardpointflak"] =	100000,
 }
 
 data.OffensiveFireProbability["hardpointflak"] = 0
@@ -101,375 +110,375 @@ end]]
 data.flakDetonationTimings = {}
 
 function BetterLog(a)
-   Log(tostring(a))
+	Log(tostring(a))
 end
 
 function findMeetingTime(id1, id2)
-   local epsilon = 1e-5
+	local epsilon = 1e-5
 
-   local pos1 = NodePosition(id1)
-   local vel1 = NodeVelocity(id1)
-   local pos2 = NodePosition(id2)
-   local vel2 = NodeVelocity(id2)
+	local pos1 = NodePosition(id1)
+	local vel1 = NodeVelocity(id1)
+	local pos2 = NodePosition(id2)
+	local vel2 = NodeVelocity(id2)
 
-   local t_x = nil
-   if math.abs(vel1.x - vel2.x) > epsilon then
-      t_x = (pos2.x - pos1.x) / (vel1.x - vel2.x)
-   end
+	local t_x = nil
+	if math.abs(vel1.x - vel2.x) > epsilon then
+		t_x = (pos2.x - pos1.x) / (vel1.x - vel2.x)
+	end
 
-   local t_y = nil
-   if math.abs(vel1.y - vel2.y) > epsilon then
-      t_y = (pos2.y - pos1.y) / (vel1.y - vel2.y)
-   end
+	local t_y = nil
+	if math.abs(vel1.y - vel2.y) > epsilon then
+		t_y = (pos2.y - pos1.y) / (vel1.y - vel2.y)
+	end
 
-   if t_x and t_y and math.abs(t_x - t_y) <= epsilon then
-      return t_x
-   end
+	if t_x and t_y and math.abs(t_x - t_y) <= epsilon then
+		return t_x
+	end
 
-   if t_x then
-      return t_x
-   end
-   if t_y then
-      return t_y
-   end
+	if t_x then
+		return t_x
+	end
+	if t_y then
+		return t_y
+	end
 
-   return nil
+	return nil
 end
 --[[
 function findPassingTime(id1, id2)
-   local epsilon = 1e-5  -- Small threshold to account for floating-point precision
+	local epsilon = 1e-5  -- Small threshold to account for floating-point precision
 
-   -- Retrieve positions and velocities
-   local pos1 = NodePosition(id1)
-   local vel1 = NodeVelocity(id1)
-   local pos2 = NodePosition(id2)
-   local vel2 = NodeVelocity(id2)
+	-- Retrieve positions and velocities
+	local pos1 = NodePosition(id1)
+	local vel1 = NodeVelocity(id1)
+	local pos2 = NodePosition(id2)
+	local vel2 = NodeVelocity(id2)
 
-   -- Calculate relative positions and velocities
-   local dx = pos1.x - pos2.x
-   local dy = pos1.y - pos2.y
-   local dvx = vel1.x - vel2.x
-   local dvy = vel1.y - vel2.y
+	-- Calculate relative positions and velocities
+	local dx = pos1.x - pos2.x
+	local dy = pos1.y - pos2.y
+	local dvx = vel1.x - vel2.x
+	local dvy = vel1.y - vel2.y
 
-   -- Calculate time of closest approach or passing
-   local t = nil
-   if math.abs(dvx) > epsilon then
-      t = -dx / dvx
-   elseif math.abs(dvy) > epsilon then
-      t = -dy / dvy
-   end
+	-- Calculate time of closest approach or passing
+	local t = nil
+	if math.abs(dvx) > epsilon then
+		t = -dx / dvx
+	elseif math.abs(dvy) > epsilon then
+		t = -dy / dvy
+	end
 
-   -- Validate the time to ensure it is positive (future event)
-   if t and t >= 0 then
-      return t
-   end
+	-- Validate the time to ensure it is positive (future event)
+	if t and t >= 0 then
+		return t
+	end
 
-   -- No valid passing time found
-   return nil
+	-- No valid passing time found
+	return nil
 end]]
 
 --[[function findPassingTime(id1, id2)
-   local epsilon = 1e-5  -- Small threshold to account for floating-point precision
+	local epsilon = 1e-5  -- Small threshold to account for floating-point precision
 
-   -- Retrieve positions and velocities
-   local pos1 = NodePosition(id1)
-   local vel1 = NodeVelocity(id1)
-   local pos2 = NodePosition(id2)
-   local vel2 = NodeVelocity(id2)
+	-- Retrieve positions and velocities
+	local pos1 = NodePosition(id1)
+	local vel1 = NodeVelocity(id1)
+	local pos2 = NodePosition(id2)
+	local vel2 = NodeVelocity(id2)
 
-   -- Calculate relative positions and velocities
-   local dx = pos1.x - pos2.x
-   local dy = pos1.y - pos2.y
-   local dvx = vel1.x - vel2.x
-   local dvy = vel1.y - vel2.y
+	-- Calculate relative positions and velocities
+	local dx = pos1.x - pos2.x
+	local dy = pos1.y - pos2.y
+	local dvx = vel1.x - vel2.x
+	local dvy = vel1.y - vel2.y
 
-   -- Calculate the time when the distance between projectiles is minimized
-   local a = dvx^2 + dvy^2
-   local b = 2 * (dx * dvx + dy * dvy)
-   local c = dx^2 + dy^2
+	-- Calculate the time when the distance between projectiles is minimized
+	local a = dvx^2 + dvy^2
+	local b = 2 * (dx * dvx + dy * dvy)
+	local c = dx^2 + dy^2
 
-   if math.abs(a) < epsilon then
-      if math.abs(b) < epsilon then
-         return nil -- No relative motion
-      else
-         local t = -c / b
-         if t >= 0 then
-            return t
-         else
-            return nil
-         end
-      end
-   else
-      local discriminant = b^2 - 4 * a * c
-      if discriminant < 0 then
-         return nil -- No real solution
-      else
-         local sqrt_discriminant = math.sqrt(discriminant)
-         local t1 = (-b + sqrt_discriminant) / (2 * a)
-         local t2 = (-b - sqrt_discriminant) / (2 * a)
+	if math.abs(a) < epsilon then
+		if math.abs(b) < epsilon then
+			return nil -- No relative motion
+		else
+			local t = -c / b
+			if t >= 0 then
+				return t
+			else
+				return nil
+			end
+		end
+	else
+		local discriminant = b^2 - 4 * a * c
+		if discriminant < 0 then
+			return nil -- No real solution
+		else
+			local sqrt_discriminant = math.sqrt(discriminant)
+			local t1 = (-b + sqrt_discriminant) / (2 * a)
+			local t2 = (-b - sqrt_discriminant) / (2 * a)
 
-         local t_min = nil
-         if t1 >= 0 and t2 >= 0 then
-            t_min = math.min(t1, t2)
-         elseif t1 >= 0 then
-            t_min = t1
-         elseif t2 >= 0 then
-            t_min = t2
-         end
+			local t_min = nil
+			if t1 >= 0 and t2 >= 0 then
+				t_min = math.min(t1, t2)
+			elseif t1 >= 0 then
+				t_min = t1
+			elseif t2 >= 0 then
+				t_min = t2
+			end
 
-         return t_min
-      end
-   end
+			return t_min
+		end
+	end
 end
 
 function findMeetingOrPassingTime(id1, id2)
-   local epsilon = 1e-5  -- Small threshold to account for floating-point precision
+	local epsilon = 1e-5  -- Small threshold to account for floating-point precision
 
-   -- Retrieve positions and velocities
-   local pos1 = NodePosition(id1)
-   local vel1 = NodeVelocity(id1)
-   local pos2 = NodePosition(id2)
-   local vel2 = NodeVelocity(id2)
+	-- Retrieve positions and velocities
+	local pos1 = NodePosition(id1)
+	local vel1 = NodeVelocity(id1)
+	local pos2 = NodePosition(id2)
+	local vel2 = NodeVelocity(id2)
 
-   -- Calculate time using x components if velocities are not zero
-   local t_x = nil
-   if math.abs(vel1.x - vel2.x) > epsilon then
-      t_x = (pos2.x - pos1.x) / (vel1.x - vel2.x)
-   end
+	-- Calculate time using x components if velocities are not zero
+	local t_x = nil
+	if math.abs(vel1.x - vel2.x) > epsilon then
+		t_x = (pos2.x - pos1.x) / (vel1.x - vel2.x)
+	end
 
-   -- Calculate time using y components if velocities are not zero
-   local t_y = nil
-   if math.abs(vel1.y - vel2.y) > epsilon then
-      t_y = (pos2.y - pos1.y) / (vel1.y - vel2.y)
-   end
+	-- Calculate time using y components if velocities are not zero
+	local t_y = nil
+	if math.abs(vel1.y - vel2.y) > epsilon then
+		t_y = (pos2.y - pos1.y) / (vel1.y - vel2.y)
+	end
 
-   -- Check if times are consistent within the threshold
-   if t_x and t_y and math.abs(t_x - t_y) <= epsilon then
-      return t_x  -- or t_y since they are approximately equal
-   end
+	-- Check if times are consistent within the threshold
+	if t_x and t_y and math.abs(t_x - t_y) <= epsilon then
+		return t_x  -- or t_y since they are approximately equal
+	end
 
-   -- If only one of them is valid, return that
-   if t_x then
-      return t_x
-   end
-   if t_y then
-      return t_y
-   end
+	-- If only one of them is valid, return that
+	if t_x then
+		return t_x
+	end
+	if t_y then
+		return t_y
+	end
 
-   -- If no valid meeting time found, find passing time
-   return findPassingTime(id1, id2)
+	-- If no valid meeting time found, find passing time
+	return findPassingTime(id1, id2)
 end]]
 
 function calculate_min_distance(P_f, V_f, P_1, V_1)
-   local Vr = {
-      x = V_f.x - V_1.x,
-      y = V_f.y - V_1.y
-   }
+	local Vr = {
+		x = V_f.x - V_1.x,
+		y = V_f.y - V_1.y
+	}
 
-   local P_diff = {
-      x = P_f.x - P_1.x,
-      y = P_f.y - P_1.y
-   }
+	local P_diff = {
+		x = P_f.x - P_1.x,
+		y = P_f.y - P_1.y
+	}
 
-   local a = Vr.x * Vr.x + Vr.y * Vr.y
-   local b = 2 * (P_diff.x * Vr.x + P_diff.y * Vr.y)
-   local c = P_diff.x * P_diff.x + P_diff.y * P_diff.y
+	local a = Vr.x * Vr.x + Vr.y * Vr.y
+	local b = 2 * (P_diff.x * Vr.x + P_diff.y * Vr.y)
+	local c = P_diff.x * P_diff.x + P_diff.y * P_diff.y
 
-   -- Find the time of closest approach
-   local t_min = -b / (2 * a)
+	-- Find the time of closest approach
+	local t_min = -b / (2 * a)
 
-   -- Calculate the minimum distance
-   local D_min_squared = a * t_min * t_min + b * t_min + c
-   local D_min = math.sqrt(D_min_squared)
+	-- Calculate the minimum distance
+	local D_min_squared = a * t_min * t_min + b * t_min + c
+	local D_min = math.sqrt(D_min_squared)
 
-   return D_min
+	return D_min
 end
 
 function calculate_firing_velocity(P_f, P_t, v, t)
-   -- Calculate direction vector from P_f to P_t
-   local D = {
-      x = P_t.x - P_f.x,
-      y = P_t.y - P_f.y
-   }
+	-- Calculate direction vector from P_f to P_t
+	local D = {
+		x = P_t.x - P_f.x,
+		y = P_t.y - P_f.y
+	}
 
-   -- Calculate the magnitude of D
-   local D_magnitude = math.sqrt(D.x * D.x + D.y * D.y)
+	-- Calculate the magnitude of D
+	local D_magnitude = math.sqrt(D.x * D.x + D.y * D.y)
 
-   -- Normalize the direction vector (D_u)
-   local D_u = {
-      x = D.x / D_magnitude,
-      y = D.y / D_magnitude
-   }
+	-- Normalize the direction vector (D_u)
+	local D_u = {
+		x = D.x / D_magnitude,
+		y = D.y / D_magnitude
+	}
 
-   -- Calculate the firing velocity vector V_f
-   local V_f = {}
-   if v then
-      -- If speed is given, calculate V_f based on speed
-      V_f.x = v * D_u.x
-      V_f.y = v * D_u.y
-   elseif t then
-      -- If time is given, calculate V_f based on time to target
-      V_f.x = D.x / t
-      V_f.y = D.y / t
-   else
-      -- If neither is given, return nil
-      return nil
-   end
+	-- Calculate the firing velocity vector V_f
+	local V_f = {}
+	if v then
+		-- If speed is given, calculate V_f based on speed
+		V_f.x = v * D_u.x
+		V_f.y = v * D_u.y
+	elseif t then
+		-- If time is given, calculate V_f based on time to target
+		V_f.x = D.x / t
+		V_f.y = D.y / t
+	else
+		-- If neither is given, return nil
+		return nil
+	end
 
-   return V_f
+	return V_f
 end
 
 function distance(pos1, pos2)
-   return math.sqrt((pos1.x - pos2.x)^2 + (pos1.y - pos2.y)^2)
+	return math.sqrt((pos1.x - pos2.x)^2 + (pos1.y - pos2.y)^2)
 end
 
 function positionAtTime(pos, vel, t)
-   return { x = pos.x + vel.x * t, y = pos.y + vel.y * t }
+	return { x = pos.x + vel.x * t, y = pos.y + vel.y * t }
 end
 
 function findPassingTime(id1, id2)
-   local epsilon = 1e-5  -- Small threshold to account for floating-point precision
-   local maxIterations = 100  -- Maximum iterations for the bisection method
-   local pos1 = NodePosition(id1)
-   local vel1 = NodeVelocity(id1)
-   local pos2 = NodePosition(id2)
-   local vel2 = NodeVelocity(id2)
+	local epsilon = 1e-5  -- Small threshold to account for floating-point precision
+	local maxIterations = 100  -- Maximum iterations for the bisection method
+	local pos1 = NodePosition(id1)
+	local vel1 = NodeVelocity(id1)
+	local pos2 = NodePosition(id2)
+	local vel2 = NodeVelocity(id2)
 
-   -- Initial time range
-   local t_min, t_max = 0, 100  -- Start with a large initial range
-   local best_t = t_min
-   local min_dist = distance(positionAtTime(pos1, vel1, t_min), positionAtTime(pos2, vel2, t_min))
+	-- Initial time range
+	local t_min, t_max = 0, 100  -- Start with a large initial range
+	local best_t = t_min
+	local min_dist = distance(positionAtTime(pos1, vel1, t_min), positionAtTime(pos2, vel2, t_min))
 
-   for i = 1, maxIterations do
-      local t_mid = (t_min + t_max) / 2
-      local newPos1 = positionAtTime(pos1, vel1, t_mid)
-      local newPos2 = positionAtTime(pos2, vel2, t_mid)
-      local dist_mid = distance(newPos1, newPos2)
+	for i = 1, maxIterations do
+		local t_mid = (t_min + t_max) / 2
+		local newPos1 = positionAtTime(pos1, vel1, t_mid)
+		local newPos2 = positionAtTime(pos2, vel2, t_mid)
+		local dist_mid = distance(newPos1, newPos2)
 
-      if dist_mid < min_dist then
-         min_dist = dist_mid
-         best_t = t_mid
-      end
+		if dist_mid < min_dist then
+			min_dist = dist_mid
+			best_t = t_mid
+		end
 
-      local newPos1_min = positionAtTime(pos1, vel1, t_min)
-      local newPos2_min = positionAtTime(pos2, vel2, t_min)
-      local dist_min = distance(newPos1_min, newPos2_min)
+		local newPos1_min = positionAtTime(pos1, vel1, t_min)
+		local newPos2_min = positionAtTime(pos2, vel2, t_min)
+		local dist_min = distance(newPos1_min, newPos2_min)
 
-      local newPos1_max = positionAtTime(pos1, vel1, t_max)
-      local newPos2_max = positionAtTime(pos2, vel2, t_max)
-      local dist_max = distance(newPos1_max, newPos2_max)
+		local newPos1_max = positionAtTime(pos1, vel1, t_max)
+		local newPos2_max = positionAtTime(pos2, vel2, t_max)
+		local dist_max = distance(newPos1_max, newPos2_max)
 
-      if dist_min < dist_max then
-         t_max = t_mid
-      else
-         t_min = t_mid
-      end
-   end
+		if dist_min < dist_max then
+			t_max = t_mid
+		else
+			t_min = t_mid
+		end
+	end
 
-   -- Perform gradient descent-like refinement
-   local learning_rate = 0.1
-   local tolerance = 1e-6
-   local prev_dist = min_dist
-   for i = 1, maxIterations do
-      local newPos1 = positionAtTime(pos1, vel1, best_t)
-      local newPos2 = positionAtTime(pos2, vel2, best_t)
-      local grad = (distance(positionAtTime(pos1, vel1, best_t + epsilon), positionAtTime(pos2, vel2, best_t + epsilon)) - prev_dist) / epsilon
+	-- Perform gradient descent-like refinement
+	local learning_rate = 0.1
+	local tolerance = 1e-6
+	local prev_dist = min_dist
+	for i = 1, maxIterations do
+		local newPos1 = positionAtTime(pos1, vel1, best_t)
+		local newPos2 = positionAtTime(pos2, vel2, best_t)
+		local grad = (distance(positionAtTime(pos1, vel1, best_t + epsilon), positionAtTime(pos2, vel2, best_t + epsilon)) - prev_dist) / epsilon
 
-      best_t = best_t - learning_rate * grad
-      if best_t < 0 then best_t = 0 end
+		best_t = best_t - learning_rate * grad
+		if best_t < 0 then best_t = 0 end
 
-      local new_dist = distance(newPos1, newPos2)
-      if math.abs(new_dist - prev_dist) < tolerance then
-         break
-      end
-      prev_dist = new_dist
-   end
+		local new_dist = distance(newPos1, newPos2)
+		if math.abs(new_dist - prev_dist) < tolerance then
+			break
+		end
+		prev_dist = new_dist
+	end
 
-   return best_t
+	return best_t
 end
 
 function findMeetingOrPassingTime(id1, id2)
-   local epsilon = 1e-5  -- Small threshold to account for floating-point precision
+	local epsilon = 1e-5  -- Small threshold to account for floating-point precision
 
-   -- Retrieve positions and velocities
-   local pos1 = NodePosition(id1)
-   local vel1 = NodeVelocity(id1)
-   local pos2 = NodePosition(id2)
-   local vel2 = NodeVelocity(id2)
+	-- Retrieve positions and velocities
+	local pos1 = NodePosition(id1)
+	local vel1 = NodeVelocity(id1)
+	local pos2 = NodePosition(id2)
+	local vel2 = NodeVelocity(id2)
 
-   -- Calculate time using x components if velocities are not zero
-   local t_x = nil
-   if math.abs(vel1.x - vel2.x) > epsilon then
-      t_x = (pos2.x - pos1.x) / (vel1.x - vel2.x)
-   end
+	-- Calculate time using x components if velocities are not zero
+	local t_x = nil
+	if math.abs(vel1.x - vel2.x) > epsilon then
+		t_x = (pos2.x - pos1.x) / (vel1.x - vel2.x)
+	end
 
-   -- Calculate time using y components if velocities are not zero
-   local t_y = nil
-   if math.abs(vel1.y - vel2.y) > epsilon then
-      t_y = (pos2.y - pos1.y) / (vel1.y - vel2.y)
-   end
+	-- Calculate time using y components if velocities are not zero
+	local t_y = nil
+	if math.abs(vel1.y - vel2.y) > epsilon then
+		t_y = (pos2.y - pos1.y) / (vel1.y - vel2.y)
+	end
 
-   -- Check if times are consistent within the threshold
-   if t_x and t_y and math.abs(t_x - t_y) <= epsilon then
-      return t_x  -- or t_y since they are approximately equal
-   end
+	-- Check if times are consistent within the threshold
+	if t_x and t_y and math.abs(t_x - t_y) <= epsilon then
+		return t_x  -- or t_y since they are approximately equal
+	end
 
-   -- If only one of them is valid, return that
-   if t_x then
-      return t_x
-   end
-   if t_y then
-      return t_y
-   end
+	-- If only one of them is valid, return that
+	if t_x then
+		return t_x
+	end
+	if t_y then
+		return t_y
+	end
 
-   -- If no valid meeting time found, find passing time using bisection and gradient descent hybrid method
-   return findPassingTime(id1, id2)
+	-- If no valid meeting time found, find passing time using bisection and gradient descent hybrid method
+	return findPassingTime(id1, id2)
 end
 
 -- Function to check if a position is within a 45-degree arc
 function isWithinArc(from, target, forward, requiredAngle)
-   local dx = target.x - from.x
-   local dy = target.y - from.y
+	local dx = target.x - from.x
+	local dy = target.y - from.y
 
-   local length = math.sqrt(dx * dx + dy * dy)
+	local length = math.sqrt(dx * dx + dy * dy)
 
-   if length == 0 then
-      return false
-   end
+	if length == 0 then
+		return false
+	end
 
-   -- Normalize the vector
-   local nx = dx / length
-   local ny = dy / length
+	-- Normalize the vector
+	local nx = dx / length
+	local ny = dy / length
 
-   local ux = forward.x
-   local uy = forward.y
+	local ux = forward.x
+	local uy = forward.y
 
-   local dotProduct = nx * ux + ny * uy
+	local dotProduct = nx * ux + ny * uy
 
-   local angle = math.acos(dotProduct) * (180 / math.pi)
+	local angle = math.acos(dotProduct) * (180 / math.pi)
 
-   return angle <= requiredAngle
+	return angle <= requiredAngle
 end
 
 -- Function to rotate a vector by a given angle in degrees
 function rotateVector(vector, angleDegrees)
-   local angleRadians = angleDegrees * (math.pi / 180)
-   local cosTheta = math.cos(angleRadians)
-   local sinTheta = math.sin(angleRadians)
+	local angleRadians = angleDegrees * (math.pi / 180)
+	local cosTheta = math.cos(angleRadians)
+	local sinTheta = math.sin(angleRadians)
 
-   local rotatedX = vector.x * cosTheta - vector.y * sinTheta
-   local rotatedY = vector.x * sinTheta + vector.y * cosTheta
+	local rotatedX = vector.x * cosTheta - vector.y * sinTheta
+	local rotatedY = vector.x * sinTheta + vector.y * cosTheta
 
-   return { x = rotatedX, y = rotatedY }
+	return { x = rotatedX, y = rotatedY }
 end
 
 function GetDistance(b,a)
-   local x, y = a.x-b.x, a.y-b.y
-   return math.sqrt(x * x + y * y )
+	local x, y = a.x-b.x, a.y-b.y
+	return math.sqrt(x * x + y * y )
 end
 
 function limit(num, min, max)
-   return math.min(math.max(num, min), max)
+	return math.min(math.max(num, min), max)
 end
 
 
@@ -521,12 +530,12 @@ function Load(gameStart)
 	else
 		enemyTeamId = 1
 	end
-   scriptLocalTeamFlakTarget = teamId
-   if teamId == 1 then
-      scriptLocalTeamFlakTarget = 101
-   elseif teamId == 2 then
-      scriptLocalTeamFlakTarget = 102
-   end
+	scriptLocalTeamFlakTarget = teamId
+	if teamId == 1 then
+		scriptLocalTeamFlakTarget = 101
+	elseif teamId == 2 then
+		scriptLocalTeamFlakTarget = 102
+	end
 
 	data.fortIndex = 1
 	data.OriginalToActual = {}
@@ -574,47 +583,47 @@ function Load(gameStart)
 
 	GetAttackHintsFromProps(teamId%MAX_SIDES)
 
-   data.fwenlee_pwanes = {}
+	data.fwenlee_pwanes = {}
 
 end
 
 function OnWeaponFired(weaponTeamId, saveName, weaponId, projectileNodeId, projectileNodeIdFrom)
 	if data.gameWinner and data.gameWinner ~= teamId then return end
-   local IsPlane = false
-   for planeSaveName, _ in pairs(PlaneSaveNames) do
-      if GetNodeProjectileSaveName(projectileNodeId) == planeSaveName then
-         IsPlane = true
-         break
-      end
-   end
-   if weaponTeamId%100 == teamId%MAX_SIDES and IsPlane--[[and PlaneSaveNames[saveName] ]] then
-      table.insert(data.fwenlee_pwanes, projectileNodeId)
-   elseif weaponTeamId == scriptLocalTeamFlakTarget then
-      if saveName == "flak" or saveName == "hardpointflak" then
-         Target = data.flakDetonationTimings[weaponId]
-         if Target then
-            if GetRandomInteger(1,100,"Flak Misfire Chance") > 92 then SetNodeProjectileAgeTrigger(projectileNodeId, GetRandomFloat(1.6,2.6,"Flak Misfire Offset")) return end
-            local offsetRange = 0.1 + 0.1*Target.uncertainty
-            local detonationOffset = GetRandomFloat(-offsetRange,offsetRange,"Flak Detonation Offset") - 0.04
-            if Target.justFired == true then
-               Target.justFired = false
-               local expectedImpactTime = findMeetingOrPassingTime(projectileNodeId,Target.id)--findPassingTime(projectileNodeId,yes)
-               if expectedImpactTime < 0 then expectedImpactTime = data.flakDetonationTimings[weaponId].airburstSetPoint end
-               local airburstTime = limit(expectedImpactTime + detonationOffset + limit(NodeVelocity(Target.id).y,-0.08,0.08), 0.12, 3.2)
-               data.flakDetonationTimings[weaponId].airburstSetPoint = airburstTime
-            else
-               data.flakDetonationTimings[weaponId].airburstSetPoint = data.flakDetonationTimings[weaponId].airburstSetPoint + detonationOffset
-            end
-            if saveName == "hardpointflak" then
-               if data.flakDetonationTimings[weaponId].airburstSetPoint < 0.1 then data.flakDetonationTimings[weaponId].airburstSetPoint = 0.22 end
-               SetNodeProjectileAgeTrigger(projectileNodeId, data.flakDetonationTimings[weaponId].airburstSetPoint-0.16)
-            else
-               SetNodeProjectileAgeTrigger(projectileNodeId, data.flakDetonationTimings[weaponId].airburstSetPoint)
-            end
-         else
-            ScheduleCall(0.04,OnWeaponFired,weaponTeamId, saveName, weaponId, projectileNodeId)
-         end
-      end
+	local IsPlane = false
+	for planeSaveName, _ in pairs(PlaneSaveNames) do
+		if GetNodeProjectileSaveName(projectileNodeId) == planeSaveName then
+			IsPlane = true
+			break
+		end
+	end
+	if weaponTeamId%100 == teamId%MAX_SIDES and IsPlane--[[and PlaneSaveNames[saveName] ]] then
+		table.insert(data.fwenlee_pwanes, projectileNodeId)
+	elseif weaponTeamId == scriptLocalTeamFlakTarget then
+		if saveName == "flak" or saveName == "hardpointflak" then
+			Target = data.flakDetonationTimings[weaponId]
+			if Target then
+				if GetRandomInteger(1,100,"Flak Misfire Chance") > 92 then SetNodeProjectileAgeTrigger(projectileNodeId, GetRandomFloat(1.6,2.6,"Flak Misfire Offset")) return end
+				local offsetRange = 0.1 + 0.1*Target.uncertainty
+				local detonationOffset = GetRandomFloat(-offsetRange,offsetRange,"Flak Detonation Offset") - 0.04
+				if Target.justFired == true then
+					Target.justFired = false
+					local expectedImpactTime = findMeetingOrPassingTime(projectileNodeId,Target.id)--findPassingTime(projectileNodeId,yes)
+					if expectedImpactTime < 0 then expectedImpactTime = data.flakDetonationTimings[weaponId].airburstSetPoint end
+					local airburstTime = limit(expectedImpactTime + detonationOffset + limit(NodeVelocity(Target.id).y,-0.08,0.08), 0.12, 3.2)
+					data.flakDetonationTimings[weaponId].airburstSetPoint = airburstTime
+				else
+					data.flakDetonationTimings[weaponId].airburstSetPoint = data.flakDetonationTimings[weaponId].airburstSetPoint + detonationOffset
+				end
+				if saveName == "hardpointflak" then
+					if data.flakDetonationTimings[weaponId].airburstSetPoint < 0.1 then data.flakDetonationTimings[weaponId].airburstSetPoint = 0.22 end
+					SetNodeProjectileAgeTrigger(projectileNodeId, data.flakDetonationTimings[weaponId].airburstSetPoint-0.16)
+				else
+					SetNodeProjectileAgeTrigger(projectileNodeId, data.flakDetonationTimings[weaponId].airburstSetPoint)
+				end
+			else
+				ScheduleCall(0.04,OnWeaponFired,weaponTeamId, saveName, weaponId, projectileNodeId)
+			end
+		end
 	elseif weaponTeamId%MAX_SIDES == enemyTeamId then
 		local projectileSaveName = GetNodeProjectileSaveName(projectileNodeId)
 
@@ -639,32 +648,32 @@ end
 function TrackProjectile(nodeId)
 	local nodeTeamId = NodeTeam(nodeId) -- returns TEAM_ANY if non-existent
 	if nodeTeamId%MAX_SIDES == enemyTeamId then -- node may have changed team since firing
-      IsPlane = false
-      for planeSaveName, _ in pairs(PlaneSaveNames) do
-         if GetNodeProjectileSaveName(nodeId) == planeSaveName then
-            IsPlane = true
-            break
-         end
-      end
-      if IsPlane then
-         ScheduleCall(1.5,trackProj,nodeId)
-      else
-		   table.insert(data.TrackedProjectiles, {IsPlane = false, ProjectileNodeId = nodeId, AntiAirWeapons = {}, Claims = {} })
-      end
+		IsPlane = false
+		for planeSaveName, _ in pairs(PlaneSaveNames) do
+			if GetNodeProjectileSaveName(nodeId) == planeSaveName then
+				IsPlane = true
+				break
+			end
+		end
+		if IsPlane then
+			ScheduleCall(1.5,trackProj,nodeId)
+		else
+			table.insert(data.TrackedProjectiles, {IsPlane = false, ProjectileNodeId = nodeId, AntiAirWeapons = {}, Claims = {} })
+		end
 	end
 end
 
 function trackProj(nodeId)
-   if NodeExists(nodeId) then
-      table.insert(data.TrackedProjectiles, {IsPlane = true, ProjectileNodeId = nodeId, AntiAirWeapons = {}, Claims = {} })
-   end
+	if NodeExists(nodeId) then
+		table.insert(data.TrackedProjectiles, {IsPlane = true, ProjectileNodeId = nodeId, AntiAirWeapons = {}, Claims = {} })
+	end
 end
 
 function AA_GetProjectileGravity(id)
 	if id < 0 then return 0 end
-   saveName = AA_GetNodeProjectileSaveName(id)
-   return PlaneSaveNames[saveName] or GetProjectileGravity(id)
-   --if PlaneSaveNames[saveName] then return PlaneSaveNames[saveName] end
+	saveName = AA_GetNodeProjectileSaveName(id)
+	return PlaneSaveNames[saveName] or GetProjectileGravity(id)
+	--if PlaneSaveNames[saveName] then return PlaneSaveNames[saveName] end
 	--return GetProjectileGravity(id)
 end
 
@@ -684,7 +693,7 @@ function TryShootDownProjectiles()
 
 	for k,v in ipairs(data.TrackedProjectiles) do
 		local nodeTeamId = AA_NodeTeam(v.ProjectileNodeId)
-      
+		
 		if not v.IsPlane and nodeTeamId%MAX_SIDES ~= enemyTeamId then --[[nodeTeamId == TEAM_ANY ]]
 			for _,b in ipairs(v.AntiAirWeapons) do
 				if IsAIDeviceAvailable(b) then
@@ -758,15 +767,15 @@ function TryShootDownProjectiles()
 							local delta = weaponPos - actualPos
 
 							-- calculate the time it will take to get our projectile to the target position
-                     local leadTime
-                     if type == "hardpointflak" then
-                        leadTime = 1
-                     else
-                        local fireDelay = GetWeaponTypeFireDelay(type, teamId)
-                        local fireRoundsEachBurst = GetWeaponTypeRoundsEachBurst(type, teamId)
-                        local firePeriod = GetWeaponTypeRoundsPeriod(type, teamId)
-                        leadTime = fireDelay + 0.5*(fireRoundsEachBurst - 1)*firePeriod
-                     end
+							local leadTime
+							if type == "hardpointflak" then
+								leadTime = 1
+							else
+								local fireDelay = GetWeaponTypeFireDelay(type, teamId)
+								local fireRoundsEachBurst = GetWeaponTypeRoundsEachBurst(type, teamId)
+								local firePeriod = GetWeaponTypeRoundsPeriod(type, teamId)
+								leadTime = fireDelay + 0.5*(fireRoundsEachBurst - 1)*firePeriod
+							end
 
 							local d = Vec3Length(delta)
 							local targetSpeed = Vec3Length(currVel)
@@ -790,25 +799,25 @@ function TryShootDownProjectiles()
 							-- avoid ray cast if there's no chance it will pass further testing
 							-- ignore projectile if it's too close to shoot 
 
-                     local projectileVisibleRange = ProjectileVisibleRanges[projectileSaveName] or 30000
-                     local maxRange = AntiAirMaxRanges[type] or 40000
-                     local actualRange = GetDistance(actualPos,weaponPos)
-                     local predictedRange = GetDistance(pos,weaponPos)
+							local projectileVisibleRange = ProjectileVisibleRanges[projectileSaveName] or 30000
+							local maxRange = AntiAirMaxRanges[type] or 40000
+							local actualRange = GetDistance(actualPos,weaponPos)
+							local predictedRange = GetDistance(pos,weaponPos)
 
-                     local isValidTarget = true
-                     if
-                     type ~= "hardpointflak"                and
-                     actualRange >= projectileVisibleRange  or
-                     type == "hardpointflak"                or --TODO: and
-                     actualRange>= projectileVisibleRange*3 or
+							local isValidTarget = true
+							if
+							type ~= "hardpointflak"					 and
+							actualRange >= projectileVisibleRange  or
+							type == "hardpointflak"					 or --TODO: and
+							actualRange>= projectileVisibleRange*3 or
 
-                     predictedRange >= maxRange             or
+							predictedRange >= maxRange				 or
 
-                     timeToImpact > closestTimeToImpact     and
-                     timeToSelf > minTimeToImpact           then
-                        isValidTarget = false
-                     end
-                     if isValidTarget then
+							timeToImpact > closestTimeToImpact	  and
+							timeToSelf > minTimeToImpact			  then
+								isValidTarget = false
+							end
+							if isValidTarget then
 								-- don't fire at projectiles that are behind the weapon
 								local weaponForward = GetDeviceForward(id)
 								local dot = Vec3Dot(weaponForward, deltaUnit)
@@ -894,14 +903,14 @@ function TryShootDownProjectiles()
 											end
 										end
 									end
-                           -- Hack fix to the artillery arc attempt at hitting projectiles
-                           if type == "hardpointflak" then
-                              --local f = GetDeviceForward(id) if f.x>0 then a={x=0.5,y=-0.5}else a={x=0.5,y=-0.5}end --Not large enough of an offset for this to matter
-                              if not isWithinArc(weaponPos,pos,{x = 0,y = -1},40) then continue end
-                              if distance(weaponPos,pos) < 5500 then continue end
-                           end
-                           --AimWeapon(id, pos)
-                           --Log(""..GetAimWeaponAngle()) --check if its firing directly upwards, Note, not necessary as the angle restriction works quite well when combined with directAim flag
+									-- Hack fix to the artillery arc attempt at hitting projectiles
+									if type == "hardpointflak" then
+										--local f = GetDeviceForward(id) if f.x>0 then a={x=0.5,y=-0.5}else a={x=0.5,y=-0.5}end --Not large enough of an offset for this to matter
+										if not isWithinArc(weaponPos,pos,{x = 0,y = -1},40) then continue end
+										if distance(weaponPos,pos) < 5500 then continue end
+									end
+									--AimWeapon(id, pos)
+									--Log(""..GetAimWeaponAngle()) --check if its firing directly upwards, Note, not necessary as the angle restriction works quite well when combined with directAim flag
 
 
 									local danger = timeToSelf < minTimeToImpact and trajectoryThreat
@@ -947,9 +956,9 @@ function TryShootDownProjectiles()
 								--Log("  checking projectile " .. tostring(v.ProjectileNodeId))
 								if AA_IsMissileAttacking(v.ProjectileNodeId) then
 									local pos, vel = PredictProjectilePos(v.ProjectileNodeId, closestTimeToImpact)
-									--Log("    is attacking, time " .. closestTimeToImpact .. " pos " .. tostring(pos))
+									--Log("	 is attacking, time " .. closestTimeToImpact .. " pos " .. tostring(pos))
 									if Vec3Length(pos - best_pos) < 500 then
-										--Log("      within range")
+										--Log("		within range")
 										local projectileType = AA_GetNodeProjectileType(v.ProjectileNodeId)
 										accPos = accPos + pos
 										accVel = accVel + MissileVelToTarget(projectileType, v.ProjectileNodeId, vel, pos)
@@ -1052,18 +1061,18 @@ function TryShootDownProjectiles()
 
 							local stdDev = data.AntiAirErrorStdDev[type]
 							--LogDetail("Shooting down projectile " .. v.ProjectileNodeId .. " weapon " .. id)
-                     if projSaveName == "flak" or projSaveName == "HardPointFlak" then
-                        local defaultAirburstSetPoint = data.flakDetonationTimings[id] and data.flakDetonationTimings[id].airburstSetPoint or 0.2
-                        data.flakDetonationTimings[id] = {id = v.ProjectileNodeId,timeToImpact = timeToImpact,uncertainty = uncertainty,airburstSetPoint = defaultAirburstSetPoint,justFired = true}
-                     end
-                     min_distance = math.huge
-                     for key, value in pairs(data.fwenlee_pwanes) do
-                        local pspeed = GetWeaponMaxFireSpeed(teamId, type)
+							if projSaveName == "flak" or projSaveName == "HardPointFlak" then
+								local defaultAirburstSetPoint = data.flakDetonationTimings[id] and data.flakDetonationTimings[id].airburstSetPoint or 0.2
+								data.flakDetonationTimings[id] = {id = v.ProjectileNodeId,timeToImpact = timeToImpact,uncertainty = uncertainty,airburstSetPoint = defaultAirburstSetPoint,justFired = true}
+							end
+							min_distance = math.huge
+							for key, value in pairs(data.fwenlee_pwanes) do
+								local pspeed = GetWeaponMaxFireSpeed(teamId, type)
 
-                        local firing_velocity = calculate_firing_velocity(GetDevicePosition(id), pos, pspeed, nil)
-                        min_distance = calculate_min_distance(pos,firing_velocity, NodePosition(value), NodeVelocity(value))
-                     end
-                     if min_distance < 1400 then break end
+								local firing_velocity = calculate_firing_velocity(GetDevicePosition(id), pos, pspeed, nil)
+								min_distance = calculate_min_distance(pos,firing_velocity, NodePosition(value), NodeVelocity(value))
+							end
+							if min_distance < 1400 then break end
 							local result = FireWeaponWithPower(id, pos, stdDev or 0, FIREWEAPON_STDDEVTEST_DEFAULT, FIREFLAG_EXTRACLEARANCE | FIREFLAG_DIRECTAIM, power)
 							if result == FIRE_SUCCESS then
 

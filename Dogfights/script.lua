@@ -293,6 +293,14 @@ end
 function OnLinkHit(nodeIdA, nodeIdB, objectId, objectTeamId, objectSaveName, damage, pos, reflectedByEnemy)
 	EffectsHeliDust(objectId, objectSaveName, pos, Vec3(0,-1), 42069)
 end
+function OnDeviceHit(teamId, deviceId, saveName, newHealth, projectileNodeId, projectileTeamId, pos)
+	if GetNodeProjectileSaveName(projectileNodeId) == "sbpp_FlechetteP2" then
+		--flechette velocity damage boost.
+		local velocity = NodeVelocity(projectileNodeId)
+		local damageDivider = 200
+		ApplyDamageToDevice(deviceId, math.sqrt(velocity["x"]^2 + velocity["y"]^2) / damageDivider)
+	end
+end
 
 dofile(path .. "/scripts/debugMagic.lua")
 

@@ -18,7 +18,7 @@ if sbFlechetteP1 then
 	sbFlechetteP2.ExpiresOnFreeFall = false
 	sbFlechetteP2.ProjectileDamage = 4
 	sbFlechetteP2.AntiAirHitpoints = 1
-	sbFlechetteP2.AntiAirDamage = 10
+	sbFlechetteP2.AntiAirDamage = 6
 	sbFlechetteP2.ProjectileMass = 1
 	sbFlechetteP2.PenetrationDamage = 460
 	sbFlechetteP2.ImpactMomentumLimit = nil

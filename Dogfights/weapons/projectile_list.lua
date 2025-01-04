@@ -32,6 +32,11 @@ if shotgun then
     shotgun.AntiAirDamage = 30
    shotgun.MaxAge = 2.8
 end
+local machinegun = FindProjectile('machinegun')
+if machinegun then
+	machinegun.MinAge = 10
+	machinegun.MaxAge = 30
+end
 
 --plane changes
 local thunderbolt = FindProjectile("thunderbolt")
@@ -523,7 +528,7 @@ if ac130 then
 			Name = "Root",
 			Angle = -90,
 			Sprite = path .. "/weapons/ac130/ac130.png",
-			PivotOffset = {0, 0},
+			PivotOffset = {-0.115234, 0.0156},
 			Scale = 2,
 			ChildrenInFront =
 			{	
@@ -544,6 +549,7 @@ if ac130 then
 	ac130.ProjectileSplashDamageMaxRadius = ac130.ProjectileSplashDamageMaxRadius * 1.9
 	ac130.ProjectileSplashMaxForce = 650000
 	ac130.IncendiaryRadius = 200
+	ac130.WeaponDamageBonus = 300
 	ac130.Effects.Impact =
 	{
 		default = path .. "/effects/HUGE_EXPLOSION.lua",
@@ -943,11 +949,73 @@ local b52 = DeepCopy(FindProjectile("sbpp_ac130"))
 if b52 then
 	b52.SaveName = "sbpp_b52"
 	b52.Projectile.Root.Sprite = path .. "/weapons/b52/b52.dds"
+	b52.Projectile.Root.Scale = b52.Projectile.Root.Scale * 1.6
+	b52.Projectile.Root.PivotOffset = {-0.20117, -0.125}
 	b52.Projectile.Root.ChildrenInFront = {}
 	b52.sb_planes.trail_effect = path .. "/effects/trail_jet"
+	b52.ProjectileDamage = b52.ProjectileDamage + 410
+	b52.ProjectileSplashDamage = b52.ProjectileSplashDamage * 0.75
+	b52.ProjectileSplashMaxForce = 650000
+	b52.AntiAirHitpoints = b52.AntiAirHitpoints * 0.7
+	b52.WeaponDamageBonus = 500
+	b52.ProjectileShootDownRadius = b52.ProjectileShootDownRadius * 1.3
+	
+	b52.sb_planes.weapon1 = 
+	{
+		projectile = "sbpp_temp_bomb",
+		rotation = 1.5708, 
+		distance = 35,
+		speed = 300,
+		count = 25, 
+		period = 0.04, 
+		timer = 3,
+		bank_timer = 16,
+		bank_max = 3,
+		bank_start = 1,
+		stddev = 0.6,
+		aimed = false,
+		effect = "mods/dlc2/effects/bomb_release.lua",
+		reload_effect = path .. "/effects/reload_bomb.lua",
+		name = "$Weapon.sbpp_mk82bomb",
+	}
+	b52.sb_planes.weapon2 = 
+	{
+		projectile = "sbpp_temp_sbpp_bomb250kg",
+		rotation = 1.5708, 
+		distance = 25,
+		speed = 300,
+		count = 6, 
+		period = 0.24,
+		timer = 3,
+		bank_timer = 16,
+		bank_max = 3,
+		bank_start = 1,
+		stddev = 0.6,
+		aimed = false,
+		effect = "mods/dlc2/effects/bomb_release.lua",
+		reload_effect = path .. "/effects/reload_bomb.lua",
+		name = "$Weapon.sbpp_bomb250kg",
+	}
+	b52.sb_planes.weapon3 =
+	{
+		projectile = "sbpp_flare",
+		rotation = 0.0,
+		distance = 25,
+		speed = 8000,
+		count = 16,
+		period = 0.24,
+		perround = 6,
+		timer = 18,
+		bank_start = 0,
+		stddev = 3,
+		effect = path .. "/effects/flare_launch.lua",
+		reload_effect = path .. "/effects/reload_bomb.lua",
+		name = "$Weapon.sbpp_flares",
+	}
 	table.insert(Projectiles, b52)
 	MakeFlamingVersion("sbpp_b52", 1.33, 10, flamingTrail, 100, nil, genericFlamingExpire)
-	sbpp_Firebeams('sbpp_b52', 150, 400)
+	sbpp_Firebeams('sbpp_b52', 275, 600)
+	
 end
 table.insert(Sprites,
 {
