@@ -928,6 +928,27 @@ if mig15gun2 then
 	table.insert(Projectiles, mig15gun2)
 	MakeFlamingVersion("sbpp_mig15gun2", 1.33, 0.25, flamingTrail, 100, nil, genericFlamingExpire)
 end
+
+local spitfire = DeepCopy(FindProjectile("sbpp_hellcat"))
+if spitfire then
+	spitfire.SaveName = "sbpp_spitfire"
+	spitfire.Projectile.Root.Sprite = path .. "/weapons/spitfire/spitfire.png"
+	spitfire.Projectile.Root.ChildrenInFront[1].Pivot = {0.455, -0.04166}
+	table.insert(Projectiles, spitfire)
+	MakeFlamingVersion("sbpp_spitfire", 1.33, 10, flamingTrail, 100, nil, genericFlamingExpire)
+	sbpp_Firebeams('sbpp_spitfire', 150, 400)
+end
+
+local b52 = DeepCopy(FindProjectile("sbpp_ac130"))
+if b52 then
+	b52.SaveName = "sbpp_b52"
+	b52.Projectile.Root.Sprite = path .. "/weapons/b52/b52.dds"
+	b52.Projectile.Root.ChildrenInFront = {}
+	b52.sb_planes.trail_effect = path .. "/effects/trail_jet"
+	table.insert(Projectiles, b52)
+	MakeFlamingVersion("sbpp_b52", 1.33, 10, flamingTrail, 100, nil, genericFlamingExpire)
+	sbpp_Firebeams('sbpp_b52', 150, 400)
+end
 table.insert(Sprites,
 {
 	Name = "sbpp_bloom_flare",

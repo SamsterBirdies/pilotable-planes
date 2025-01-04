@@ -159,20 +159,55 @@ table.insert(Devices, IndexOfDevice("ammo_thunderbolt") + 1,
 	)
 )
 
-table.insert(Devices, IndexOfDevice("ammo_sbpp_p51"),
+table.insert(Devices, IndexOfDevice("ammo_sbpp_hellcat"),
 	InheritType(FindDevice("ammo_nighthawk"),nil,
 		{	
 			SaveName = "ammo_sbpp_mig15",
 			FileName = path .. "/devices/ammo_mig15.lua",
 			dlc2_BuildQueue = "dlc2_runway",
-			Detail = "hud-detail-sbpp_hellcat",
-			Icon = "hud-sbpp_hellcat-icon",
-			MetalCost = 300,
-			EnergyCost = 5000,
-			Prerequisite = "munitions",
+			Detail = "hud-detail-sbpp_mig15",
+			Icon = "hud-sbpp_mig15-icon",
+			MetalCost = 200,
+			EnergyCost = 4000,
+			Prerequisite = "upgrade",
 			Enabled = true,
 			BuildTimeComplete = 40,
 			ObserverBuildEvent = false,
+		}
+	)
+)
+table.insert(Devices, IndexOfDevice("ammo_sbpp_mig15"),
+	InheritType(FindDevice("ammo_sbpp_hellcat"),nil,
+		{	
+			SaveName = "ammo_sbpp_spitfire",
+			FileName = path .. "/devices/ammo_spitfire.lua",
+			dlc2_BuildQueue = "dlc2_runway",
+			Detail = "hud-detail-sbpp_spitfire",
+			Icon = "hud-sbpp_spitfire-icon",
+			MetalCost = 200,
+			EnergyCost = 4000,
+			Prerequisite = "armoury",
+			Enabled = true,
+			BuildTimeComplete = 40,
+			ObserverBuildEvent = false,
+		}
+	)
+)
+
+table.insert(Devices, IndexOfDevice("ammo_sbpp_ac130"),
+	InheritType(FindDevice("ammo_nighthawk"),nil,
+		{	
+			SaveName = "ammo_sbpp_b52",
+			FileName = path .. "/devices/ammo_b52.lua",
+			dlc2_BuildQueue = "dlc2_runway3",
+			Detail = "hud-detail-sbpp_b52",
+			Icon = "hud-sbpp_b52-icon",
+			MetalCost = 1200,
+			EnergyCost = 18000,
+			Prerequisite = "munitions",
+			Enabled = true,
+			BuildTimeComplete = 90,
+			ObserverBuildEvent = true,
 		}
 	)
 )

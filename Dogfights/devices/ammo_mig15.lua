@@ -5,7 +5,7 @@ ConsumeEffect = "mods/dlc2/effects/ammo_consumption.lua"
 Root = 
 {
 	Sprite = path .. "/devices/mig15Ammo.png",
-	Name = "ammo_f16",
+	Name = "ammo_mig15",
 	ChildrenInFront = {},
 	Angle = 0,
 	Pivot = {0,-0.5},
