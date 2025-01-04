@@ -8,7 +8,7 @@ local thunderbolt = FindDevice("ammo_thunderbolt")
 if thunderbolt then
 	thunderbolt.MetalCost = 400
 	thunderbolt.EnergyCost = 8000
-	thunderbolt.BuildTimeComplete = 50
+	thunderbolt.BuildTimeComplete = 40
 	thunderbolt.Icon = "hud-sbpp_a10-icon"
 	thunderbolt.dlc2_BuildQueue = "dlc2_runway2"
 end
@@ -17,7 +17,7 @@ if nighthawk then
 	nighthawk.MetalCost = 200
 	nighthawk.EnergyCost = 6000
 	nighthawk.Icon = "hud-sbpp_nighthawk-icon"
-	nighthawk.BuildTimeComplete = 45
+	nighthawk.BuildTimeComplete = 40
 	nighthawk.dlc2_BuildQueue = "dlc2_runway2"
 end
 
@@ -55,7 +55,7 @@ table.insert(Devices, IndexOfDevice("ammo_thunderbolt"),
 			EnergyCost = 5000,
 			Prerequisite = "armoury",
 			Enabled = true,
-			BuildTimeComplete = 40,
+			BuildTimeComplete = 30,
 			ObserverBuildEvent = false,
 		}
 	)
@@ -113,7 +113,7 @@ table.insert(Devices, IndexOfDevice("ammo_nighthawk") + 1,
 			EnergyCost = 18000,
 			Prerequisite = "factory",
 			Enabled = true,
-			BuildTimeComplete = 120,
+			BuildTimeComplete = 90,
 			ObserverBuildEvent = true,
 		}
 	)
@@ -154,6 +154,24 @@ table.insert(Devices, IndexOfDevice("ammo_thunderbolt") + 1,
 			Prerequisite = "munitions",
 			--Enabled = false,
 			BuildTimeComplete = 50,
+			ObserverBuildEvent = false,
+		}
+	)
+)
+
+table.insert(Devices, IndexOfDevice("ammo_sbpp_p51"),
+	InheritType(FindDevice("ammo_nighthawk"),nil,
+		{	
+			SaveName = "ammo_sbpp_mig15",
+			FileName = path .. "/devices/ammo_mig15.lua",
+			dlc2_BuildQueue = "dlc2_runway",
+			Detail = "hud-detail-sbpp_hellcat",
+			Icon = "hud-sbpp_hellcat-icon",
+			MetalCost = 300,
+			EnergyCost = 5000,
+			Prerequisite = "munitions",
+			Enabled = true,
+			BuildTimeComplete = 40,
 			ObserverBuildEvent = false,
 		}
 	)

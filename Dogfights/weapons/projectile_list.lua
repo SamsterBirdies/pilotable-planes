@@ -865,6 +865,69 @@ if ah6 then
 	table.insert(Projectiles, ah6)
 	sbpp_Firebeams('sbpp_littlebird', 90, 600)
 end
+local mig15 = DeepCopy(FindProjectile("nighthawk"))
+if mig15 then
+	mig15.SaveName = "sbpp_mig15"
+	mig15.Projectile =
+	{
+		Root =
+		{
+			Name = "Root",
+			Angle = -90,
+			Sprite = path .. "/weapons/mig15/mig15.png",
+			PivotOffset = {0, 0},
+			Scale = 0.81,
+		}
+	}
+	mig15.sb_planes.weapon1 = 
+	{
+		projectile = "sbpp_temp_sbpp_mig15gun1",
+		rotation = 0.0, 
+		distance = 25, 
+		speed = 6000,
+		count = 10, 
+		period = 0.12,
+		perround = 2,
+		timer = 9,
+		stddev = 0.03, 
+		effect = path .. "/effects/50cal_fire.lua",
+		reload_effect = path .. "/effects/reload_gun.lua",
+		name = "$Weapon.machinegun",
+	}
+	mig15.sb_planes.weapon2 = 
+	{
+		projectile = "sbpp_temp_sbpp_mig15gun2",
+		rotation = 0.0, 
+		distance = 25, 
+		speed = 5000,
+		count = 8, 
+		period = 0.12, 
+		timer = 13, 
+		stddev = 0.04,
+		effect = "mods/weapon_pack/effects/fire_20mmcannon.lua",
+		reload_effect = path .. "/effects/reload_gun_large.lua",
+		name = "$Weapon.sbpp_chaingun",
+	}
+	mig15.AntiAirHitpoints = mig15.AntiAirHitpoints * 0.9
+	table.insert(Projectiles, mig15)
+	MakeFlamingVersion("sbpp_mig15", 1.33, 10, flamingTrail, 100, nil, genericFlamingExpire)
+	sbpp_Firebeams('sbpp_mig15', 150, 400)
+end
+local mig15gun1 = DeepCopy(FindProjectile("sbpp_vulcan"))
+if mig15gun1 then
+	mig15gun1.SaveName = "sbpp_mig15gun1"
+	mig15gun1.WeaponDamageBonus = 0
+	table.insert(Projectiles, mig15gun1)
+	MakeFlamingVersion("sbpp_mig15gun1", 1.33, 0.25, flamingTrail, 100, nil, genericFlamingExpire)
+end
+local mig15gun2 = DeepCopy(FindProjectile("sbpp_gau12"))
+if mig15gun2 then
+	mig15gun2.SaveName = "sbpp_mig15gun2"
+	mig15gun2.ProjectileDamage = mig15gun2.ProjectileDamage - 15
+	mig15gun2.WeaponDamageBonus = 15
+	table.insert(Projectiles, mig15gun2)
+	MakeFlamingVersion("sbpp_mig15gun2", 1.33, 0.25, flamingTrail, 100, nil, genericFlamingExpire)
+end
 table.insert(Sprites,
 {
 	Name = "sbpp_bloom_flare",
@@ -940,6 +1003,8 @@ sbpp_TempProjectile("cannon20mm", 80)
 sbpp_TempProjectile("sbpp_bomb250kg", 300)
 sbpp_TempProjectile("paveway", 300)
 sbpp_TempProjectile("sbpp_vulcan", 80)
+sbpp_TempProjectile("sbpp_mig15gun1", 80)
+sbpp_TempProjectile("sbpp_mig15gun2", 120)
 sbpp_TempProjectile("sbpp_gau8", 80)
 sbpp_TempProjectile("sbpp_gau12", 120)
 sbpp_TempProjectile("sbpp_hydra", 120)
