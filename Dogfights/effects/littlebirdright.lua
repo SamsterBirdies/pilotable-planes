@@ -1,4 +1,4 @@
-LifeSpan = 11111
+LifeSpan = 1
 SCALE = 1.5
 Y_OFFSET = 20
 Effects =

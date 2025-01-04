@@ -1,5 +1,5 @@
 SoundEvent = "mods/dogfights/effects/trail_jetengine"
-LifeSpan = 198469420.0
+LifeSpan = 1
 
 Effects =
 {

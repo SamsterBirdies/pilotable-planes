@@ -1,6 +1,6 @@
 --  age (in seconds) at which the explosion deletes itself
 --  make sure this exceedes the age of all effects
-LifeSpan = 198420
+LifeSpan = 1
 SoundEvent = "mods/dogfights/effects/trail_p51"
 Effects =
 {

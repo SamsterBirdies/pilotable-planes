@@ -158,7 +158,8 @@ table.insert(Devices, IndexOfDevice("ammo_thunderbolt") + 1,
 		}
 	)
 )
-
+table.insert(Sprites, DetailSprite("hud-detail-sbpp_mig15", "mig15", path))
+table.insert(Sprites, ButtonSprite("hud-sbpp_mig15-icon", "HUD/HUD-mig15", nil, ButtonSpriteBottom, nil, nil, path))
 table.insert(Devices, IndexOfDevice("ammo_sbpp_hellcat"),
 	InheritType(FindDevice("ammo_nighthawk"),nil,
 		{	
@@ -176,6 +177,8 @@ table.insert(Devices, IndexOfDevice("ammo_sbpp_hellcat"),
 		}
 	)
 )
+table.insert(Sprites, DetailSprite("hud-detail-sbpp_spitfire", "spitfire", path))
+table.insert(Sprites, ButtonSprite("hud-sbpp_spitfire-icon", "HUD/HUD-spitfire", nil, ButtonSpriteBottom, nil, nil, path))
 table.insert(Devices, IndexOfDevice("ammo_sbpp_mig15"),
 	InheritType(FindDevice("ammo_sbpp_hellcat"),nil,
 		{	
@@ -193,7 +196,7 @@ table.insert(Devices, IndexOfDevice("ammo_sbpp_mig15"),
 		}
 	)
 )
-
+table.insert(Sprites, ButtonSprite("hud-sbpp_b52-icon", "HUD/HUD-b52", nil, ButtonSpriteBottom, nil, nil, path))
 table.insert(Devices, IndexOfDevice("ammo_sbpp_ac130"),
 	InheritType(FindDevice("ammo_nighthawk"),nil,
 		{	

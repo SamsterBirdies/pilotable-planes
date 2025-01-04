@@ -1,4 +1,4 @@
-LifeSpan = 11111
+LifeSpan = 1
 SCALE = 2
 Sprites = {}
 table.insert(Sprites,

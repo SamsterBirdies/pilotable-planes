@@ -32,6 +32,7 @@ function PlaneSpawnTrail(id)
 		effect = effect .. "1.lua"
 	end	
 	local effect_id = SpawnEffect(effect, NodePosition(id))
+	AddToEffectLifeSpan(effect_id, 198469420.0)
 	planes_effects[tostring(id)].trail = effect_id
 end
 
@@ -64,6 +65,8 @@ function PlaneSpawnSprite(id)
 	local effect = GetProjectileParamString(GetNodeProjectileSaveName(id), NodeTeam(id), "sb_planes.sprite", "")
 	local effect_left_id = SpawnEffect(effect .. "left.lua", NodePosition(id))
 	local effect_right_id = SpawnEffect(effect .. "right.lua", NodePosition(id))
+	AddToEffectLifeSpan(effect_left_id, 198469420.0)
+	AddToEffectLifeSpan(effect_right_id, 198469420.0)
 	local id_string = tostring(id)
 	planes_effects[id_string].helicopter = true
 	planes_effects[id_string].sprite_left = effect_left_id
