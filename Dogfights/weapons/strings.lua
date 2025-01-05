@@ -74,6 +74,6 @@ Merge(Weapon,
 	sbpp_rp3 = L"RP-3 Rocket",
 	sbpp_mig15gun1 = L"NR-23 Autocannon",
 	sbpp_mig15gun2 = L"N-37 Autocannon",
-	sbpp_50cal = L".50 Browning M2",
+	sbpp_50cal = L".50 M2 Browning",
 	sbpp_303cal = L".303 Browning MK II",
 })
