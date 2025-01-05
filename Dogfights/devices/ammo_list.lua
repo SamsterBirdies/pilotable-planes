@@ -196,6 +196,7 @@ table.insert(Devices, IndexOfDevice("ammo_sbpp_mig15"),
 		}
 	)
 )
+--[[
 table.insert(Sprites, ButtonSprite("hud-sbpp_b52-icon", "HUD/HUD-b52", nil, ButtonSpriteBottom, nil, nil, path))
 table.insert(Devices, IndexOfDevice("ammo_sbpp_ac130"),
 	InheritType(FindDevice("ammo_nighthawk"),nil,
@@ -213,4 +214,4 @@ table.insert(Devices, IndexOfDevice("ammo_sbpp_ac130"),
 			ObserverBuildEvent = true,
 		}
 	)
-)
+)]]

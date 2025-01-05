@@ -37,7 +37,21 @@ if machinegun then
 	machinegun.MinAge = 10
 	machinegun.MaxAge = 30
 end
-
+local mg50 = DeepCopy(machinegun)
+if mg50 then
+	mg50.SaveName = "sbpp_machinegun50cal"
+	mg50.ProjectileDamage = mg50.ProjectileDamage * 1.5
+	mg50.WeaponDamageBonus = mg50.WeaponDamageBonus * 1.5
+	table.insert(Projectiles, mg50)
+	MakeFlamingVersion("sbpp_machinegun50cal", 1.33, 0.24, flamingTrail, 150, nil, genericFlamingExpire)
+end
+local mgsmall = DeepCopy(machinegun)
+if mgsmall then
+	mgsmall.SaveName = "sbpp_machinegunsmall"
+	mgsmall.ProjectileDamage = mgsmall.ProjectileDamage * 0.6
+	table.insert(Projectiles, mgsmall)
+	MakeFlamingVersion("sbpp_machinegunsmall", 1.33, 0.24, flamingTrail, 150, nil, genericFlamingExpire)
+end
 --plane changes
 local thunderbolt = FindProjectile("thunderbolt")
 if thunderbolt then
@@ -289,7 +303,7 @@ if f16 then
 			period = 0.2, 
 			timer = 12,
 			stddev = 0.02,
-			effect = "mods/weapon_pack/effects/rocket_launch.lua",
+			effect = path .. "/effects/rocket_launchdop.lua",
 			reload_effect = path .. "/effects/reload_bomb.lua",
 			name = "$Weapon.sbpp_sidewinders",
 		},
@@ -428,7 +442,7 @@ if p51 then
 		RCS = 5,
 		weapon1 = 
 		{
-			projectile = "sbpp_temp_machinegun",
+			projectile = "sbpp_temp_sbpp_machinegun50cal",
 			rotation = 0.0, 
 			distance = 25, 
 			speed = 6000,
@@ -439,7 +453,7 @@ if p51 then
 			stddev = 0.03, 
 			effect = path .. "/effects/50cal_fire.lua",
 			reload_effect = path .. "/effects/reload_gun.lua",
-			name = "$Weapon.machinegun",
+			name = "$Weapon.sbpp_50cal",
 		},
 		weapon2 = 
 		{
@@ -608,7 +622,7 @@ if ac130 then
 			min_aim = 3.14,
 			fire_cost_metal = 10,
 			fire_cost_energy = 500,
-			effect = "mods/weapon_pack/effects/fire_20mmcannon.lua", 
+			effect = path .. "/effects/fire_20mmdop.lua", 
 			name = "$Weapon.sbpp_bofors",
 		},
 		weapon3 = 
@@ -749,7 +763,7 @@ if apache then
 			period = 0.2, 
 			timer = 14, 
 			stddev = 0.03,
-			effect = "mods/weapon_pack/effects/fire_20mmcannon.lua",
+			effect = path .. "/effects/fire_20mmdop.lua",
 			reload_effect = path .. "/effects/reload_gun_large.lua",
 			name = "$Weapon.sbpp_chaingun",
 		},
@@ -890,18 +904,18 @@ if mig15 then
 	}
 	mig15.sb_planes.weapon1 = 
 	{
-		projectile = "sbpp_temp_sbpp_mig15gun1",
+		projectile = "sbpp_temp_sbpp_vulcan",
 		rotation = 0.0, 
 		distance = 25, 
 		speed = 6000,
-		count = 10, 
+		count = 13, 
 		period = 0.12,
 		perround = 2,
 		timer = 9,
 		stddev = 0.03, 
-		effect = path .. "/effects/50cal_fire.lua",
+		effect = path .. "/effects/20mmcal_fire.lua",
 		reload_effect = path .. "/effects/reload_gun.lua",
-		name = "$Weapon.machinegun",
+		name = "$Weapon.sbpp_mig15gun1",
 	}
 	mig15.sb_planes.weapon2 = 
 	{
@@ -913,22 +927,23 @@ if mig15 then
 		period = 0.12, 
 		timer = 13, 
 		stddev = 0.04,
-		effect = "mods/weapon_pack/effects/fire_20mmcannon.lua",
+		effect = path .. "/effects/fire_20mmdop.lua",
 		reload_effect = path .. "/effects/reload_gun_large.lua",
-		name = "$Weapon.sbpp_chaingun",
+		name = "$Weapon.sbpp_mig15gun2",
 	}
 	mig15.AntiAirHitpoints = mig15.AntiAirHitpoints * 0.9
 	table.insert(Projectiles, mig15)
 	MakeFlamingVersion("sbpp_mig15", 1.33, 10, flamingTrail, 100, nil, genericFlamingExpire)
 	sbpp_Firebeams('sbpp_mig15', 150, 400)
 end
+--[[
 local mig15gun1 = DeepCopy(FindProjectile("sbpp_vulcan"))
 if mig15gun1 then
 	mig15gun1.SaveName = "sbpp_mig15gun1"
 	mig15gun1.WeaponDamageBonus = 0
 	table.insert(Projectiles, mig15gun1)
 	MakeFlamingVersion("sbpp_mig15gun1", 1.33, 0.25, flamingTrail, 100, nil, genericFlamingExpire)
-end
+end]]
 local mig15gun2 = DeepCopy(FindProjectile("sbpp_gau12"))
 if mig15gun2 then
 	mig15gun2.SaveName = "sbpp_mig15gun2"
@@ -943,11 +958,64 @@ if spitfire then
 	spitfire.SaveName = "sbpp_spitfire"
 	spitfire.Projectile.Root.Sprite = path .. "/weapons/spitfire/spitfire.png"
 	spitfire.Projectile.Root.ChildrenInFront[1].Pivot = {0.455, -0.04166}
+	spitfire.Projectile.Root.Scale = spitfire.Projectile.Root.Scale * 0.9
+	spitfire.sb_planes.throttle_max = 1.235
+	spitfire.sb_planes.elevator = 32000
+	spitfire.sb_planes.lift_multiplier = spitfire.sb_planes.lift_multiplier - 0.1
+	spitfire.sb_planes.weapon1.projectile = "sbpp_temp_sbpp_machinegunsmall"
+	spitfire.sb_planes.weapon1.effect = path .. "/effects/303cal.lua"
+	spitfire.sb_planes.weapon1.perround = 8
+	spitfire.sb_planes.weapon1.period = 0.12
+	spitfire.sb_planes.weapon1.count = 15
+	spitfire.sb_planes.weapon1.name = "$Weapon.sbpp_303cal"
+	spitfire.sb_planes.weapon2.projectile = "sbpp_temp_sbpp_rp3"
+	spitfire.sb_planes.weapon2.rotation = 0
+	spitfire.sb_planes.weapon2.speed = 3000
+	spitfire.sb_planes.weapon2.effect = path .. "/effects/rocket_launchdop.lua"
+	spitfire.sb_planes.weapon2.count = 1
+	spitfire.sb_planes.weapon2.bank_max = 2
+	spitfire.sb_planes.weapon2.bank_start = 2
+	spitfire.sb_planes.weapon2.timer = 0.8
+	spitfire.sb_planes.weapon2.bank_timer = 7
+	spitfire.sb_planes.weapon2.name = "$Weapon.sbpp_rp3"
+	spitfire.sb_planes.trail_effect = path .. "/effects/trail_p51"
 	table.insert(Projectiles, spitfire)
 	MakeFlamingVersion("sbpp_spitfire", 1.33, 10, flamingTrail, 100, nil, genericFlamingExpire)
 	sbpp_Firebeams('sbpp_spitfire', 150, 400)
 end
 
+local rp3 = DeepCopy(FindProjectile("sbpp_sidewinder"))
+if rp3 then
+	rp3.SaveName = "sbpp_rp3"
+	rp3.ProjectileDamage = 300
+	rp3.ProjectileSplashDamage = rp3.ProjectileSplashDamage * 2
+	rp3.ProjectileSplashDamageMaxRadius = rp3.ProjectileSplashDamageMaxRadius * 1.4
+	rp3.Projectile =
+	{
+		Root =
+		{
+			Name = "Root",
+			Angle = 0,
+			Sprite = path .. "/weapons/projectiles/rp3.png",
+			PivotOffset = {0, 0},
+			Scale = 1.0,
+			ChildrenInFront =
+			{
+				{
+					Name = "Flame",
+					Angle = 0,
+					Offset = { 0, 0.5 },
+					Pivot = { 0, 0.5 },
+					PivotOffset = { 0, 0 },
+					Sprite = "missile_swarm_tail",
+				},
+			},
+		}
+	}
+	rp3.TrailEffect = "effects/missile_trail.lua"
+	table.insert(Projectiles, rp3)
+	MakeFlamingVersion("sbpp_rp3", 1.33, 1.5, flamingTrail, 150, nil, genericFlamingExpire)
+end
 local b52 = DeepCopy(FindProjectile("sbpp_ac130"))
 if b52 then
 	b52.SaveName = "sbpp_b52"
@@ -1095,7 +1163,7 @@ sbpp_TempProjectile("cannon20mm", 80)
 sbpp_TempProjectile("sbpp_bomb250kg", 300)
 sbpp_TempProjectile("paveway", 300)
 sbpp_TempProjectile("sbpp_vulcan", 80)
-sbpp_TempProjectile("sbpp_mig15gun1", 80)
+--sbpp_TempProjectile("sbpp_mig15gun1", 80)
 sbpp_TempProjectile("sbpp_mig15gun2", 120)
 sbpp_TempProjectile("sbpp_gau8", 80)
 sbpp_TempProjectile("sbpp_gau12", 120)
@@ -1104,7 +1172,10 @@ sbpp_TempProjectile("sbpp_hellfire", 300)
 sbpp_TempProjectile("sbpp_bofors", 120)
 sbpp_TempProjectile("sbpp_howitzer105mm", 120)
 sbpp_TempProjectile("machinegun", 80)
+sbpp_TempProjectile("sbpp_machinegun50cal", 80)
+sbpp_TempProjectile("sbpp_machinegunsmall", 80)
 sbpp_TempProjectile("sbpp_sidewinder", 80)
+sbpp_TempProjectile("sbpp_rp3", 80)
 --apply mod
 function sb_planes_applymod()
 	for k, v in pairs(Projectiles) do

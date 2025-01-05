@@ -16,10 +16,10 @@ Merge(Device,
 	ammo_nighthawkTip3 = L"Ammo for: Runway MK II",
 	
 	ammo_sbpp_p51 = L"P-51 Mustang",
-	ammo_sbpp_p51Tip2 = L"Fires 6 machineguns and drops 250kg bombs.",
+	ammo_sbpp_p51Tip2 = L"Fires 6x .50 Browning M2 machineguns and drops 250kg bombs.",
 	
 	ammo_sbpp_hellcat = L"F6F Hellcat",
-	ammo_sbpp_hellcatTip2 = L"Fires 6 machineguns and drops 250kg bombs.",
+	ammo_sbpp_hellcatTip2 = L"Fires 6x .50 Browning M2 machineguns and drops 250kg bombs.",
 	
 	ammo_sbpp_ac130 = L"AC-130 Gunship",
 	ammo_sbpp_ac130Tip2 = L"Fires 25mm GAU-12 Equalizer, 40mm Bofors, and 105mm Howitzer.",
@@ -34,6 +34,12 @@ Merge(Device,
 	ammo_sbpp_littlebird = L"AH-6 Little Bird",
 	ammo_sbpp_littlebirdTip2 = L"Fires M134 Minigun, Hydra rockets, and can deploy flares.",
 	ammo_sbpp_littlebirdTip3 = L"Ammo for: Runway MK II",
+	
+	ammo_sbpp_mig15 = L"MiG-15",
+	ammo_sbpp_mig15Tip2 = L"Fires NR-23 Autocannon and N-37 Autocannon.",
+	
+	ammo_sbpp_spitfire = L"Supermarine Spitfire",
+	ammo_sbpp_spitfireTip2 = L"Fires 8x .303 Browning MKII machineguns and RP-3 rockets."
 	
 })
 
@@ -65,4 +71,9 @@ Merge(Weapon,
 	sbpp_hydra = L"Hydra Rockets",
 	sbpp_hellfire = L"Hellfire Missile",
 	sbpp_m134 = L"M134 Minigun",
+	sbpp_rp3 = L"RP-3 Rocket",
+	sbpp_mig15gun1 = L"NR-23 Autocannon",
+	sbpp_mig15gun2 = L"N-37 Autocannon",
+	sbpp_50cal = L".50 Browning M2",
+	sbpp_303cal = L".303 Browning MK II",
 })
