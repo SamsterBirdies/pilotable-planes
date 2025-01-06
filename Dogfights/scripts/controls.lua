@@ -326,16 +326,16 @@ function UpdateControls(frame, id, saveName, teamId)
 		local elevator_target = 0
 		if keys_held["right"] or keys_held[ElevatorUp] then
 			if keys_held[PrecisionModifier] then
-				elevator_target = 0.3
+				elevator_target = elevator_target + 0.3
 			else
-				elevator_target = 1
+				elevator_target = elevator_target + 1
 			end
 		end
 		if keys_held["left"] or keys_held[ElevatorDown] then
 			if keys_held[PrecisionModifier] then
-				elevator_target = -0.3
+				elevator_target = elevator_target - 0.3
 			else
-				elevator_target = -1
+				elevator_target = elevator_target - 1
 			end
 		end
 		--throttle

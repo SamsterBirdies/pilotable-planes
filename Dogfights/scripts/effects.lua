@@ -151,11 +151,11 @@ function PlaneOnUpdateSprite()
 			end
 			--interpolate sprite position
 			local vec_dist = SubtractVec(v.pos_now, v.pos_previous)
-			local vec_dist_divided = SubtractVec(vec_dist, (MultiplyVec(vec_dist, frametime_left * 25)))
+			local vec_dist_divided = SubtractVec(vec_dist, (MultiplyVec(vec_dist, frametime_left * fps)))
 			SetEffectPosition(sprite_id, AddVec(v.pos_previous, vec_dist_divided))
 			--interpolate sprite rotation
 			local rotation_distance = SubtractVec(Rad2Vec(data.planes[tostring(k)].angle), Rad2Vec(planes_effects[tostring(k)].angle_previous))
-			local rotation_divided = SubtractVec(rotation_distance, (MultiplyVec(rotation_distance, frametime_left * 25)))
+			local rotation_divided = SubtractVec(rotation_distance, (MultiplyVec(rotation_distance, frametime_left * fps)))
 			SetEffectDirection(sprite_id, AddVec(Rad2Vec(v.angle_previous), rotation_divided))
 		end
 	end

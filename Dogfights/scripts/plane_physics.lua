@@ -89,7 +89,7 @@ function UpdateHeliPhysics(id, saveName, teamId)
 	local elevator_strength = GetProjectileParamFloat(saveName, teamId, "sb_planes.elevator", 1)
 	local elevator = data.planes[tostring(id)].elevator
 	--update angle from elevator
-	local angle = data.planes[tostring(id)].angle + (elevator * elevator_strength * math.pi / 180)
+	local angle = data.planes[tostring(id)].angle + ( (25/fps) * elevator * elevator_strength * math.pi / 180)
 	data.planes[tostring(id)].angle = angle
 	--do thrust
 	local thrust_vector = MultiplyVec(Rad2Vec(angle), thrust_value * throttle)
