@@ -233,6 +233,7 @@ function OnKeyControls(key, down)
 				index = 1
 			end
 			if data.planes[tostring(user_control_available[index])].free then
+				Deselect()
 				camera_zoom_target = GetCameraZoom()
 				SendScriptEvent("HoverHeli", SSEParams(user_control), "script.lua", true)
 				SendScriptEvent("SetPlaneFree", SSEParams(user_control, true), "script.lua", true)
@@ -261,6 +262,7 @@ function OnKeyControls(key, down)
 				index = #user_control_available
 			end
 			if data.planes[tostring(user_control_available[index])].free then
+				Deselect()
 				camera_zoom_target = GetCameraZoom()
 				SendScriptEvent("HoverHeli", SSEParams(user_control), "script.lua", true)
 				SendScriptEvent("SetPlaneFree", SSEParams(user_control, true), "script.lua", true)
@@ -281,6 +283,7 @@ function OnKeyControls(key, down)
 			if math.abs(planepos.x - mousepos.x) < 200 and math.abs(planepos.y - mousepos.y) < 200 then
 				--if the plane is available then control it.
 				if data.planes[tostring(v)].free then
+					Deselect()
 					camera_zoom_target = GetCameraZoom()
 					SendScriptEvent("HoverHeli", SSEParams(user_control), "script.lua", true)
 					SendScriptEvent("SetPlaneFree", SSEParams(user_control, true), "script.lua", true)
