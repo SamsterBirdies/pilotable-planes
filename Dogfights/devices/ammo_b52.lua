@@ -5,6 +5,7 @@ DeviceSplashDamage = 400
 DeviceSplashDamageMaxRadius = 400
 DeviceSplashDamageDelay = 0
 IncendiaryRadius = 250
+SelectionWidth = SelectionWidth * 2.25
 IncendiaryRadiusHeated = 350
 StructureSplashDamage = 240
 StructureSplashDamageMaxRadius = 200

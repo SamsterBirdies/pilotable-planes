@@ -196,7 +196,7 @@ table.insert(Devices, IndexOfDevice("ammo_sbpp_mig15"),
 		}
 	)
 )
---[[
+table.insert(Sprites, DetailSprite("hud-detail-sbpp_b52", "b52", path))
 table.insert(Sprites, ButtonSprite("hud-sbpp_b52-icon", "HUD/HUD-b52", nil, ButtonSpriteBottom, nil, nil, path))
 table.insert(Devices, IndexOfDevice("ammo_sbpp_ac130"),
 	InheritType(FindDevice("ammo_nighthawk"),nil,
@@ -206,12 +206,12 @@ table.insert(Devices, IndexOfDevice("ammo_sbpp_ac130"),
 			dlc2_BuildQueue = "dlc2_runway3",
 			Detail = "hud-detail-sbpp_b52",
 			Icon = "hud-sbpp_b52-icon",
-			MetalCost = 1200,
-			EnergyCost = 18000,
+			MetalCost = 1500,
+			EnergyCost = 20000,
 			Prerequisite = "munitions",
 			Enabled = true,
 			BuildTimeComplete = 90,
 			ObserverBuildEvent = true,
 		}
 	)
-)]]
+)

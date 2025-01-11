@@ -686,7 +686,7 @@ if howitzer105 then
 	howitzer105.ProjectileDamage = 400
 	howitzer105.ProjectileSplashDamage = 250
 	howitzer105.ProjectileSplashDamageMaxRadius = 250
-	howitzer105.ProjectileSplashMaxForce = 300000
+	howitzer105.ProjectileSplashMaxForce = 420000
 	howitzer105.DisableShields = false
 	howitzer105.Effects.Impact = 
 	{
@@ -1023,70 +1023,94 @@ if b52 then
 	b52.Projectile.Root.Scale = b52.Projectile.Root.Scale * 1.6
 	b52.Projectile.Root.PivotOffset = {-0.20117, -0.125}
 	b52.Projectile.Root.ChildrenInFront = {}
-	b52.sb_planes.trail_effect = path .. "/effects/trail_jet"
+	b52.sb_planes.trail_effect = path .. "/effects/trail_b52"
 	b52.ProjectileDamage = b52.ProjectileDamage + 410
 	b52.ProjectileSplashDamage = b52.ProjectileSplashDamage * 0.75
 	b52.ProjectileSplashMaxForce = 650000
 	b52.AntiAirHitpoints = b52.AntiAirHitpoints * 0.7
 	b52.WeaponDamageBonus = 500
 	b52.ProjectileShootDownRadius = b52.ProjectileShootDownRadius * 1.3
-	
+	b52.sb_planes.elevator = 18000
 	b52.sb_planes.weapon1 = 
 	{
 		projectile = "sbpp_temp_bomb",
 		rotation = 1.5708, 
 		distance = 35,
 		speed = 300,
-		count = 25, 
+		count = 20, 
 		period = 0.04, 
 		timer = 3,
-		bank_timer = 16,
+		bank_timer = 10,
 		bank_max = 3,
 		bank_start = 1,
 		stddev = 0.6,
 		aimed = false,
+		maxangle = 0.55,
 		effect = "mods/dlc2/effects/bomb_release.lua",
 		reload_effect = path .. "/effects/reload_bomb.lua",
-		name = "$Weapon.sbpp_mk82bomb",
+		name = "$Weapon.sbpp_bombs",
 	}
-	b52.sb_planes.weapon2 = 
+	b52.sb_planes.weapon2 =
 	{
-		projectile = "sbpp_temp_sbpp_bomb250kg",
-		rotation = 1.5708, 
+		projectile = "sbpp_temp_sbpp_alcm",
+		rotation = 1.5708,
 		distance = 25,
-		speed = 300,
-		count = 6, 
-		period = 0.24,
-		timer = 3,
-		bank_timer = 16,
-		bank_max = 3,
+		speed = 2000,
+		count = 1,
+		period = 0.4,
+		perround = 1,
+		timer = 1,
+		aim_missile = true,
 		bank_start = 1,
-		stddev = 0.6,
-		aimed = false,
-		effect = "mods/dlc2/effects/bomb_release.lua",
-		reload_effect = path .. "/effects/reload_bomb.lua",
-		name = "$Weapon.sbpp_bomb250kg",
-	}
-	b52.sb_planes.weapon3 =
-	{
-		projectile = "sbpp_flare",
-		rotation = 0.0,
-		distance = 25,
-		speed = 8000,
-		count = 16,
-		period = 0.24,
-		perround = 6,
-		timer = 18,
-		bank_start = 0,
-		stddev = 3,
+		bank_timer = 10,
+		bank_max = 6,
+		stddev = 0,
+		maxangle = 0.55,
 		effect = path .. "/effects/flare_launch.lua",
 		reload_effect = path .. "/effects/reload_bomb.lua",
-		name = "$Weapon.sbpp_flares",
+		name = "$Weapon.sbpp_alcm",
 	}
+	b52.sb_planes.weapon3 = {}
 	table.insert(Projectiles, b52)
 	MakeFlamingVersion("sbpp_b52", 1.33, 10, flamingTrail, 100, nil, genericFlamingExpire)
 	sbpp_Firebeams('sbpp_b52', 275, 600)
 	
+end
+
+local alcm = DeepCopy(FindProjectile("sbpp_hellfire"))
+if alcm then
+	alcm.SaveName = "sbpp_alcm"
+	alcm.Projectile.Root.Sprite = path .. "/weapons/projectiles/alcm.png"
+	alcm.Projectile.Root.ChildrenInFront[1].Pivot = {0.09375, 0.26923}
+	alcm.Projectile.Root.ChildrenInFront[1].PivotOffset = {0, 0.4}
+	alcm.MaxAge = 1984
+	alcm.Missile =
+	{
+		ThrustAngleExtent = 8,
+		ErraticAngleExtentStdDev = 0.01,
+		ErraticAngleExtentMax = 0.01,
+		MaxSteerPerSecond = 50,
+		MaxSteerPerSecondErratic = 0.01,
+		ErraticAnglePeriodMean = 0.01,
+		ErraticAnglePeriodStdDev = 0.01,
+		ErraticThrust = 0.01,
+		ErraticThrustMagneticField = 0.01,
+		LaunchThrust = 105000,
+		RocketThrust = 300000,
+		CruiseTargetDistance = 2000,
+		CruiseTargetDuration = .5,
+		TargetRearOffsetDistance = 100000,
+		MinTargetUpdateDistance = 2000,
+		DecoyFramesToRedirect = 2,
+	}
+	
+	alcm.ProjectileDamage = 1000
+	alcm.ProjectileSplashDamageMaxRadius = alcm.ProjectileSplashDamageMaxRadius * 1.2
+	alcm.IncendiaryRadius = alcm.IncendiaryRadius * 0.6
+	alcm.AntiAirHitpoints = 40
+	alcm.ProjectileSplashMaxForce = 400000
+	table.insert(Projectiles, alcm)
+	MakeFlamingVersion("sbpp_alcm", 1.33, 2.5, flamingTrail, 225, nil, rocketFlamingExpire)
 end
 table.insert(Sprites,
 {
@@ -1176,6 +1200,7 @@ sbpp_TempProjectile("sbpp_machinegun50cal", 80)
 sbpp_TempProjectile("sbpp_machinegunsmall", 80)
 sbpp_TempProjectile("sbpp_sidewinder", 80)
 sbpp_TempProjectile("sbpp_rp3", 80)
+sbpp_TempProjectile("sbpp_alcm", 300)
 --apply mod
 function sb_planes_applymod()
 	for k, v in pairs(Projectiles) do

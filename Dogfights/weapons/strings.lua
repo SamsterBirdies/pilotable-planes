@@ -39,7 +39,12 @@ Merge(Device,
 	ammo_sbpp_mig15Tip2 = L"Fires NR-23 Autocannon and N-37 Autocannon.",
 	
 	ammo_sbpp_spitfire = L"Supermarine Spitfire",
-	ammo_sbpp_spitfireTip2 = L"Fires 8x .303 Browning MKII machineguns and RP-3 rockets."
+	ammo_sbpp_spitfireTip2 = L"Fires 8x .303 Browning MKII machineguns and RP-3 rockets.",
+	
+	ammo_sbpp_b52 = L"B-52 Stratofortress",
+	ammo_sbpp_b52Tip2 = L"Drops Mk82 Bombs, and launches AGM-86C Cruise Missiles.",
+	ammo_sbpp_b52Tip3 = L"Weapons cannot be used during a steep incline.",
+	ammo_sbpp_b52Tip4 = L"Ammo for: Runway MK III",
 	
 })
 
@@ -76,4 +81,5 @@ Merge(Weapon,
 	sbpp_mig15gun2 = L"N-37 Autocannon",
 	sbpp_50cal = L".50 M2 Browning",
 	sbpp_303cal = L".303 Browning MK II",
+	sbpp_alcm = L"AGM-86C Cruise Missile",
 })

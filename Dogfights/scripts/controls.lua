@@ -182,13 +182,26 @@ function ControlPlane(id)
 end
 
 function PlaneWeapon(id, weapon, saveName, teamId)
-	if data.planes[tostring(id)].timers[weapon] == 0 and data.planes[tostring(id)].timers[weapon + 6] > 0 then
-		local timer = GetProjectileParamFloat(saveName, teamId, "sb_planes.weapon"..tostring(weapon)..".timer", 10)
-		local fireCost = GetProjectileParamFloat(saveName, teamId, "sb_planes.weapon"..tostring(weapon)..".fire_cost_metal", 0)
-		local fireCostE = GetProjectileParamFloat(saveName, teamId, "sb_planes.weapon"..tostring(weapon)..".fire_cost_energy", 150)
+	local maxdrop = GetProjectileParamFloat(saveName, teamId, "sb_planes.weapon"..tostring(weapon)..".maxangle", 1000)
+	local idstr = tostring(id)
+	local weaponstr = tostring(weapon)
+	
+	if data.planes[idstr].timers[weapon] == 0 and data.planes[idstr].timers[weapon + 6] > 0 and MaxVertTest(NodeVelocity(id), maxdrop) then
+		local timer = GetProjectileParamFloat(saveName, teamId, "sb_planes.weapon"..weaponstr..".timer", 10)
+		local fireCost = GetProjectileParamFloat(saveName, teamId, "sb_planes.weapon"..weaponstr..".fire_cost_metal", 0)
+		local fireCostE = GetProjectileParamFloat(saveName, teamId, "sb_planes.weapon"..weaponstr..".fire_cost_energy", 150)
 		SendScriptEvent("AddResources",SSEParams(teamId, Value(fireCost*-1,fireCostE*-1), false, Vec3()), "script.lua", true)
 		SendScriptEvent("DropBombsSchedule", SSEParams(id, weapon, GetProjectileClientId(id), timer), "script.lua", true)
-		data.planes[tostring(id)].timers[weapon] = timer
+		data.planes[idstr].timers[weapon] = timer
+	end
+end
+
+function MaxVertTest(vector, maxy)
+	--prevents bombs from dropping when angle too steep. Good for carpet bombers.
+	if math.abs(vector.y) / math.abs(vector.x) > maxy then
+		return false
+	else
+		return true
 	end
 end
 
