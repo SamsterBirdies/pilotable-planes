@@ -1,4 +1,4 @@
-SoundEvent = "mods/dogfights/effects/trail_b52"
+SoundEvent = "mods/dogfights/effects/trail_jetengine"
 LifeSpan = 1
 
 Effects =

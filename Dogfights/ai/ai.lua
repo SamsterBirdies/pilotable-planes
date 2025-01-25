@@ -28,8 +28,8 @@ PlaneSaveNames = {
 	["sbpp_ac130"]=-838-100,
 	["sbpp_apache"]=-0-1000,
 	["sbpp_littlebird"]=-0-1000,
-	["sbpp_mig15"]=-0-1000,
-	["sbpp_spitfire"]=-0-1000,
+	["sbpp_mig15"]=-838-100,
+	["sbpp_spitfire"]=-838-100,
 	["sbpp_b52"]=-0-1000,
 }
 --lift_strength = GetProjectileParamFloat(saveName, 2, "sb_planes.lift_multiplier", 4.3) elevator_strength = GetProjectileParamFloat(saveName, 2, "sb_planes.elevator", 70000)*-0.02
