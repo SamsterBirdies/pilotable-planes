@@ -36,14 +36,28 @@ function DropBombsSchedule(id, weapon, clientId, timer)
 	local count = GetProjectileParamFloat(saveName, teamId, "sb_planes.weapon" .. tostring(weapon) .. ".count", 0)
 	local period = GetProjectileParamFloat(saveName, teamId, "sb_planes.weapon" .. tostring(weapon) .. ".period", 0.06)
 	local perround = GetProjectileParamFloat(saveName, teamId, "sb_planes.weapon" .. tostring(weapon) .. ".perround", 1)
+	local delay = GetProjectileParamFloat(saveName, teamId, "sb_planes.weapon" .. tostring(weapon) .. ".delay", 0)
+	local delay_effect = GetProjectileParamString(saveName, teamId, "sb_planes.weapon" .. tostring(weapon) .. ".delay_effect", "")
+	--delay effect
+	if delay > 0 and delay_effect ~= "" then
+		local position = NodePosition(id)
+		local velocity = NodeVelocity(id)
+		local effect_id = SpawnEffect(delay_effect, position)
+		ScheduleCall(0, SetAudioParameter, effect_id, "doppler_shift", DopplerCalculate(position, velocity))
+	end
+	
 	for i = 0, count - 1 do
 		if i == 0 then
 			for ii = 0, perround - 1 do
-				DropBombs({id, weapon, clientId, ii})
+				if delay == 0 then
+					DropBombs({id, weapon, clientId, ii})
+				else --if weapon has delay then schedule the first bullet instead
+					ScheduleCall(i * period + delay, DropBombs, {id, weapon, clientId, ii})
+				end
 			end
 		else
 			for ii = 0, perround - 1 do
-				ScheduleCall(i * period, DropBombs, {id, weapon, clientId, ii})
+				ScheduleCall(i * period + delay, DropBombs, {id, weapon, clientId, ii})
 			end
 		end
 	end

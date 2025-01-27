@@ -865,6 +865,8 @@ if ah6 then
 	--ah6.sb_planes.heli_effect = false
 	ah6.sb_planes.weapon1.bank_timer = 18
 	ah6.sb_planes.weapon1.bank_max = 2
+	--ah6.sb_planes.weapon1.delay = 1
+	--ah6.sb_planes.weapon1.delay_effect = "effects/fire_cannon.lua"
 	ah6.sb_planes.weapon1.bank_start = 1
 	ah6.ProjectileShootDownRadius = ah6.ProjectileShootDownRadius * 0.6
 	ah6.FieldRadius = ah6.FieldRadius * 0.6
