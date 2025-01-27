@@ -90,6 +90,15 @@ function UpdateHeliPhysics(id, saveName, teamId)
 	local elevator = data.planes[tostring(id)].elevator
 	--update angle from elevator
 	local angle = data.planes[tostring(id)].angle + ( (25/fps) * elevator * elevator_strength * math.pi / 180)
+	--angle limiting
+	local angle_limit = GetProjectileParamFloat(saveName, teamId, "sb_planes.angle_max", 999999)
+	if angle_limit < 999999 then
+		if angle > angle_limit - 1.5708 then
+			angle = angle_limit - 1.5708
+		elseif angle < -angle_limit - 1.5708 then
+			angle = -angle_limit - 1.5708
+		end
+	end
 	data.planes[tostring(id)].angle = angle
 	--do thrust
 	local thrust_vector = MultiplyVec(Rad2Vec(angle), thrust_value * throttle)

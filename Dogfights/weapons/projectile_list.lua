@@ -752,6 +752,7 @@ if apache then
 		--submarine = true,
 		sprite = path .. "/effects/apache",
 		trail_effect = path .. "/effects/trail_heli",
+		--angle_max = 0.5,
 		RCS = 5,
 		weapon1 = 
 		{
