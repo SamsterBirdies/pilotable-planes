@@ -51,6 +51,8 @@ dofile(path .. "/scripts/plane_physics.lua")
 --events
 function Load()
 	--timings
+	local control_frame = GetControlFrame()
+	SetControlFrame(0)
 	fps = GetConstant("Physics.FramesRate")
 	frames_per_tick = GetConstant("Physics.FramesPerTick")
 	frametime = 1 / fps
@@ -67,6 +69,7 @@ function Load()
 	if GetLocalTeamId() ~= -3 then --avoid adding ui for observers
 		ChangeKeybindsControlSetup()
 	end
+	SetControlFrame(control_frame)
 end
 
 function OnRestart()
