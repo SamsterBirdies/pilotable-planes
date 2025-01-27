@@ -963,7 +963,7 @@ if spitfire then
 	spitfire.sb_planes.elevator = 32000
 	spitfire.sb_planes.lift_multiplier = spitfire.sb_planes.lift_multiplier - 0.1
 	spitfire.sb_planes.weapon1.projectile = "sbpp_temp_sbpp_machinegunsmall"
-	spitfire.sb_planes.weapon1.effect = path .. "/effects/303cal.lua"
+	spitfire.sb_planes.weapon1.effect = path .. "/effects/303cal_fire.lua"
 	spitfire.sb_planes.weapon1.perround = 8
 	spitfire.sb_planes.weapon1.period = 0.12
 	spitfire.sb_planes.weapon1.count = 15
