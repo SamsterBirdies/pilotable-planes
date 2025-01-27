@@ -18,21 +18,7 @@ ShootableProjectile["sbpp_flare"] = true
 ShootableProjectile["sbpp_alcm"] = true
 ShootableProjectile["sbpp_rp3"] = true
 --107
-function LogTableComplexity(t)
-    Log("Complexity : " .. GetTableComplexity(t))
-end
 
-function GetTableComplexity(t)
-    local complexity = 0
-    for k, v in pairs(t) do
-        if type(v) == "table" then
-            complexity = complexity + GetTableComplexity(v)
-        else
-            complexity = complexity + 1
-        end
-    end
-    return complexity
-end
 --key and value used.
 PlaneSaveNames = {
 	["thunderbolt"]=-1000,
@@ -128,9 +114,7 @@ data.flakDetonationTimings = {}
 function BetterLog(a)
 	Log(tostring(a))
 end
-function Update(frame)
-	LogTableComplexity(data)
-end
+
 function findMeetingTime(id1, id2)
 	local epsilon = 1e-5
 
