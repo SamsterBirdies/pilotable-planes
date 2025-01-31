@@ -700,6 +700,7 @@ function ScheduleTryShootDownProjectiles()
 	end
 	ScheduleCall(data.AntiAirPeriod, ScheduleTryShootDownProjectiles)
 end
+
 function TryShootDownProjectiles(weaponCount, weaponIndexStart, weaponIndexEnd)
 	if data.gameWinner and data.gameWinner ~= teamId then return end
 
@@ -734,9 +735,12 @@ function TryShootDownProjectiles(weaponCount, weaponIndexStart, weaponIndexEnd)
 			local rayFlags = RAY_EXCLUDE_CONSTRUCTION | RAY_NEUTRAL_BLOCKS | RAY_PORTAL_BLOCKS | RAY_EXCLUDE_FASTDOORS | RAY_EXTRA_CLEARANCE
 			
 			--loop through anti air weapons
-			local t0 = GetRealTime()
+			--local t0 = GetRealTime()
 			for index = weaponIndexStart, weaponIndexEnd do
 				local id = GetAntiAirWeaponId(index)
+				--dont bother doing anything if the weapon cant fire
+				if not IsWeaponReadyToFire(id) then continue end
+
 				local type = GetDeviceType(id)
 				local weaponPos = GetWeaponBarrelPosition(id)
 				local speed = AntiAirFireSpeed[type] or GetWeaponTypeProjectileSpeed(type)
@@ -755,7 +759,7 @@ function TryShootDownProjectiles(weaponCount, weaponIndexStart, weaponIndexEnd)
 					range = AntiAirFireLeadTimeMin[type]*speed
 				end
 
-				if antiAirFireProb and not data.AntiAirLockDown[id] and IsDeviceFullyBuilt(id) and IsAIDeviceAvailable(id) and not IsDummy(id)
+				if antiAirFireProb and not data.AntiAirLockDown[id] and IsAIDeviceAvailable(id) and not IsDummy(id)
 					and (GetRandomFloat(0, 1, "") < antiAirFireProb) then
 					--LogEnum("AntiAir " .. id .. " type " .. type)
 
@@ -768,9 +772,9 @@ function TryShootDownProjectiles(weaponCount, weaponIndexStart, weaponIndexEnd)
 					
 					--loop through projectiles
 					
-					for k,v in ipairs(data.TrackedProjectiles) do
+					for i = 1, #data.TrackedProjectiles do
 						--Log("Evaluating projectile " .. v.ProjectileNodeId)
-
+						v = data.TrackedProjectiles[i]
 						if v.IsVirtual and (data.AntiAirFiresAtVirtualWithin[type] == nil or v.TimeLeft > data.AntiAirFiresAtVirtualWithin[type]) then
 							continue
 						end
@@ -788,7 +792,7 @@ function TryShootDownProjectiles(weaponCount, weaponIndexStart, weaponIndexEnd)
 
 							local actualPos = AA_NodePosition(projectileId)
 							--if projectile too far away, ignore
-							local maxRange = AntiAirMaxRanges[type] or 40000
+							local maxRange = AntiAirMaxRanges[type] or 35000
 							local actualRange = GetDistance(actualPos,weaponPos)
 							if actualRange >= maxRange then
 								continue
@@ -834,137 +838,126 @@ function TryShootDownProjectiles(weaponCount, weaponIndexStart, weaponIndexEnd)
 							
 							local predictedRange = GetDistance(pos,weaponPos)
 
-							local isValidTarget = true
-							if
-							type ~= "hardpointflak"					 and
-							actualRange >= projectileVisibleRange  or
-							type == "hardpointflak"					 or --TODO: and
-							actualRange>= projectileVisibleRange*3 or
+							if timeToImpact > closestTimeToImpact and timeToSelf > minTimeToImpact then continue end
+							
+						
+							-- don't fire at projectiles that are behind the weapon
+							local weaponForward = GetDeviceForward(id)
+							if Vec3Dot(weaponForward, deltaUnit) > 0 then continue end
+							
+							local rayHit = CastRayFromDevice(id, pos, 1, rayFlags, fieldBlockFlags)
+							local hitDoor = GetRayHitDoor()
+							local lineOfSight = rayHit == RAY_HIT_NOTHING or hitDoor
+							if not lineOfSight then continue end
+							local incomingAngle = ToDeg(math.acos(Vec3Dot(deltaUnit, direction)))
 
-							predictedRange >= maxRange				 or
-
-							timeToImpact > closestTimeToImpact	  and
-							timeToSelf > minTimeToImpact			  then
-								isValidTarget = false
+							local trajectoryThreat = lineOfSight and incomingAngle < 15
+							-- and projectileType == PROJECTILE_TYPE_MORTAR then
+							
+							local g = AA_GetProjectileGravity(projectileId)
+							if g == 0 or projectileType == PROJECTILE_TYPE_MISSILE then g = 0.00001 end
+							local a = 0.5*g/(currVel.x*currVel.x)
+							local dydx = currVel.y/currVel.x;
+							local x = -delta.x
+							local y = -delta.y
+							local b = dydx - 2*a*x
+							local c = y - (a*x*x + b*x)
+							local discriminant = b*b - 4*a*c
+							if discriminant > 0 then
+								local discriminantSqRt = discriminant ^ 0.5
+								local interceptA = (-b + discriminantSqRt)/(2*a)
+								local interceptB = (-b - discriminantSqRt)/(2*a)
+								local threatA = math.abs(interceptA) < 200
+								local threatB = math.abs(interceptB) < 200
+							
+								if not threatA and not threatB then
+									trajectoryThreat = false
+								end
+								if ShowAntiAirTrajectories and threatA then
+									SpawnCircle(weaponPos + Vec3(interceptA, 0), 10, Red(128), data.AntiAirPeriod)
+								end
+								if ShowAntiAirTrajectories and threatB then
+									SpawnCircle(weaponPos + Vec3(interceptB, 0), 10, Red(128), data.AntiAirPeriod)
+								end
 							end
-							if isValidTarget then
-								-- don't fire at projectiles that are behind the weapon
-								local weaponForward = GetDeviceForward(id)
-								local dot = Vec3Dot(weaponForward, deltaUnit)
-								if dot < 0 then
-									local rayHit = CastRayFromDevice(id, pos, 1, rayFlags, fieldBlockFlags)
-									local hitDoor = GetRayHitDoor()
-									local lineOfSight = rayHit == RAY_HIT_NOTHING or hitDoor
-									local incomingAngle = ToDeg(math.acos(Vec3Dot(deltaUnit, direction)))
 
-									local trajectoryThreat = lineOfSight and incomingAngle < 15
-									if lineOfSight then -- and projectileType == PROJECTILE_TYPE_MORTAR then
-										local g = AA_GetProjectileGravity(projectileId)
-										if g == 0 or projectileType == PROJECTILE_TYPE_MISSILE then g = 0.00001 end
-										local a = 0.5*g/(currVel.x*currVel.x)
-										local dydx = currVel.y/currVel.x;
-										local x = -delta.x
-										local y = -delta.y
-										local b = dydx - 2*a*x
-										local c = y - (a*x*x + b*x)
-										local discriminant = b*b - 4*a*c
-										if discriminant > 0 then
-											local discriminantSqRt = math.sqrt(discriminant)
-											local interceptA = (-b + discriminantSqRt)/(2*a)
-											local interceptB = (-b - discriminantSqRt)/(2*a)
-											local threatA = math.abs(interceptA) < 200
-											local threatB = math.abs(interceptB) < 200
-									
-											if not threatA and not threatB then
-												trajectoryThreat = false
-											end
-											if ShowAntiAirTrajectories and threatA then
-												SpawnCircle(weaponPos + Vec3(interceptA, 0), 10, Red(128), data.AntiAirPeriod)
-											end
-											if ShowAntiAirTrajectories and threatB then
-												SpawnCircle(weaponPos + Vec3(interceptB, 0), 10, Red(128), data.AntiAirPeriod)
-											end
-										end
+							if range then
+								-- work out roughly where the projectile enters the range of the weapon
+								local entryPoint = nil
+								local start = -delta.x
+								local targetTime = 0
+								local doorOffset = 0
+								if hitDoor then
+									doorOffset = -AntiAirDoorDelay
+								end
 
-										if range then
-											-- work out roughly where the projectile enters the range of the weapon
-											local entryPoint = nil
-											local start = -delta.x
-											local targetTime = 0
-											local doorOffset = 0
-											if hitDoor then
-												doorOffset = -AntiAirDoorDelay
-											end
+								local step = 200
+								local timeStep = step/math.abs(currVel.x)
+								if delta.x < 0 then
+									step = -step
+								end
+								local p1 = a*start*start + b*start + c
+								for i = start + step, weaponPos.x, step do
+									targetTime = targetTime + timeStep
 
-											local step = 200
-											local timeStep = step/math.abs(currVel.x)
-											if delta.x < 0 then
-												step = -step
-											end
-											local p1 = a*start*start + b*start + c
-											for i = start + step, weaponPos.x, step do
-												targetTime = targetTime + timeStep
-
-												local p2 = a*i*i + b*i + c
-												if ShowAntiAirTrajectories then
-													SpawnLine(weaponPos + Vec3(i - step, p1), weaponPos + Vec3(i, p2), Green(64), data.AntiAirPeriod)
-												end
-												p1 = p2
-
-												local targetPos = weaponPos + Vec3(i, p2)
-												local dist = Vec3Dist(weaponPos, targetPos)
-												if range and dist < range then
-													if ShowAntiAirTrajectories then
-														SpawnCircle(targetPos, 20, White(), data.AntiAirPeriod)
-													end
-													entryPoint = targetPos
-													--Log("entry at " .. targetTime)
-													break
-												end
-											end
-
-											if not entryPoint
-												or (AntiAirFireLeadTimeMin[type] == nil or (targetTime + doorOffset) < AntiAirFireLeadTimeMin[type])
-												or (AntiAirFireLeadTimeMax[type] == nil or (targetTime + doorOffset) >= AntiAirFireLeadTimeMax[type]) then
-													continue
-											elseif targetTime <= range/speed then
-												timeToImpact = targetTime
-												pos = entryPoint
-											end
-										end
+									local p2 = a*i*i + b*i + c
+									if ShowAntiAirTrajectories then
+										SpawnLine(weaponPos + Vec3(i - step, p1), weaponPos + Vec3(i, p2), Green(64), data.AntiAirPeriod)
 									end
-									-- Hack fix to the artillery arc attempt at hitting projectiles
-									if type == "hardpointflak" then
-										--local f = GetDeviceForward(id) if f.x>0 then a={x=0.5,y=-0.5}else a={x=0.5,y=-0.5}end --Not large enough of an offset for this to matter
-										if not isWithinArc(weaponPos,pos,{x = 0,y = -1},40) then continue end
-										if distance(weaponPos,pos) < 5500 then continue end
-									end
-									--AimWeapon(id, pos)
-									--Log(""..GetAimWeaponAngle()) --check if its firing directly upwards, Note, not necessary as the angle restriction works quite well when combined with directAim flag
+									p1 = p2
 
-
-									local danger = timeToSelf < minTimeToImpact and trajectoryThreat
-
-									if lineOfSight -- must be able to shoot it
-										and (danger or danger == dangerOfImpact) -- ignore unthreatening projectiles if one has been found
-										and timeToImpact < closestTimeToImpact then -- target the closest projectile
-										--Log("  Best target so far, impact " .. timeToImpact .. " self " .. timeToSelf)
-										closestTimeToImpact = timeToImpact
-										bestTarget = v
-										best_pos = pos
-										best_vel = MissileVelToTarget(projectileType, projectileId, vel, pos)
-
-										if ShowAntiAirLockdowns and danger and DoorCountAI(id) > 0 then
-											SpawnLine(weaponPos, pos, Red(128), 2.5)
+									local targetPos = weaponPos + Vec3(i, p2)
+									local dist = Vec3Dist(weaponPos, targetPos)
+									if range and dist < range then
+										if ShowAntiAirTrajectories then
+											SpawnCircle(targetPos, 20, White(), data.AntiAirPeriod)
 										end
-									end
-									dangerOfImpact = dangerOfImpact or danger
-
-									-- optimise: avoid further ray casts
-									if dangerOfImpact then
+										entryPoint = targetPos
+										--Log("entry at " .. targetTime)
 										break
 									end
 								end
+
+								if not entryPoint
+									or (AntiAirFireLeadTimeMin[type] == nil or (targetTime + doorOffset) < AntiAirFireLeadTimeMin[type])
+									or (AntiAirFireLeadTimeMax[type] == nil or (targetTime + doorOffset) >= AntiAirFireLeadTimeMax[type]) then
+										continue
+								elseif targetTime <= range/speed then
+									timeToImpact = targetTime
+									pos = entryPoint
+								end
+							end
+							
+							-- Hack fix to the artillery arc attempt at hitting projectiles
+							if type == "hardpointflak" then
+								--local f = GetDeviceForward(id) if f.x>0 then a={x=0.5,y=-0.5}else a={x=0.5,y=-0.5}end --Not large enough of an offset for this to matter
+								if not isWithinArc(weaponPos,pos,{x = 0,y = -1},40) then continue end
+								if distance(weaponPos,pos) < 5500 then continue end
+							end
+							--AimWeapon(id, pos)
+							--Log(""..GetAimWeaponAngle()) --check if its firing directly upwards, Note, not necessary as the angle restriction works quite well when combined with directAim flag
+
+
+							local danger = timeToSelf < minTimeToImpact and trajectoryThreat
+
+							if lineOfSight -- must be able to shoot it
+								and (danger or danger == dangerOfImpact) -- ignore unthreatening projectiles if one has been found
+								and timeToImpact < closestTimeToImpact then -- target the closest projectile
+								--Log("  Best target so far, impact " .. timeToImpact .. " self " .. timeToSelf)
+								closestTimeToImpact = timeToImpact
+								bestTarget = v
+								best_pos = pos
+								best_vel = MissileVelToTarget(projectileType, projectileId, vel, pos)
+
+								if ShowAntiAirLockdowns and danger and DoorCountAI(id) > 0 then
+									SpawnLine(weaponPos, pos, Red(128), 2.5)
+								end
+							end
+							dangerOfImpact = dangerOfImpact or danger
+
+							-- optimise: avoid further ray casts
+							if dangerOfImpact then
+								break
 							end
 						end
 					end
@@ -982,7 +975,8 @@ function TryShootDownProjectiles(weaponCount, weaponIndexStart, weaponIndexEnd)
 							local accPos = Vec3()
 							local accVel = Vec3()
 							local count = 0
-							for k,v in ipairs(data.TrackedProjectiles) do
+							for i = 1, #data.TrackedProjectiles do
+								local v = data.TrackedProjectiles[i]
 								--Log("  checking projectile " .. tostring(v.ProjectileNodeId))
 								if AA_IsMissileAttacking(v.ProjectileNodeId) then
 									local pos, vel = PredictProjectilePos(v.ProjectileNodeId, closestTimeToImpact)
@@ -1096,9 +1090,9 @@ function TryShootDownProjectiles(weaponCount, weaponIndexStart, weaponIndexEnd)
 								data.flakDetonationTimings[id] = {id = v.ProjectileNodeId,timeToImpact = timeToImpact,uncertainty = uncertainty,airburstSetPoint = defaultAirburstSetPoint,justFired = true}
 							end
 							min_distance = math.huge
-							for key, value in pairs(data.fwenlee_pwanes) do
+							for i = 1, #data.fwenlee_pwanes do
+								local value = data.fwenlee_pwanes[i]
 								local pspeed = GetWeaponMaxFireSpeed(teamId, type)
-
 								local firing_velocity = calculate_firing_velocity(GetDevicePosition(id), pos, pspeed, nil)
 								min_distance = calculate_min_distance(pos,firing_velocity, NodePosition(value), NodeVelocity(value))
 							end
@@ -1149,7 +1143,7 @@ function TryShootDownProjectiles(weaponCount, weaponIndexStart, weaponIndexEnd)
 
 				data.NextAntiAirIndex = index + 1
 			end
-			local t1 = GetRealTime()
+			--local t1 = GetRealTime()
 			--Log(tostring((t1 - t0)*1000))
 		end
 	end
