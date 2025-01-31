@@ -330,9 +330,7 @@ function calculate_firing_velocity(P_f, P_t, v, t)
 	return V_f
 end
 
-function distance(pos1, pos2)
-	return math.sqrt((pos1.x - pos2.x)^2 + (pos1.y - pos2.y)^2)
-end
+distance = GetDistance
 
 function positionAtTime(pos, vel, t)
 	return { x = pos.x + vel.x * t, y = pos.y + vel.y * t }
@@ -476,7 +474,7 @@ end
 
 function GetDistance(b,a)
 	local x, y = a.x-b.x, a.y-b.y
-	return math.sqrt(x * x + y * y )
+	return (x * x + y * y ) ^ 0.5
 end
 
 function limit(num, min, max)
@@ -577,7 +575,7 @@ function Load(gameStart)
 	offset = offset + 2.3*fortId/4
 
 	ScheduleCall(2 + offset, UpdateAI)
-	ScheduleCall(1.5 + offset, TryShootDownProjectiles)
+	ScheduleCall(1.5 + offset, ScheduleTryShootDownProjectiles)
 	if not data.HumanAssist then
 		ScheduleCall(7 + offset, Repair)
 		ScheduleCall(30 + offset, DecayFrustration)
@@ -684,7 +682,25 @@ function AA_GetNodeProjectileSaveName(id)
 	return GetNodeProjectileSaveName(id)
 end
 
-function TryShootDownProjectiles()
+data.AntiAirPeriod = 0.4
+function ScheduleTryShootDownProjectiles()
+	local weaponCount = GetAntiAirWeaponCount()
+	local fthreadCount = math.floor(data.AntiAirPeriod / 0.04)
+	local weaponsPerFthread = math.ceil(weaponCount / fthreadCount)
+	--Log(tostring(weaponCount))
+	for i = 0, fthreadCount - 1 do
+		local starts = i * weaponsPerFthread
+		local ends = math.min(i * weaponsPerFthread + weaponsPerFthread, weaponCount - 1)
+		--Log(tostring(i) .. " = ".. tostring(starts) .. "-" .. tostring(ends))
+		
+		ScheduleCall(i * 0.04, TryShootDownProjectiles, weaponCount, starts, ends)
+		if i >= weaponCount then
+			break
+		end
+	end
+	ScheduleCall(data.AntiAirPeriod, ScheduleTryShootDownProjectiles)
+end
+function TryShootDownProjectiles(weaponCount, weaponIndexStart, weaponIndexEnd)
 	if data.gameWinner and data.gameWinner ~= teamId then return end
 
 	for id,lockdown in pairs(data.AntiAirLockDown) do
@@ -699,7 +715,7 @@ function TryShootDownProjectiles()
 		if not v.IsPlane and nodeTeamId%MAX_SIDES ~= enemyTeamId then --[[nodeTeamId == TEAM_ANY ]]
 			for _,b in ipairs(v.AntiAirWeapons) do
 				if IsAIDeviceAvailable(b) then
-					TryCloseWeaponDoorsWithDelay(b, "TryShootDownProjectiles CloseDoors proj " .. v.ProjectileNodeId .. ", ")
+					TryCloseWeaponDoorsWithDelay(b, "")
 				end
 			end
 
@@ -708,15 +724,18 @@ function TryShootDownProjectiles()
 	end
 
 	if not data.Disable and not data.DisableAntiAir then
-		local weaponCount = GetAntiAirWeaponCount()
 		if data.NextAntiAirIndex >= weaponCount then
 			data.NextAntiAirIndex = 0
 		end
-
+		
+		--if there are projectiles start the stuffs
 		if #data.TrackedProjectiles > 0 then
 			local fireTestFlags = FIREFLAG_TEST | FIREFLAG_IGNOREFASTDOORS | FIREFLAG_TERRAINBLOCKS | FIREFLAG_EXTRACLEARANCE
 			local rayFlags = RAY_EXCLUDE_CONSTRUCTION | RAY_NEUTRAL_BLOCKS | RAY_PORTAL_BLOCKS | RAY_EXCLUDE_FASTDOORS | RAY_EXTRA_CLEARANCE
-			for index = data.NextAntiAirIndex, weaponCount - 1 do
+			
+			--loop through anti air weapons
+			local t0 = GetRealTime()
+			for index = weaponIndexStart, weaponIndexEnd do
 				local id = GetAntiAirWeaponId(index)
 				local type = GetDeviceType(id)
 				local weaponPos = GetWeaponBarrelPosition(id)
@@ -737,7 +756,7 @@ function TryShootDownProjectiles()
 				end
 
 				if antiAirFireProb and not data.AntiAirLockDown[id] and IsDeviceFullyBuilt(id) and IsAIDeviceAvailable(id) and not IsDummy(id)
-					and (GetRandomFloat(0, 1, "TryShootDownProjectiles FireProb " .. id) < antiAirFireProb) then
+					and (GetRandomFloat(0, 1, "") < antiAirFireProb) then
 					--LogEnum("AntiAir " .. id .. " type " .. type)
 
 					local dangerOfImpact = false
@@ -746,6 +765,9 @@ function TryShootDownProjectiles()
 					local best_t = nil
 					local best_pos = nil
 					local best_vel = nil
+					
+					--loop through projectiles
+					
 					for k,v in ipairs(data.TrackedProjectiles) do
 						--Log("Evaluating projectile " .. v.ProjectileNodeId)
 
@@ -765,6 +787,13 @@ function TryShootDownProjectiles()
 							and (antiAirExclude == nil or antiAirExclude[projectileSaveName] ~= true) then
 
 							local actualPos = AA_NodePosition(projectileId)
+							--if projectile too far away, ignore
+							local maxRange = AntiAirMaxRanges[type] or 40000
+							local actualRange = GetDistance(actualPos,weaponPos)
+							if actualRange >= maxRange then
+								continue
+							end
+							
 							local currVel = AA_NodeVelocity(projectileId)
 							local delta = weaponPos - actualPos
 
@@ -802,8 +831,7 @@ function TryShootDownProjectiles()
 							-- ignore projectile if it's too close to shoot 
 
 							local projectileVisibleRange = ProjectileVisibleRanges[projectileSaveName] or 30000
-							local maxRange = AntiAirMaxRanges[type] or 40000
-							local actualRange = GetDistance(actualPos,weaponPos)
+							
 							local predictedRange = GetDistance(pos,weaponPos)
 
 							local isValidTarget = true
@@ -997,7 +1025,7 @@ function TryShootDownProjectiles()
 
 						-- aim at projected target position in the future, with some deviation for balance
 						local right = Vec3Unit(Vec3(-vel.y, vel.x))
-						pos = pos + uncertainty*GetNormalFloat(data.AntiAirLateralStdDev[projectileType], 0, "TryShootDownProjectiles LateralDev " .. id)*right
+						pos = pos + uncertainty*GetNormalFloat(data.AntiAirLateralStdDev[projectileType], 0, "")*right
 
 						if ShowAntiAirTargets then
 							SpawnLine(best_pos, pos, White(128), data.AntiAirPeriod)
@@ -1090,11 +1118,11 @@ function TryShootDownProjectiles()
 
 								if IsSlowFiringAntiAir(id) then
 									local timeRemaining = GetWeaponFiringTimeRemaining(id)
-									TryCloseWeaponDoorsWithDelay(id, "slow firing AA ", timeRemaining)
+									TryCloseWeaponDoorsWithDelay(id, "", timeRemaining)
 								end
 
 								-- give a chance to keep firing anti-air weapons
-								if GetRandomFloat(0, 100, "TryShootDownProjectiles Persist " .. id) < 50 then
+								if GetRandomFloat(0, 100, "") < 50 then
 									break
 								end
 							else
@@ -1121,8 +1149,8 @@ function TryShootDownProjectiles()
 
 				data.NextAntiAirIndex = index + 1
 			end
+			local t1 = GetRealTime()
+			--Log(tostring((t1 - t0)*1000))
 		end
 	end
-
-	ScheduleCall(data.AntiAirPeriod, TryShootDownProjectiles)
 end

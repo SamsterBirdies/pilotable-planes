@@ -1,7 +1,7 @@
 ReloadTime = ReloadTime / 1.5
 RoundsEachBurst = 1
 RoundPeriod = 0
-MaxFireAngle = 80
+MaxFireAngle = 88
 EnergyFireCost = EnergyFireCost / 3
 MetalFireCost = MetalFireCost / 3
 MinFireSpeed = 12000

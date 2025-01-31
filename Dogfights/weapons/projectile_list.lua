@@ -29,8 +29,10 @@ if flak then
 end
 local shotgun = FindProjectile('shotgun')
 if shotgun then
-    shotgun.AntiAirDamage = 30
-   shotgun.MaxAge = 2.8
+	shotgun.AntiAirDamage = 30
+	shotgun.MinAge = 6
+	shotgun.MaxAge = 30
+	shotgun.ExpiresOnFreeFall = true
 end
 local machinegun = FindProjectile('machinegun')
 if machinegun then

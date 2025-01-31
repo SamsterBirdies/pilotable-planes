@@ -1,0 +1,1 @@
+MaxFireAngle = 45
