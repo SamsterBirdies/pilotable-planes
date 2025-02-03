@@ -1,5 +1,6 @@
 dofile("scripts/type.lua")
 dofile(path .. "/scripts/better_log.lua")
+sbpp_path = path
 --temp projectile func
 function sbpp_TempProjectile(name, delay)
 	local projectile = DeepCopy(FindProjectile(name))
