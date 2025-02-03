@@ -93,9 +93,37 @@ function DropBombs(param)
 	local helicopter = GetProjectileParamBool(saveName, teamId, "sb_planes.helicopter", false)
 	local aim_missile = GetProjectileParamBool(saveName, teamId, "sb_planes.weapon" .. weapon_str .. ".aim_missile", false)
 	local recoil = GetProjectileParamFloat(saveName, teamId, "sb_planes.weapon" .. weapon_str .. ".recoil", 0)
+	local offset_x = GetProjectileParamFloat(saveName, teamId, "sb_planes.weapon" .. weapon_str .. ".offset_x", 0)
+	local offset_y = GetProjectileParamFloat(saveName, teamId, "sb_planes.weapon" .. weapon_str .. ".offset_y", 0)
 	--local min_aim = GetProjectileParamFloat(saveName, teamId, "sb_planes.weapon" .. tostring(weapon) .. ".min_aim", 3.14)
 	--local max_aim = GetProjectileParamFloat(saveName, teamId, "sb_planes.weapon" .. tostring(weapon) .. ".max_aim", -3.14)
+	
+	-- if x or y offset then apply it to position
+	if offset_x ~= 0 or offset_y ~= 0 then
+		--helicopter different from plane
+		if helicopter then
+			local proj_angle
+			if data.planes[id_str].mouse_direction < 0 then
+				proj_angle = data.planes[id_str].angle - DEG90
+				position = AddVec(position, RadMag2Vec(proj_angle - 1.5708, offset_y))
+			else
+				proj_angle = data.planes[id_str].angle + DEG90
+				position = AddVec(position, RadMag2Vec(proj_angle + 1.5708, offset_y))
+			end
+			position = AddVec(position, RadMag2Vec(proj_angle, offset_x))
+		else
+			local proj_angle
+			proj_angle = Vec2Rad(velocity)
+			if proj_angle > 1.5708 or proj_angle < -1.5708 then
+				position = AddVec(position, RadMag2Vec(proj_angle - 1.5708, offset_y))
+			else
+				position = AddVec(position, RadMag2Vec(proj_angle + 1.5708, offset_y))
+			end
+			position = AddVec(position, RadMag2Vec(proj_angle, offset_x))
+		end
+	end
 	--if aimed then get the mouse pos angle
+	
 	local angle
 	if aimed then
 		local mouse_pos = data.planes[id_str].mouse_pos

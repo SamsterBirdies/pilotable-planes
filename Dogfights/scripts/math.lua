@@ -51,6 +51,10 @@ function Vec2Mag(vector)
 	--get magnitude from vector
 	return math.sqrt(vector.x^2 + vector.y^2)
 end
+function RadMag2Vec(radians, magnitude)
+	--convert radians to vector
+	return Vec3(math.cos(radians) * magnitude, math.sin(radians) * magnitude)
+end
 function Trig_C_abB(a, b, B)
 	--find angle C, given sides a b and angle B
 	local A = math.asin((a * math.sin(B)) / b)
