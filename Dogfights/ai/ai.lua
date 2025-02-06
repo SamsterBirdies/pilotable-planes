@@ -1,3 +1,8 @@
+--for debugging
+--ShowAntiAirTrajectories = true
+--ShowAntiAirTargets = true
+--ShowAntiAirLockDowns = true
+
 ShootableProjectile["sbpp_f16"] = true
 ShootableProjectile["sbpp_Biplane"] = true
 ShootableProjectile["sbpp_grenade"] = true

@@ -359,12 +359,12 @@ function OnKeyControls(key, down)
 		--zoom scrolling
 		if key == "mouse wheel" then
 			if down then
-				camera_zoom_target = camera_zoom_target + 1
+				camera_zoom_target = camera_zoom_target * 1.2
 				if camera_zoom_target > camera_zoom_max then 
 					camera_zoom_target = camera_zoom_max 
 				end
 			else
-				camera_zoom_target = camera_zoom_target - 1
+				camera_zoom_target = camera_zoom_target / 1.2
 				if camera_zoom_target < camera_zoom_min then 
 					camera_zoom_target = camera_zoom_min 
 				end
