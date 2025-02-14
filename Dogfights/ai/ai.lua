@@ -57,12 +57,14 @@ ProjectileVisibleRanges = {
 	["sbpp_ac130"] =		30000,
 	["sbpp_mig15"] =		25000,
 	["sbpp_spitfire"] =	25000,
-	["sbpp_b52"] =		20000,
+	["sbpp_b52"] =		30000,
 	
 	--Missiles
 	["sbpp_sidewinder"] =18000,
 	["sbpp_hydra"] =		18000,
 	["sbpp_hellfire"] =	20000,
+	["sbpp_rp3"] =	20000,
+	["sbpp_alcm"] =	20000,
 	
 	--Bombs
 	["bomb"] =			10000,
@@ -580,7 +582,7 @@ function Load(gameStart)
 	offset = offset + 2.3*fortId/4
 
 	ScheduleCall(2 + offset, UpdateAI)
-	ScheduleCall(1.5 + offset, ScheduleTryShootDownProjectiles)
+	ScheduleCall(1.5 + offset, TryShootDownProjectiles)
 	if not data.HumanAssist then
 		ScheduleCall(7 + offset, Repair)
 		ScheduleCall(30 + offset, DecayFrustration)
@@ -688,7 +690,7 @@ function AA_GetNodeProjectileSaveName(id)
 end
 
 data.AntiAirPeriod = 0.4
-function ScheduleTryShootDownProjectiles()
+function TryShootDownProjectiles()
 	local weaponCount = GetAntiAirWeaponCount()
 	local fthreadCount = math.floor(data.AntiAirPeriod / 0.04)
 	local weaponsPerFthread = math.ceil(weaponCount / fthreadCount)
@@ -698,15 +700,15 @@ function ScheduleTryShootDownProjectiles()
 		local ends = math.min(i * weaponsPerFthread + weaponsPerFthread, weaponCount - 1)
 		--Log(tostring(i) .. " = ".. tostring(starts) .. "-" .. tostring(ends))
 		
-		ScheduleCall(i * 0.04, TryShootDownProjectiles, weaponCount, starts, ends)
+		ScheduleCall(i * 0.04, TryShootDownProjectilesChild, weaponCount, starts, ends)
 		if i >= weaponCount then
 			break
 		end
 	end
-	ScheduleCall(data.AntiAirPeriod, ScheduleTryShootDownProjectiles)
+	ScheduleCall(data.AntiAirPeriod, TryShootDownProjectiles)
 end
 
-function TryShootDownProjectiles(weaponCount, weaponIndexStart, weaponIndexEnd)
+function TryShootDownProjectilesChild(weaponCount, weaponIndexStart, weaponIndexEnd)
 	if data.gameWinner and data.gameWinner ~= teamId then return end
 
 	for id,lockdown in pairs(data.AntiAirLockDown) do

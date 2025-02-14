@@ -1113,7 +1113,7 @@ if alcm then
 	alcm.ProjectileDamage = 1000
 	alcm.ProjectileSplashDamageMaxRadius = alcm.ProjectileSplashDamageMaxRadius * 1.2
 	alcm.IncendiaryRadius = alcm.IncendiaryRadius * 0.6
-	alcm.AntiAirHitpoints = 40
+	alcm.AntiAirHitpoints = 30
 	alcm.ProjectileSplashMaxForce = 400000
 	table.insert(Projectiles, alcm)
 	MakeFlamingVersion("sbpp_alcm", 1.33, 2.5, flamingTrail, 225, nil, rocketFlamingExpire)

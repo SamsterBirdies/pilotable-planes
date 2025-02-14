@@ -113,7 +113,7 @@ table.insert(Devices, IndexOfDevice("ammo_nighthawk") + 1,
 			EnergyCost = 18000,
 			Prerequisite = "factory",
 			Enabled = true,
-			BuildTimeComplete = 90,
+			BuildTimeComplete = 110,
 			ObserverBuildEvent = true,
 		}
 	)
@@ -210,7 +210,7 @@ table.insert(Devices, IndexOfDevice("ammo_sbpp_ac130"),
 			EnergyCost = 20000,
 			Prerequisite = "munitions",
 			Enabled = true,
-			BuildTimeComplete = 90,
+			BuildTimeComplete = 110,
 			ObserverBuildEvent = true,
 		}
 	)
