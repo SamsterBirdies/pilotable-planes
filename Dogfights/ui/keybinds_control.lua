@@ -515,6 +515,41 @@ Root = --Text = "$ArtileryPanel.ArtileryPanel",
 		},
 	},
 },
+{
+	Type = "TextButton",
+	Name = "SB_PP_CameraPan",
+	Style = "ListToolTips",
+	Text =
+	{
+		Text = "Camera Pan", --↺
+		Control =
+		{
+			Position = { 0, 0, },
+			ScriptX = "ParentL + 10",
+			ScriptY = "ParentT + 250",
+			Anchor = 0,
+			TabStop = 0,
+			Effect = "ui/setting",
+			Children =
+			{
+				{
+					Type = "Text",
+					Name = "SB_PP_CameraPanKey",
+					Style = "ListToolTips",
+					Text = "Middle Mouse",
+					--Colour = { 255, 255, 255, 255 },
+					--ColourLower = { 255, 255, 255, 155 },
+					Control =
+					{
+						Position = { 155, 0, },
+						Size = { 0, 0, },
+						Anchor = 7,
+					},
+				},
+			},
+		},
+	},
+},
 --end of subtracting 8 indents for Root.Control.Children[2].Control.Children[3].Control.Children
 								},
 							},

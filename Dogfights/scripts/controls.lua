@@ -370,6 +370,10 @@ function OnKeyControls(key, down)
 				end
 			end
 		end
+		--toggle mouse pan
+		if key == CameraPan and down then
+			camera_pan = not camera_pan
+		end
 		--suggestion to allow commander activation
 		if key == CommanderAbility and down then
 			SendScriptEvent("ActivateCommander", SSEParams(GetLocalTeamId()), "script.lua", true)
@@ -407,8 +411,12 @@ function UpdateControls(frame, id, saveName, teamId)
 			throttle = throttle_max
 		end
 		--get mouse pos
-		local mouse_pos = ScreenToWorld(GetMousePos())
-		SendScriptEvent("ScriptEventControls", SSEParams(user_control, elevator_target, throttle, mouse_pos), "script.lua", true)
+		local mouse_pos = GetMousePos()
+		if camera_pan then
+			camera_pos_offset.x = mouse_pos.x - 533
+			camera_pos_offset.y = mouse_pos.y - (screen_max_y / 2)
+		end
+		SendScriptEvent("ScriptEventControls", SSEParams(user_control, elevator_target, throttle, ScreenToWorld(mouse_pos)), "script.lua", true)
 		
 		--weapons
 		--gun
