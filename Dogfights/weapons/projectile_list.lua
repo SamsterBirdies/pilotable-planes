@@ -966,7 +966,7 @@ if spitfire then
 	spitfire.Projectile.Root.ChildrenInFront[1].Pivot = {0.455, -0.04166}
 	spitfire.Projectile.Root.Scale = spitfire.Projectile.Root.Scale * 0.9
 	spitfire.sb_planes.throttle_max = 1.235
-	spitfire.sb_planes.elevator = 32000
+	spitfire.sb_planes.elevator = 39000
 	spitfire.sb_planes.lift_multiplier = spitfire.sb_planes.lift_multiplier - 0.1
 	spitfire.sb_planes.weapon1.projectile = "sbpp_temp_sbpp_machinegunsmall"
 	spitfire.sb_planes.weapon1.effect = path .. "/effects/303cal_fire.lua"
