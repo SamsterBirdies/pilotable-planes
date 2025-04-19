@@ -27,12 +27,11 @@ function ScriptEventControls(id, value0, value1, value2)
 	SetPlaneMouseTarget(id, value2)
 end
 
-function DropBombsSchedule(id, weapon, clientId, timer)
+function DropBombsSchedule(id, weapon, clientId, timer, teamId)
 	--schedules volley of projectiles
 	if not NodeExists(id) then return end
 	
 	local saveName = GetNodeProjectileSaveName(id)
-	local teamId = NodeTeam(id)
 	local count = GetProjectileParamFloat(saveName, teamId, "sb_planes.weapon" .. tostring(weapon) .. ".count", 0)
 	local period = GetProjectileParamFloat(saveName, teamId, "sb_planes.weapon" .. tostring(weapon) .. ".period", 0.06)
 	local perround = GetProjectileParamFloat(saveName, teamId, "sb_planes.weapon" .. tostring(weapon) .. ".perround", 1)
@@ -50,14 +49,14 @@ function DropBombsSchedule(id, weapon, clientId, timer)
 		if i == 0 then
 			for ii = 0, perround - 1 do
 				if delay == 0 then
-					DropBombs({id, weapon, clientId, ii})
+					DropBombs({id, weapon, clientId, ii, teamId})
 				else --if weapon has delay then schedule the first bullet instead
-					ScheduleCall(i * period + delay, DropBombs, {id, weapon, clientId, ii})
+					ScheduleCall(i * period + delay, DropBombs, {id, weapon, clientId, ii, teamId})
 				end
 			end
 		else
 			for ii = 0, perround - 1 do
-				ScheduleCall(i * period + delay, DropBombs, {id, weapon, clientId, ii})
+				ScheduleCall(i * period + delay, DropBombs, {id, weapon, clientId, ii, teamId})
 			end
 		end
 	end
@@ -79,7 +78,7 @@ function DropBombs(param)
 	local clientId = param[3]
 	local playeffect = param[4]
 	local weapon_str = tostring(weapon)
-	local teamId = NodeTeam(id)
+	local teamId = param[5]
 	local saveName = GetNodeProjectileSaveName(id)
 	local position = NodePosition(id)
 	local velocity = NodeVelocity(id)
@@ -162,7 +161,8 @@ function DropBombs(param)
 		ScheduleCall(0, SetAudioParameter, effect_id, "doppler_shift", DopplerCalculate(position, velocity))
 	end
 	--spawn projectile
-	local projectile_id = dlc2_CreateProjectile(projectile, saveName, NodeTeam(id), bombpos, AddVec(velocity, MultiplyVec(Rad2Vec(angle), speed)), 60)
+	local projectile_id = dlc2_CreateProjectile(projectile, saveName, teamId, bombpos, AddVec(velocity, MultiplyVec(Rad2Vec(angle), speed)), 60)
+	--Log(tostring(teamId))
 	SetProjectileClientId(projectile_id, clientId)
 	if aim_missile then
 		SetMissileTarget(projectile_id, data.planes[tostring(id)].mouse_pos)
@@ -227,13 +227,13 @@ function PlaneWeapon(id, weapon, saveName, teamId)
 	local maxdrop = GetProjectileParamFloat(saveName, teamId, "sb_planes.weapon"..tostring(weapon)..".maxangle", 1000)
 	local idstr = tostring(id)
 	local weaponstr = tostring(weapon)
-	
+	local localTeamId = GetLocalTeamId()
 	if data.planes[idstr].timers[weapon] == 0 and data.planes[idstr].timers[weapon + 6] > 0 and MaxVertTest(NodeVelocity(id), maxdrop) then
 		local timer = GetProjectileParamFloat(saveName, teamId, "sb_planes.weapon"..weaponstr..".timer", 10)
 		local fireCost = GetProjectileParamFloat(saveName, teamId, "sb_planes.weapon"..weaponstr..".fire_cost_metal", 0)
 		local fireCostE = GetProjectileParamFloat(saveName, teamId, "sb_planes.weapon"..weaponstr..".fire_cost_energy", 150)
 		SendScriptEvent("AddResources",SSEParams(teamId, Value(fireCost*-1,fireCostE*-1), false, Vec3()), "script.lua", true)
-		SendScriptEvent("DropBombsSchedule", SSEParams(id, weapon, GetProjectileClientId(id), timer), "script.lua", true)
+		SendScriptEvent("DropBombsSchedule", SSEParams(id, weapon, GetProjectileClientId(id), timer, localTeamId), "script.lua", true)
 		data.planes[idstr].timers[weapon] = timer
 	end
 end
