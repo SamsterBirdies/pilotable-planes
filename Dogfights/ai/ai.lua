@@ -804,6 +804,10 @@ function TryShootDownProjectilesChild(weaponCount, weaponIndexStart, weaponIndex
 							if actualRange >= maxRange then
 								continue
 							end
+							local projectileVisibleRange = ProjectileVisibleRanges[projectileSaveName] or 30000
+							if actualRange >= projectileVisibleRange then
+								continue
+							end
 							
 							local currVel = AA_NodeVelocity(projectileId)
 							local delta = weaponPos - actualPos
@@ -840,10 +844,6 @@ function TryShootDownProjectilesChild(weaponCount, weaponIndexStart, weaponIndex
 
 							-- avoid ray cast if there's no chance it will pass further testing
 							-- ignore projectile if it's too close to shoot 
-
-							local projectileVisibleRange = ProjectileVisibleRanges[projectileSaveName] or 30000
-							
-							local predictedRange = GetDistance(pos,weaponPos)
 
 							if timeToImpact > closestTimeToImpact and timeToSelf > minTimeToImpact then continue end
 							
