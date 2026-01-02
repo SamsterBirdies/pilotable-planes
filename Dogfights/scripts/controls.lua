@@ -161,7 +161,7 @@ function DropBombs(param)
 		ScheduleCall(0, SetAudioParameter, effect_id, "doppler_shift", DopplerCalculate(position, velocity))
 	end
 	--spawn projectile
-	local projectile_id = dlc2_CreateProjectile(projectile, saveName, teamId, bombpos, AddVec(velocity, MultiplyVec(Rad2Vec(angle), speed)), 60)
+	local projectile_id = dlc2_CreateProjectile(projectile, "id=" .. id_str, teamId, bombpos, AddVec(velocity, MultiplyVec(Rad2Vec(angle), speed)), 60)
 	--Log(tostring(teamId))
 	SetProjectileClientId(projectile_id, clientId)
 	if aim_missile then

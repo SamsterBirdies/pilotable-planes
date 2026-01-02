@@ -1,3 +1,18 @@
+--constants
+DEG1 = 0.017453292
+DEG5 = 0.087266462
+DEG10 = 0.17453292
+DEG15 = 0.26179938
+DEG25 = 0.43633231
+DEG30 = 0.5235987
+DEG35 = 0.61086523
+DEG45 = 0.78539816
+DEG60 = 1.0471975
+DEG90 = 1.5707963
+DEG180 = 3.1415926
+DEG270 = 4.7123889
+DEG360 = 6.2831853
+
 function Vec2Rad(vector)
 	--convert vector to radians
 	return math.atan2(vector.y , vector.x)
