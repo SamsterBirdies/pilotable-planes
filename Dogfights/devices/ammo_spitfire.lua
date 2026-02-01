@@ -45,5 +45,6 @@ dlc2_Ammunition =
 		MaxFireSpeed = 3000.1,
 		Projectile = "sbpp_spitfire",
 		HeatPerRound = 0.4,
+		RowName = "mk1",
 	}
 }

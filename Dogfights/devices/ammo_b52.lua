@@ -53,5 +53,6 @@ dlc2_Ammunition =
 		MaxFireSpeed = 3000.1,
 		Projectile = "sbpp_b52",
 		HeatPerRound = 0.4,
+		RowName = "mk3",
 	}
 }

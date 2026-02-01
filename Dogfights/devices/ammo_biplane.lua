@@ -46,5 +46,6 @@ dlc2_Ammunition =
 		MaxFireSpeed = 2000.1,
 		Projectile = "sbpp_Biplane",
 		HeatPerRound = 0.19,
+		RowName = "mk1",
 	}
 }
