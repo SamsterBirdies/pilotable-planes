@@ -974,6 +974,7 @@ if spitfire then
 	spitfire.sb_planes.weapon1.period = 0.12
 	spitfire.sb_planes.weapon1.count = 15
 	spitfire.sb_planes.weapon1.name = "$Weapon.sbpp_303cal"
+	spitfire.sb_planes.weapon1.timer = 6
 	spitfire.sb_planes.weapon2.projectile = "sbpp_temp_sbpp_rp3"
 	spitfire.sb_planes.weapon2.rotation = 0
 	spitfire.sb_planes.weapon2.speed = 3000
