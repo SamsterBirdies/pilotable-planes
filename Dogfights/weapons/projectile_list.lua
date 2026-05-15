@@ -153,7 +153,7 @@ if nighthawk then
 		elevator = 50000,
 		thrust = 15000,
 		throttle_min = 0.6,
-		throttle_max = 1.4,
+		throttle_max = 1.65,
 		lift_multiplier = 4.3,
 		lift_max_speed = 3700,
 		advanced_physics = true,
@@ -224,7 +224,7 @@ table.insert(Projectiles,
 	ProjectileSplashMaxForce = 10000, -- moderate shockwave
 	WeaponDamageBonus = 20,
 	AntiAirHitpoints = 20,
-	AntiAirDamage = 20,
+	AntiAirDamage = 40,
 	SpeedIndicatorFactor = 0.25,
 
 	TrailEffect = path .. "/effects/trail_gau8.lua",
@@ -562,7 +562,7 @@ if ac130 then
 			}
 		}
 	}
-	ac130.AntiAirHitpoints = ac130.AntiAirHitpoints * 2-- * 1.5
+	ac130.AntiAirHitpoints = ac130.AntiAirHitpoints * 1.7-- * 1.5
 	ac130.ProjectileShootDownRadius = ac130.ProjectileShootDownRadius * 1.5
 	ac130.ProjectileDamage = ac130.ProjectileDamage * 1.8
 	ac130.ProjectileSplashDamage = ac130.ProjectileSplashDamage * 1.8
@@ -659,6 +659,7 @@ local gau12 = DeepCopy(FindProjectile("sbpp_gau8"))
 if gau12 then
 	gau12.SaveName = "sbpp_gau12"
 	gau12.WeaponDamageBonus = 20
+	gau12.AntiAirDamage = 20
 	table.insert(Projectiles, gau12)
 	MakeFlamingVersion("sbpp_gau12", 1.33, 0.25, flamingTrail, 100, nil, genericFlamingExpire)
 end
@@ -740,7 +741,7 @@ if apache then
 	apache.ProjectileSprite = nil
 	apache.ProjectileDrag = 1.7
 	apache.ProjectileMass = 5
-	apache.AntiAirHitpoints = apache.AntiAirHitpoints * 1.5
+	apache.AntiAirHitpoints = apache.AntiAirHitpoints * 1.35
 	apache.ExplodeOnTouch = true
 	apache.ProjectileAgeTrigger = false
 	--apache.MaxAgeUnderwater = 999
@@ -855,7 +856,7 @@ end
 local ah6 = DeepCopy(apache)
 if ah6 then
 	ah6.SaveName = "sbpp_littlebird"
-	ah6.AntiAirHitpoints = ah6.AntiAirHitpoints * 0.65
+	ah6.AntiAirHitpoints = ah6.AntiAirHitpoints * 0.8
 	ah6.sb_planes.sprite = path .. "/effects/littlebird"
 	ah6.sb_planes.trail_effect = path .. "/effects/trail_heli_small"
 	ah6.sb_planes.weapon1.projectile = "sbpp_temp_machinegun"
@@ -955,6 +956,7 @@ if mig15gun2 then
 	mig15gun2.SaveName = "sbpp_mig15gun2"
 	mig15gun2.ProjectileDamage = mig15gun2.ProjectileDamage - 15
 	mig15gun2.WeaponDamageBonus = 15
+	mig15gun2.AntiAirDamage = 40
 	table.insert(Projectiles, mig15gun2)
 	MakeFlamingVersion("sbpp_mig15gun2", 1.33, 0.25, flamingTrail, 100, nil, genericFlamingExpire)
 end
@@ -982,8 +984,8 @@ if spitfire then
 	spitfire.sb_planes.weapon2.count = 1
 	spitfire.sb_planes.weapon2.bank_max = 2
 	spitfire.sb_planes.weapon2.bank_start = 2
-	spitfire.sb_planes.weapon2.timer = 0.8
-	spitfire.sb_planes.weapon2.bank_timer = 7
+	spitfire.sb_planes.weapon2.timer = 0.5
+	spitfire.sb_planes.weapon2.bank_timer = 5
 	spitfire.sb_planes.weapon2.name = "$Weapon.sbpp_rp3"
 	spitfire.sb_planes.trail_effect = path .. "/effects/trail_p51"
 	table.insert(Projectiles, spitfire)
@@ -1034,7 +1036,6 @@ if b52 then
 	b52.ProjectileDamage = b52.ProjectileDamage + 410
 	b52.ProjectileSplashDamage = b52.ProjectileSplashDamage * 0.75
 	b52.ProjectileSplashMaxForce = 650000
-	b52.AntiAirHitpoints = b52.AntiAirHitpoints * 0.7
 	b52.WeaponDamageBonus = 500
 	b52.ProjectileShootDownRadius = b52.ProjectileShootDownRadius * 1.3
 	b52.sb_planes.elevator = 18000
@@ -1119,6 +1120,8 @@ if alcm then
 	table.insert(Projectiles, alcm)
 	MakeFlamingVersion("sbpp_alcm", 1.33, 2.5, flamingTrail, 225, nil, rocketFlamingExpire)
 end
+
+
 table.insert(Sprites,
 {
 	Name = "sbpp_bloom_flare",
@@ -1170,6 +1173,39 @@ if flare then
 	table.insert(Projectiles, flare)
 end
 
+local shinden = DeepCopy(FindProjectile("sbpp_p51"))
+if shinden then
+	shinden.SaveName = "sbpp_shinden"
+	shinden.Projectile.Root.Sprite = path .. "/weapons/shinden/shinden.png"
+	shinden.Projectile.Root.ChildrenInFront[1].Pivot = {0.455, -0.04166}
+	shinden.Projectile.Root.Scale = spitfire.Projectile.Root.Scale * 0.9
+	shinden.sb_planes.elevator = 26000
+	shinden.sb_planes.thrust = 14000
+	shinden.sb_planes.throttle_min = 0.65
+	shinden.sb_planes.throttle_max = 1.5
+	shinden.sb_planes.trail_effect = path .. "/effects/trail_shinden"
+	shinden.sb_planes.lift_multiplier = shinden.sb_planes.lift_multiplier - 0.2
+	shinden.sb_planes.weapon1 =
+	{
+		projectile = "sbpp_temp_sbpp_mig15gun2",
+		rotation = 0.0, 
+		distance = 25, 
+		speed = 5000,
+		count = 5,
+		perround = 4,
+		period = 0.36, 
+		timer = 12, 
+		stddev = 0.04,
+		effect = path .. "/effects/fire_20mmburst.lua",
+		reload_effect = path .. "/effects/reload_gun_large.lua",
+		name = "$Weapon.sbpp_shindengun",
+	}
+	shinden.sb_planes.weapon2 = nil
+	table.insert(Projectiles, shinden)
+	MakeFlamingVersion("sbpp_shinden", 1.33, 10, flamingTrail, 100, nil, genericFlamingExpire)
+	sbpp_Firebeams('sbpp_shinden', 150, 400)
+end
+
 laser = FindProjectile("laser")
 if laser then
 	if laser.DamageMultiplier == nil then
@@ -1187,7 +1223,6 @@ if laser then
    table.insert(laser.DamageMultiplier, { SaveName = "sbpp_apache", AntiAir = 0.00035 })
    table.insert(laser.DamageMultiplier, { SaveName = "sbpp_ac130", AntiAir = 0.00045 })
 end
-
 --temp projectiles
 sbpp_TempProjectile("bomb", 300)
 sbpp_TempProjectile("cannon20mm", 80)
