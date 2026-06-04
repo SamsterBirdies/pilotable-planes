@@ -215,22 +215,44 @@ table.insert(Devices, IndexOfDevice("ammo_sbpp_ac130"),
 		}
 	)
 )
-table.insert(Sprites, DetailSprite("hud-detail-sbpp_shinden", "shinden", path))
-table.insert(Sprites, ButtonSprite("hud-sbpp_shinden-icon", "HUD/HUD-shinden", nil, ButtonSpriteBottom, nil, nil, path))
-table.insert(Devices, IndexOfDevice("ammo_sbpp_ac130"),
+if FindDevice("ammo_flashbang") then
+	table.insert(Sprites, DetailSprite("hud-detail-sbpp_shinden", "shinden", path))
+	table.insert(Sprites, ButtonSprite("hud-sbpp_shinden-icon", "HUD/HUD-shinden", nil, ButtonSpriteBottom, nil, nil, path))
+	table.insert(Devices, IndexOfDevice("ammo_sbpp_f16"),
+		InheritType(FindDevice("ammo_nighthawk"),nil,
+			{	
+				SaveName = "ammo_sbpp_shinden",
+				FileName = path .. "/devices/ammo_shinden.lua",
+				dlc2_BuildQueue = "dlc2_runway",
+				Detail = "hud-detail-sbpp_shinden",
+				Icon = "hud-sbpp_shinden-icon",
+				MetalCost = 400,
+				EnergyCost = 6000,
+				Prerequisite = "smelter",
+				Enabled = true,
+				BuildTimeComplete = 65,
+				ObserverBuildEvent = true,
+			}
+		)
+	)
+end
+--[[
+table.insert(Sprites, DetailSprite("hud-detail-sbpp_zero", "zero", path))
+table.insert(Sprites, ButtonSprite("hud-sbpp_zero-icon", "HUD/HUD-zero", nil, ButtonSpriteBottom, nil, nil, path))
+table.insert(Devices, IndexOfDevice("ammo_sbpp_hellcat"),
 	InheritType(FindDevice("ammo_nighthawk"),nil,
 		{	
-			SaveName = "ammo_sbpp_shinden",
-			FileName = path .. "/devices/ammo_shinden.lua",
+			SaveName = "ammo_sbpp_zero",
+			FileName = path .. "/devices/ammo_zero.lua",
 			dlc2_BuildQueue = "dlc2_runway",
-			Detail = "hud-detail-sbpp_shinden",
-			Icon = "hud-sbpp_shinden-icon",
-			MetalCost = 400,
-			EnergyCost = 6000,
+			Detail = "hud-detail-sbpp_zero",
+			Icon = "hud-sbpp_zero-icon",
+			MetalCost = 200,
+			EnergyCost = 4000,
 			Prerequisite = "munitions",
 			Enabled = true,
-			BuildTimeComplete = 65,
+			BuildTimeComplete = 40,
 			ObserverBuildEvent = true,
 		}
 	)
-)
+)]]

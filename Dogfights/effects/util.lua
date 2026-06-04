@@ -6,7 +6,7 @@ function Flames(count, size, speed)
 		TimeToStop = 0,
 		SparkCount = count,
 		SparksPerBurst = count,
-		LocalPosition = { x = 0, y = 0, z = 0 },	-- how to place the origin relative to effect position and direction (0, 0) 
+		LocalPosition = { x = 0, y = 0, z = -1 },	-- how to place the origin relative to effect position and direction (0, 0) 
 		Texture = "effects/media/flame.dds",
 		TrailEffect = "effects/missile_streams.lua",
 		Gravity = 600,						-- gravity applied to particle (981 is earth equivalent)
@@ -81,15 +81,20 @@ function Flames(count, size, speed)
 	}
 end
 function Smoke(amount, scale, life, speed)
+	scale = scale * 0.5
+	local image = "effects/media/CloudMedium"
+	if scale > 5 then
+		image = "effects/media/CloudLarge"
+	end
 	return {
 	--DUST CLOUDS
 		Type = "sparks",
 		TimeToTrigger = 0,
 		SparkCount = amount,
-		LocalPosition = { x = 0, y = 0, z = 1 },	-- how to place the origin relative to effect position and direction (0, 0) 
-		Texture = "effects/media/smoke",
+		LocalPosition = { x = 0, y = 0, z = -1 },	-- how to place the origin relative to effect position and direction (0, 0) 
+		Texture = image,
 
-		Gravity = 0,						-- gravity applied to particle (981 is earth equivalent)
+		Gravity = -100,						-- gravity applied to particle (981 is earth equivalent)
 		
 		EvenDistribution =					-- distribute sparks evenly between two angles with optional variation
 		{
@@ -118,6 +123,7 @@ function Smoke(amount, scale, life, speed)
 				AgeStdDev = life * 0.3,
 				AlphaKeys = { 0.5, 0.5 },
 				ScaleKeys = { 0.1, 0.5 },
+				Colour = {255,255,255,128},
 			},
 		},
 	}
@@ -128,7 +134,7 @@ function Dirt(size, speed)
 		Type = "sparks",
 		TimeToTrigger = 0.1,
 		SparkCount = 18,
-		LocalPosition = { x = 0, y = 0 },	-- how to place the origin relative to effect position and direction (0, 0) 
+		LocalPosition = { x = 0, y = 0, z = -1 },	-- how to place the origin relative to effect position and direction (0, 0) 
 		Texture = "mods/weapon_pack/effects/media/debris",
 
 		Gravity = 0981,						-- gravity applied to particle (981 is earth equivalent)

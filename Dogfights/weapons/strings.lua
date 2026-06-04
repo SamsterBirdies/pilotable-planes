@@ -46,6 +46,9 @@ Merge(Device,
 	ammo_sbpp_b52Tip3 = L"Weapons cannot be used during a steep incline.",
 	ammo_sbpp_b52Tip4 = L"Ammo for: Runway MK III",
 	
+	ammo_sbpp_shinden = L"J7W Shinden",
+	ammo_sbpp_shindenTip2 = L"Fires 4x 30mm autocannons.",
+	
 })
 
 Merge(Weapon,
@@ -82,4 +85,5 @@ Merge(Weapon,
 	sbpp_50cal = L".50 M2 Browning",
 	sbpp_303cal = L".303 Browning MK II",
 	sbpp_alcm = L"AGM-86C Cruise Missile",
+	sbpp_shindengun = L"30mm Autocannons",
 })

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="AudioFile" id="{ee779a49-602d-42c9-abca-52b05d27ffb8}">
+		<property name="assetPath">
+			<value>zerocrash.wav</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>48</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>5.4837708333333337</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{57da8d23-6797-4a81-8598-bfcd0d674e8d}</destination>
+		</relationship>
+	</object>
+</objects>

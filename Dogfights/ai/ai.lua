@@ -22,6 +22,7 @@ ShootableProjectile["sbpp_howitzer105mm"] = true
 ShootableProjectile["sbpp_flare"] = true
 ShootableProjectile["sbpp_alcm"] = true
 ShootableProjectile["sbpp_rp3"] = true
+ShootableProjectile["sbpp_shinden"] = true
 --107
 
 --key and value used.
@@ -32,6 +33,7 @@ PlaneSaveNames = {
 	["sbpp_Biplane"]=-851,
 	["sbpp_hellcat"]=-809-100,
 	["sbpp_p51"]=-838-100,
+	["sbpp_shinden"]=-838-100,
 	["sbpp_ac130"]=-838-100,
 	["sbpp_apache"]=-0-1000,
 	["sbpp_littlebird"]=-0-1000,
@@ -45,30 +47,31 @@ PlaneSaveNames = {
 --default: 30000. 36000 is the limit of flak about
 ProjectileVisibleRanges = {
 	--Planes
-	["nighthawk"] =		12500,
+	["nighthawk"] =		10000,
 	["thunderbolt"] =	30000,
 	
 	["sbpp_Biplane"] =	9000,
 	["sbpp_hellcat"] =	25000,
 	["sbpp_p51"] =		25000,
+	["sbpp_shinden"] =	25000,
 	["sbpp_f16"] =		30000,
 	["sbpp_apache"] =	25000,
-	["sbpp_littlebird"] =24000,
-	["sbpp_ac130"] =		30000,
-	["sbpp_mig15"] =		25000,
+	["sbpp_littlebird"] =20000,
+	["sbpp_ac130"] =	30000,
+	["sbpp_mig15"] =	25000,
 	["sbpp_spitfire"] =	25000,
 	["sbpp_b52"] =		30000,
 	
 	--Missiles
 	["sbpp_sidewinder"] =18000,
-	["sbpp_hydra"] =		18000,
+	["sbpp_hydra"] =	18000,
 	["sbpp_hellfire"] =	20000,
 	["sbpp_rp3"] =	20000,
 	["sbpp_alcm"] =	20000,
 	
 	--Bombs
 	["bomb"] =			10000,
-	["paveway"] =		11500,
+	["paveway"] =		10000,
 	
 	["sbpp_grenade"] =	7000,
 	["sbpp_bomb250kg"] =	10000,
@@ -93,7 +96,7 @@ ProjectileVisibleRanges = {
 AntiAirMaxRanges = {
 	["machinegun"] =		12000,
 	["flak"] =			36000,
-	["shotgun"] =		48500,
+	["shotgun"] =		12000,
 	["hardpointflak"] =	100000,
 }
 

@@ -51,7 +51,7 @@ end
 local mgsmall = DeepCopy(machinegun)
 if mgsmall then
 	mgsmall.SaveName = "sbpp_machinegunsmall"
-	mgsmall.ProjectileDamage = mgsmall.ProjectileDamage * 0.6
+	--mgsmall.ProjectileDamage = mgsmall.ProjectileDamage * 0.6
 	table.insert(Projectiles, mgsmall)
 	MakeFlamingVersion("sbpp_machinegunsmall", 1.33, 0.24, flamingTrail, 150, nil, genericFlamingExpire)
 end
@@ -449,10 +449,10 @@ if p51 then
 			rotation = 0.0, 
 			distance = 25, 
 			speed = 6000,
-			count = 12,
+			count = 15,
 			perround = 6,
 			period = 0.16, 
-			timer = 9, 
+			timer = 8, 
 			stddev = 0.03, 
 			effect = path .. "/effects/50cal_fire.lua",
 			reload_effect = path .. "/effects/reload_gun.lua",
@@ -483,12 +483,12 @@ if hellcat then
 	hellcat.SaveName = "sbpp_hellcat"
 	hellcat.Projectile.Root.Sprite = path .. "/weapons/hellcat/hellcat.png"
 	hellcat.Projectile.Root.ChildrenInFront[1].Pivot = {0.4296875, -0.02604167} 
-	hellcat.AntiAirHitpoints = hellcat.AntiAirHitpoints * 1.4-- * 1.5
+	hellcat.AntiAirHitpoints = hellcat.AntiAirHitpoints * 1.5
 	hellcat.sb_planes.thrust = 11000
 	hellcat.sb_planes.elevator = 29000
 	hellcat.sb_planes.lift_multiplier = 6
 	hellcat.sb_planes.weapon1.count = 11
-	hellcat.sb_planes.weapon1.timer = 8
+	hellcat.sb_planes.weapon1.timer = 9
 	hellcat.sb_planes.weapon1.stddev = 0.035
 	hellcat.sb_planes.weapon2.timer = 13
 	hellcat.sb_planes.trail_effect = path .. "/effects/trail_hellcat"
@@ -849,6 +849,7 @@ if apache then
 		if FindProjectile("paveway") then
 			sbApacheHellfire.Effects = DeepCopy(FindProjectile("paveway").Effects)
 		end
+		sbApacheHellfire.Effects.Impact.default = path .. "/effects/zero_explode.lua"
 		table.insert(Projectiles, sbApacheHellfire)
 		MakeFlamingVersion("sbpp_hellfire", 1.33, 2.5, flamingTrail, 225, nil, rocketFlamingExpire)
 	end
@@ -976,7 +977,7 @@ if spitfire then
 	spitfire.sb_planes.weapon1.period = 0.12
 	spitfire.sb_planes.weapon1.count = 15
 	spitfire.sb_planes.weapon1.name = "$Weapon.sbpp_303cal"
-	spitfire.sb_planes.weapon1.timer = 6
+	spitfire.sb_planes.weapon1.timer = 5
 	spitfire.sb_planes.weapon2.projectile = "sbpp_temp_sbpp_rp3"
 	spitfire.sb_planes.weapon2.rotation = 0
 	spitfire.sb_planes.weapon2.speed = 3000
@@ -988,6 +989,7 @@ if spitfire then
 	spitfire.sb_planes.weapon2.bank_timer = 5
 	spitfire.sb_planes.weapon2.name = "$Weapon.sbpp_rp3"
 	spitfire.sb_planes.trail_effect = path .. "/effects/trail_p51"
+	spitfire.AntiAirHitpoints = spitfire.AntiAirHitpoints * 0.7
 	table.insert(Projectiles, spitfire)
 	MakeFlamingVersion("sbpp_spitfire", 1.33, 10, flamingTrail, 100, nil, genericFlamingExpire)
 	sbpp_Firebeams('sbpp_spitfire', 150, 400)
@@ -1175,12 +1177,29 @@ end
 
 local shinden = DeepCopy(FindProjectile("sbpp_p51"))
 if shinden then
+	table.insert(Sprites,
+	{
+		Name = "sbpp_shinden_prop",
+		States =
+		{
+			Normal = { Frames = 
+			{ 
+				{ texture = path .. "/weapons/shinden/prop0.png"},
+				{ texture = path .. "/weapons/shinden/prop1.png"},
+				duration = 0.04,
+				NextState = "Normal",
+			},},
+		},
+	})
 	shinden.SaveName = "sbpp_shinden"
 	shinden.Projectile.Root.Sprite = path .. "/weapons/shinden/shinden.png"
-	shinden.Projectile.Root.ChildrenInFront[1].Pivot = {0.455, -0.04166}
+	shinden.Projectile.Root.ChildrenInFront[1].Sprite = "sbpp_shinden_prop"
+	shinden.Projectile.Root.ChildrenInFront[1].Pivot = {-0.373046875, -0.2578125}
+	shinden.Projectile.Root.ChildrenInFront[1].PivotOffset = {0, -0.28125}
+	shinden.Projectile.Root.ChildrenInFront[1].Scale = 1.5
 	shinden.Projectile.Root.Scale = spitfire.Projectile.Root.Scale * 0.9
 	shinden.sb_planes.elevator = 26000
-	shinden.sb_planes.thrust = 14000
+	shinden.sb_planes.thrust = 13000
 	shinden.sb_planes.throttle_min = 0.65
 	shinden.sb_planes.throttle_max = 1.5
 	shinden.sb_planes.trail_effect = path .. "/effects/trail_shinden"
@@ -1204,6 +1223,62 @@ if shinden then
 	table.insert(Projectiles, shinden)
 	MakeFlamingVersion("sbpp_shinden", 1.33, 10, flamingTrail, 100, nil, genericFlamingExpire)
 	sbpp_Firebeams('sbpp_shinden', 150, 400)
+end
+
+local zero = DeepCopy(FindProjectile("sbpp_p51"))
+if zero then
+	zero.SaveName = "sbpp_zero"
+	zero.AntiAirHitpoints = 45
+	zero.Projectile.Root.Sprite = path .. "/weapons/zero/zero.png"
+	zero.Projectile.Root.ChildrenInFront[1].Pivot = {0.455, -0.04166}
+	zero.Projectile.Root.Scale = zero.Projectile.Root.Scale * 0.9
+	zero.sb_planes.elevator = 36000
+	zero.sb_planes.thrust = 9000
+	zero.sb_planes.throttle_min = 0.7
+	zero.sb_planes.throttle_max = 1.3
+	zero.sb_planes.trail_effect = path .. "/effects/trail_hellcat"
+	zero.ProjectileSplashDamage = zero.ProjectileSplashDamage + 100
+	zero.sb_planes.lift_multiplier = zero.sb_planes.lift_multiplier + 2
+	zero.ProjectileSplashDamageMaxRadius = 150
+	zero.IncendiaryRadius = 200
+	zero.IncendiaryRadiusHeated = 240
+	zero.Effects.Impact =
+	{
+		default = path .. "/effects/zero_explode.lua"
+	}
+	zero.sb_planes.weapon1 =
+	{
+		projectile = "sbpp_temp_sbpp_machinegunsmall",
+		rotation = 0.0, 
+		distance = 25, 
+		speed = 6000,
+		count = 15,
+		perround = 2,
+		period = 0.12, 
+		timer = 8, 
+		stddev = 0.02,
+		effect = path .. "/effects/303cal_fire.lua",
+		reload_effect = path .. "/effects/reload_gun.lua",
+		name = "$Weapon.sbpp_zerogun",
+	}
+	zero.sb_planes.weapon2 =
+	{
+		projectile = "sbpp_temp_sbpp_vulcan",
+		rotation = 0.0, 
+		distance = 25, 
+		speed = 5000,
+		count = 8,
+		perround = 2,
+		period = 0.16, 
+		timer = 12, 
+		stddev = 0.025,
+		effect = path .. "/effects/20mmcal_fire.lua",
+		reload_effect = path .. "/effects/reload_gun_large.lua",
+		name = "$Weapon.sbpp_zerogun2",
+	}
+	table.insert(Projectiles, zero)
+	MakeFlamingVersion("sbpp_zero", 1.33, 10, flamingTrail, 100, nil, genericFlamingExpire)
+	sbpp_Firebeams('sbpp_zero', 150, 400)
 end
 
 laser = FindProjectile("laser")
