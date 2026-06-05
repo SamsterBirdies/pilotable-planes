@@ -43,7 +43,7 @@ end
 local mg50 = DeepCopy(machinegun)
 if mg50 then
 	mg50.SaveName = "sbpp_machinegun50cal"
-	mg50.ProjectileDamage = mg50.ProjectileDamage * 1.5
+	mg50.ProjectileDamage = mg50.ProjectileDamage * 2
 	mg50.WeaponDamageBonus = mg50.WeaponDamageBonus * 1.5
 	table.insert(Projectiles, mg50)
 	MakeFlamingVersion("sbpp_machinegun50cal", 1.33, 0.24, flamingTrail, 150, nil, genericFlamingExpire)
@@ -51,7 +51,8 @@ end
 local mgsmall = DeepCopy(machinegun)
 if mgsmall then
 	mgsmall.SaveName = "sbpp_machinegunsmall"
-	--mgsmall.ProjectileDamage = mgsmall.ProjectileDamage * 0.6
+	mgsmall.ProjectileDamage = mgsmall.ProjectileDamage * 0.8
+	mgsmall.WeaponDamageBonus = mgsmall.WeaponDamageBonus * 0.75
 	table.insert(Projectiles, mgsmall)
 	MakeFlamingVersion("sbpp_machinegunsmall", 1.33, 0.24, flamingTrail, 150, nil, genericFlamingExpire)
 end
@@ -1227,10 +1228,28 @@ end
 
 local zero = DeepCopy(FindProjectile("sbpp_p51"))
 if zero then
+	table.insert(Sprites, 
+	{
+		Name = "sbpp_zero_prop",
+		States =
+		{
+			Normal = { Frames =
+			{
+				{ texture = path .. "/weapons/zero/prop0.dds",},
+				{ texture = path .. "/weapons/zero/prop3.dds",},
+				{ texture = path .. "/weapons/zero/prop2.dds",},
+				{ texture = path .. "/weapons/zero/prop1.dds",},
+				mipmap = true,
+				duration = 0.04,
+			},},
+			Idle = Normal,
+		},
+	})
 	zero.SaveName = "sbpp_zero"
 	zero.AntiAirHitpoints = 45
 	zero.Projectile.Root.Sprite = path .. "/weapons/zero/zero.png"
-	zero.Projectile.Root.ChildrenInFront[1].Pivot = {0.455, -0.04166}
+	zero.Projectile.Root.ChildrenInFront[1].Pivot = {0.455, -0.03166}
+	zero.Projectile.Root.ChildrenInFront[1].Sprite = "sbpp_zero_prop"
 	zero.Projectile.Root.Scale = zero.Projectile.Root.Scale * 0.9
 	zero.sb_planes.elevator = 36000
 	zero.sb_planes.thrust = 9000
@@ -1279,6 +1298,36 @@ if zero then
 	table.insert(Projectiles, zero)
 	MakeFlamingVersion("sbpp_zero", 1.33, 10, flamingTrail, 100, nil, genericFlamingExpire)
 	sbpp_Firebeams('sbpp_zero', 150, 400)
+end
+
+local sbppsk = DeepCopy(FindProjectile("sbpp_spitfire"))
+if sbppsk then
+	sbppsk.SaveName = "sbpp_shidenkai"
+	sbppsk.AntiAirHitpoints = 70
+	sbppsk.sb_planes.elevator = 42000
+	sbppsk.Projectile.Root.Sprite = path .. "/weapons/shidenkai/shidenkai.png"
+	sbppsk.Projectile.Root.ChildrenInFront[1].Pivot = {0.455, -0.03166}
+	sbppsk.Projectile.Root.ChildrenInFront[1].Sprite = "sbpp_zero_prop"
+	sbppsk.sb_planes.weapon2 = nil
+	sbppsk.sb_planes.weapon1 = 
+	{
+		projectile = "sbpp_temp_sbpp_vulcan",
+		rotation = 0.0, 
+		distance = 25, 
+		speed = 6000,
+		count = 12,
+		perround = 4,
+		period = 0.16, 
+		timer = 9, 
+		stddev = 0.025,
+		effect = path .. "/effects/20mmcal_fire.lua",
+		reload_effect = path .. "/effects/reload_gun_large.lua",
+		name = "$Weapon.sbpp_shidenkaigun",
+		
+	}
+	table.insert(Projectiles, sbppsk)
+	MakeFlamingVersion("sbpp_shidenkai", 1.33, 10, flamingTrail, 100, nil, genericFlamingExpire)
+	sbpp_Firebeams('sbpp_shidenkai', 150, 400)
 end
 
 laser = FindProjectile("laser")

@@ -8,7 +8,7 @@ local thunderbolt = FindDevice("ammo_thunderbolt")
 if thunderbolt then
 	thunderbolt.MetalCost = 400
 	thunderbolt.EnergyCost = 8000
-	thunderbolt.BuildTimeComplete = 40
+	thunderbolt.BuildTimeComplete = 50
 	thunderbolt.Icon = "hud-sbpp_a10-icon"
 	thunderbolt.dlc2_BuildQueue = "dlc2_runway2"
 end
@@ -17,7 +17,7 @@ if nighthawk then
 	nighthawk.MetalCost = 200
 	nighthawk.EnergyCost = 6000
 	nighthawk.Icon = "hud-sbpp_nighthawk-icon"
-	nighthawk.BuildTimeComplete = 40
+	nighthawk.BuildTimeComplete = 50
 	nighthawk.dlc2_BuildQueue = "dlc2_runway2"
 end
 
@@ -71,11 +71,11 @@ table.insert(Devices, IndexOfDevice("ammo_sbpp_f16"),
 			dlc2_BuildQueue = "dlc2_runway",
 			Detail = "hud-detail-sbpp_p51",
 			Icon = "hud-sbpp_p51-icon",
-			MetalCost = 200,
+			MetalCost = 250,
 			EnergyCost = 4000,
 			Prerequisite = "factory",
 			Enabled = true,
-			BuildTimeComplete = 25,
+			BuildTimeComplete = 40,
 			ObserverBuildEvent = false,
 		}
 	)
@@ -90,11 +90,11 @@ table.insert(Devices, IndexOfDevice("ammo_sbpp_p51"),
 			dlc2_BuildQueue = "dlc2_runway",
 			Detail = "hud-detail-sbpp_hellcat",
 			Icon = "hud-sbpp_hellcat-icon",
-			MetalCost = 200,
+			MetalCost = 250,
 			EnergyCost = 4000,
 			Prerequisite = "munitions",
 			Enabled = true,
-			BuildTimeComplete = 30,
+			BuildTimeComplete = 40,
 			ObserverBuildEvent = false,
 		}
 	)
@@ -168,11 +168,11 @@ table.insert(Devices, IndexOfDevice("ammo_sbpp_hellcat"),
 			dlc2_BuildQueue = "dlc2_runway",
 			Detail = "hud-detail-sbpp_mig15",
 			Icon = "hud-sbpp_mig15-icon",
-			MetalCost = 200,
+			MetalCost = 250,
 			EnergyCost = 4000,
 			Prerequisite = "upgrade",
 			Enabled = true,
-			BuildTimeComplete = 40,
+			BuildTimeComplete = 45,
 			ObserverBuildEvent = false,
 		}
 	)
@@ -187,7 +187,7 @@ table.insert(Devices, IndexOfDevice("ammo_sbpp_mig15"),
 			dlc2_BuildQueue = "dlc2_runway",
 			Detail = "hud-detail-sbpp_spitfire",
 			Icon = "hud-sbpp_spitfire-icon",
-			MetalCost = 200,
+			MetalCost = 250,
 			EnergyCost = 4000,
 			Prerequisite = "armoury",
 			Enabled = true,
@@ -226,7 +226,7 @@ if FindDevice("ammo_flashbang") then
 				dlc2_BuildQueue = "dlc2_runway",
 				Detail = "hud-detail-sbpp_shinden",
 				Icon = "hud-sbpp_shinden-icon",
-				MetalCost = 400,
+				MetalCost = 300,
 				EnergyCost = 6000,
 				Prerequisite = "smelter",
 				Enabled = true,
@@ -236,7 +236,6 @@ if FindDevice("ammo_flashbang") then
 		)
 	)
 end
---[[
 table.insert(Sprites, DetailSprite("hud-detail-sbpp_zero", "zero", path))
 table.insert(Sprites, ButtonSprite("hud-sbpp_zero-icon", "HUD/HUD-zero", nil, ButtonSpriteBottom, nil, nil, path))
 table.insert(Devices, IndexOfDevice("ammo_sbpp_hellcat"),
@@ -248,11 +247,30 @@ table.insert(Devices, IndexOfDevice("ammo_sbpp_hellcat"),
 			Detail = "hud-detail-sbpp_zero",
 			Icon = "hud-sbpp_zero-icon",
 			MetalCost = 200,
-			EnergyCost = 4000,
+			EnergyCost = 3500,
 			Prerequisite = "munitions",
 			Enabled = true,
 			BuildTimeComplete = 40,
 			ObserverBuildEvent = true,
 		}
 	)
-)]]
+)
+table.insert(Sprites, DetailSprite("hud-detail-sbpp_shidenkai", "shidenkai", path))
+table.insert(Sprites, ButtonSprite("hud-sbpp_shidenkai-icon", "HUD/HUD-shidenkai", nil, ButtonSpriteBottom, nil, nil, path))
+table.insert(Devices, IndexOfDevice("ammo_sbpp_p51") + 1,
+	InheritType(FindDevice("ammo_nighthawk"),nil,
+		{	
+			SaveName = "ammo_sbpp_shidenkai",
+			FileName = path .. "/devices/ammo_shidenkai.lua",
+			dlc2_BuildQueue = "dlc2_runway",
+			Detail = "hud-detail-sbpp_shidenkai",
+			Icon = "hud-sbpp_shidenkai-icon",
+			MetalCost = 250,
+			EnergyCost = 4000,
+			Prerequisite = "factory",
+			Enabled = true,
+			BuildTimeComplete = 50,
+			ObserverBuildEvent = true,
+		}
+	)
+)

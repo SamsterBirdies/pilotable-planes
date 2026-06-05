@@ -39,7 +39,7 @@ Merge(Device,
 	ammo_sbpp_mig15Tip2 = L"Fires NR-23 Autocannon and N-37 Autocannon.",
 	
 	ammo_sbpp_spitfire = L"Supermarine Spitfire",
-	ammo_sbpp_spitfireTip2 = L"Fires 8x .303 Browning MKII machineguns and RP-3 rockets.",
+	ammo_sbpp_spitfireTip2 = L"Fires 8x .303 Browning MK II machineguns and RP-3 rockets.",
 	
 	ammo_sbpp_b52 = L"B-52 Stratofortress",
 	ammo_sbpp_b52Tip2 = L"Drops Mk82 Bombs, and launches AGM-86C Cruise Missiles.",
@@ -48,6 +48,12 @@ Merge(Device,
 	
 	ammo_sbpp_shinden = L"J7W Shinden",
 	ammo_sbpp_shindenTip2 = L"Fires 4x 30mm autocannons.",
+	
+	ammo_sbpp_zero = L"A6M Zero",
+	ammo_sbpp_zeroTip2 = L"Fires 2x .303 Type 97, 20mm Type 99-1 MK III, and has a fixed 250kg bomb.",
+	
+	ammo_sbpp_shidenkai = L"N1K Shiden Kai",
+	ammo_sbpp_shidenkaiTip2 = L"Fires 4x 20mm Type 99 MK II",
 	
 })
 
@@ -86,4 +92,7 @@ Merge(Weapon,
 	sbpp_303cal = L".303 Browning MK II",
 	sbpp_alcm = L"AGM-86C Cruise Missile",
 	sbpp_shindengun = L"30mm Autocannons",
+	sbpp_shidenkaigun = L"20mm Type 99 MK II",
+	sbpp_zerogun = L".303 Type 97",
+	sbpp_zerogun2 = L"20mm Type 99-1 Mk.3",
 })
