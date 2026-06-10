@@ -3,57 +3,75 @@ Merge(Device,
 	ammo_sbpp_Biplane = L"Biplane",
 	ammo_sbpp_BiplaneTip2 = L"Fires M1911 and drops Flechettes and Grenades.",
 	ammo_sbpp_BiplaneTip3 = L"M1911 can be aimed.",
+	ammo_sbpp_BiplaneTip4 = L"HP: 30, Speed: ~35 kn, Turning: Very poor.",
 	
 	ammo_sbpp_f16 = L"F-16 Fighting Falcon",
 	ammo_sbpp_f16Tip2 = L"Fires M61 Vulcan Rotary Cannon, AIM-9 Sidewinders, and can deploy flares.",
-	ammo_sbpp_f16Tip3 = L"Ammo for: Runway MK II",
+	ammo_sbpp_f16Tip3 = L"Great at intercepting aircraft.",
+	ammo_sbpp_f16Tip4 = L"HP: 135, Speed: ~130kn. Turning: Excellent.",
+	ammo_sbpp_f16Tip5 = L"Ammo for: Runway MK II",
 	
 	ammo_thunderbolt = L"A-10 Thunderbolt II",
 	ammo_thunderboltTip2 = L"Fires GAU-8 Avenger Autocannon, drops Mk82 Bombs, and can deploy flares.",
-	ammo_thunderboltTip3 = L"Ammo for: Runway MK II",
+	ammo_thunderboltTip3 = L"Great at destroying exposed weaponry.",
+	ammo_thunderboltTip4 = L"HP: 180, Speed: ~80kn, Turning: Great.",
+	ammo_thunderboltTip5 = L"Ammo for: Runway MK II",
 	
 	ammo_nighthawk = L"F-117 Nighthawk",
-	ammo_nighthawkTip3 = L"Ammo for: Runway MK II",
+	ammo_nighthawkTip3 = L"Stealthy, can only be targeted by anti air at a short range.",
+	ammo_nighthawkTip4 = L"HP: 135, Speed: ~110kn, Turning: Great.",
+	ammo_nighthawkTip5 = L"Ammo for: Runway MK II",
 	
 	ammo_sbpp_p51 = L"P-51 Mustang",
 	ammo_sbpp_p51Tip2 = L"Fires 6x .50 Browning M2 machineguns and drops 250kg bombs.",
+	ammo_sbpp_p51Tip3 = L"HP: 101, Speed: ~80kn, Turning: Good.",
 	
 	ammo_sbpp_hellcat = L"F6F Hellcat",
 	ammo_sbpp_hellcatTip2 = L"Fires 6x .50 Browning M2 machineguns and drops 250kg bombs.",
+	ammo_sbpp_hellcatTip3 = L"HP: 151, Speed: ~64kn, Turning: Fair.",
 	
 	ammo_sbpp_ac130 = L"AC-130 Gunship",
 	ammo_sbpp_ac130Tip2 = L"Fires 25mm GAU-12 Equalizer, 40mm Bofors, and 105mm Howitzer.",
 	ammo_sbpp_ac130Tip3 = L"Weapons are aimed with mouse",
-	ammo_sbpp_ac130Tip4 = L"Ammo for: Runway MK III",
+	ammo_sbpp_ac130Tip4 = L"HP: 229, Speed: ~60kn, Turning: Poor.",
+	ammo_sbpp_ac130Tip5 = L"Ammo for: Runway MK III",
 	
 	ammo_sbpp_apache = L"AH-64 Apache",
 	ammo_sbpp_apacheTip2 = L"Fires 30mm Chain gun, Hydra rockets, Hellfire missile.",
 	ammo_sbpp_apacheTip3 = L"Hellfire missile sets the mouse position as its target.",
-	ammo_sbpp_apacheTip4 = L"Ammo for: Runway MK II",
+	ammo_sbpp_apacheTip4 = L"HP: 182, Speed: ~38kn, Helicopter.",
+	ammo_sbpp_apacheTip5 = L"Ammo for: Runway MK II",
 	
 	ammo_sbpp_littlebird = L"AH-6 Little Bird",
 	ammo_sbpp_littlebirdTip2 = L"Fires M134 Minigun, Hydra rockets, and can deploy flares.",
-	ammo_sbpp_littlebirdTip3 = L"Ammo for: Runway MK II",
+	ammo_sbpp_littlebirdTip3 = L"HP: 145, Speed: ~30kn, Helicopter.",
+	ammo_sbpp_littlebirdTip4 = L"Ammo for: Runway MK II",
 	
 	ammo_sbpp_mig15 = L"MiG-15",
 	ammo_sbpp_mig15Tip2 = L"Fires NR-23 Autocannon and N-37 Autocannon.",
+	ammo_sbpp_mig15Tip3 = L"HP: 121. Speed: ~115kn. Turning: Great.",
 	
 	ammo_sbpp_spitfire = L"Supermarine Spitfire",
 	ammo_sbpp_spitfireTip2 = L"Fires 8x .303 Browning MK II machineguns and RP-3 rockets.",
+	ammo_sbpp_spitfireTip3 = L"HP: 106, Speed: ~60kn, Turning: Excellent.",
 	
 	ammo_sbpp_b52 = L"B-52 Stratofortress",
 	ammo_sbpp_b52Tip2 = L"Drops Mk82 Bombs, and launches AGM-86C Cruise Missiles.",
 	ammo_sbpp_b52Tip3 = L"Weapons cannot be used during a steep incline.",
-	ammo_sbpp_b52Tip4 = L"Ammo for: Runway MK III",
+	ammo_sbpp_b52Tip4 = L"HP: 229, Speed: ~60kn, Turning: Poor.",
+	ammo_sbpp_b52Tip5 = L"Ammo for: Runway MK III",
 	
 	ammo_sbpp_shinden = L"J7W Shinden",
 	ammo_sbpp_shindenTip2 = L"Fires 4x 30mm autocannons.",
+	ammo_sbpp_shindenTip3 = L"HP: 101, Speed: ~90kn, Turning: Poor.",
 	
 	ammo_sbpp_zero = L"A6M Zero",
 	ammo_sbpp_zeroTip2 = L"Fires 2x .303 Type 97, 20mm Type 99-1 MK III, and has a fixed 250kg bomb.",
+	ammo_sbpp_zeroTip3 = L"HP: 45, Speed: ~50kn, Turning: Great.",
 	
 	ammo_sbpp_shidenkai = L"N1K Shiden Kai",
 	ammo_sbpp_shidenkaiTip2 = L"Fires 4x 20mm Type 99 MK II",
+	ammo_sbpp_shidenkaiTip3 = L"HP: 70, Speed: ~60kn, Turning: Excellent.",
 	
 })
 

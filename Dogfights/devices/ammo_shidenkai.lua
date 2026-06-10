@@ -1,7 +1,7 @@
 dofile("mods/dlc2/devices/ammo_nighthawk.lua")
 Sprites = {}
 ConsumeEffect = "mods/dlc2/effects/ammo_consumption.lua"
---DestroyEffect = path .. "/effects/biplane_explode.lua"
+DestroyEffect = "effects/device_explode.lua"
 Root = 
 {
 	Sprite = path .. "/devices/shidenkaiAmmo.png",

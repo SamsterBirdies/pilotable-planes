@@ -23,6 +23,8 @@ ShootableProjectile["sbpp_flare"] = true
 ShootableProjectile["sbpp_alcm"] = true
 ShootableProjectile["sbpp_rp3"] = true
 ShootableProjectile["sbpp_shinden"] = true
+ShootableProjectile["sbpp_zero"] = true
+ShootableProjectile["sbpp_shidenkai"] = true
 --107
 
 --key and value used.
@@ -34,6 +36,8 @@ PlaneSaveNames = {
 	["sbpp_hellcat"]=-809-100,
 	["sbpp_p51"]=-838-100,
 	["sbpp_shinden"]=-838-100,
+	["sbpp_zero"]=-838-100,
+	["sbpp_shidenkai"]=-838-100,
 	["sbpp_ac130"]=-838-100,
 	["sbpp_apache"]=-0-1000,
 	["sbpp_littlebird"]=-0-1000,
@@ -54,6 +58,8 @@ ProjectileVisibleRanges = {
 	["sbpp_hellcat"] =	25000,
 	["sbpp_p51"] =		25000,
 	["sbpp_shinden"] =	25000,
+	["sbpp_zero"] =	25000,
+	["sbpp_shidenkai"] =	25000,
 	["sbpp_f16"] =		30000,
 	["sbpp_apache"] =	25000,
 	["sbpp_littlebird"] =20000,

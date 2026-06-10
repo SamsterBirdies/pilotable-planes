@@ -1,7 +1,14 @@
 dofile("mods/dlc2/devices/ammo_nighthawk.lua")
 Sprites = {}
 ConsumeEffect = "mods/dlc2/effects/ammo_consumption.lua"
---DestroyEffect = path .. "/effects/biplane_explode.lua"
+DestroyEffect = path .. "/effects/zero_explode.lua"
+DeviceSplashDamage = 150
+DeviceSplashDamageMaxRadius = 200
+DeviceSplashDamageDelay = 0.3
+IncendiaryRadius = 200
+IncendiaryRadiusHeated = 270
+StructureSplashDamage = 125
+StructureSplashDamageMaxRadius = 200
 Root = 
 {
 	Sprite = path .. "/devices/zeroAmmo.png",
